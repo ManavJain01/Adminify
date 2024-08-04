@@ -5,15 +5,23 @@ import '../../public/assets/styles/index.css'
 import { RouterProvider, createBrowserRouter, Route, Navigate } from 'react-router-dom'
 
 // Importing Local Components
-import Main from '../Main'
+import HomePage from '../pages/Home Page/Main'
+import Login from '../pages/Login-Signup/Login'
+import Signup from '../pages/Login-Signup/Signup'
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Main />,
-    children : [
-    ]
-  }   
+    element: <HomePage />,
+  },
+  {
+    path: 'login',
+    element: <Login />
+  },
+  {
+    path: 'signup',
+    element: <Signup />
+  },
 ])
 
 ReactDOM.createRoot(document.getElementById('root')).render(
