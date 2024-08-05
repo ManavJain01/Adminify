@@ -4,7 +4,7 @@ import { FaEyeSlash } from "react-icons/fa";
 import { FaRegEye } from "react-icons/fa";
 
 // Importing React Packages
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { useState, useEffect } from "react";
 
 // Importing Hooks
@@ -16,6 +16,9 @@ import './Styles/Styles.css'
 export default function Login() {
   // Custom Hooks
   const { login } = useUser();
+
+  // useNavigation
+  const navigate = useNavigate();
 
   // useState
   const [logo, setLogo] = useState('')
@@ -50,7 +53,8 @@ export default function Login() {
     const user = await login(data);
 
     if(user){
-      console.log("User: ",user); 
+      console.log("User: ",user);
+      navigate('/Admin')
     }
   }
 

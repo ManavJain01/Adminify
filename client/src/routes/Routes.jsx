@@ -8,6 +8,9 @@ import { RouterProvider, createBrowserRouter, Route, Navigate } from 'react-rout
 import HomePage from '../pages/Home Page/Main'
 import Login from '../pages/Login-Signup/Login'
 import Signup from '../pages/Login-Signup/Signup'
+import Admin from '../pages/Admin/Admin'
+import MainPanel from '../pages/Admin/pages/MainPanel'
+import Subscriptions from '../pages/Admin/pages/Subscriptions'
 
 const router = createBrowserRouter([
   {
@@ -22,6 +25,20 @@ const router = createBrowserRouter([
     path: 'signup',
     element: <Signup />
   },
+  {
+    path: 'admin',
+    element: <Admin />,
+    children: [
+      {
+        path: "",
+        element: <MainPanel />
+      },
+      {
+        path: "subscription",
+        element: <Subscriptions />
+      },
+    ]
+  }
 ])
 
 ReactDOM.createRoot(document.getElementById('root')).render(

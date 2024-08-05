@@ -1,12 +1,18 @@
+// Importing React Icons
 import { CiImport } from "react-icons/ci";
+import { FaRegEye } from "react-icons/fa";
+import { FaEyeSlash } from "react-icons/fa";
 
 // Importing React Packages
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { Link } from 'react-router-dom'
 
 import './Main.css'
 
 export default function Main() {
+  // useState
+  const [showPassword, setShowPassword] = useState(false);
+
   // useEffect
   useEffect(() => {
     let cards = document.getElementById('card');
@@ -38,6 +44,16 @@ export default function Main() {
             <section className="relative">
               <input type="text" name="ownerName" id="ownerName" className="peer w-full px-5 py-2 rounded-full outline-none" />
               <label htmlFor="ownerName" className="absolute top-2 left-5 peer-focus:-top-4 peer-focus:left-4 peer-focus:backdrop-blur-sm peer-focus:rounded-full duration-700">Owner Name</label>
+            </section>
+
+            <section className="relative">
+              <input type={showPassword ? 'text' : 'password'} name="password" id="password" className="peer w-full px-5 py-2 rounded-full outline-none" />
+              <label htmlFor="password" className="absolute top-2 left-5 peer-focus:-top-4 peer-focus:left-4 peer-focus:backdrop-blur-sm peer-focus:rounded-full duration-700">Password</label>
+              <div onClick={() => setShowPassword(!showPassword)} className="absolute top-4 right-4 cursor-pointer">{
+                showPassword
+                  ?<FaRegEye />
+                  :<FaEyeSlash />
+              }</div>
             </section>
 
             <section className="relative mx-auto">

@@ -53,7 +53,8 @@ export default function Signup() {
     const user = await signup(data);
 
     if(user){
-      
+      console.log("User: ",user);
+      navigate('/Admin');
     }
   }
 
