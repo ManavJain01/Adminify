@@ -2,7 +2,7 @@
 import { CiUser } from "react-icons/ci";
 
 // Importing React Packages
-import { Link } from "react-router-dom"
+import { Link, useNavigate, useLocation } from "react-router-dom"
 import { useState, useEffect } from "react";
 
 // Importing Hooks
@@ -15,6 +15,12 @@ export default function Signup() {
   // Custom Hooks
   const { signup } = useUser();
 
+  // useNavigate
+  const navigate = useNavigate();
+
+  // useLocation
+  const location = useLocation();
+  const companyDetails = location.state || {};
 
   // useState
   const [logo, setLogo] = useState('')
@@ -50,6 +56,9 @@ export default function Signup() {
       return;
     }
 
+    data.company = companyDetails.company || "";
+    data.owner = companyDetails.owner || "";
+
     const user = await signup(data);
 
     if(user){
@@ -77,8 +86,8 @@ export default function Signup() {
             </div>
 
             <div className="text-white flex justify-between gap-5 flex-wrap w-full">
-              <span>Company Name</span>
-              <span>Owner Name</span>
+              <span>{companyDetails.company || 'Company Name'}</span>
+              <span>{companyDetails.owner || 'Owner Name'}</span>
             </div>
           </div>
 
@@ -117,7 +126,7 @@ export default function Signup() {
           <section className="relative flex flex-col gap-5">
             <hr className="opacity-50" />
             <span className="absolute -top-4 left-[140px] text-white backdrop-blur-md px-2">Already A User?</span>
-            <Link to='/login' className="font-semibold text-xl text-center bg-white w-full px-5 py-2 rounded-lg">Login to Existing Account</Link>
+            <Link to='/login' state={companyDetails} className="font-semibold text-xl text-center bg-white w-full px-5 py-2 rounded-lg">Login to Existing Account</Link>
           </section>
         </div>
       </div>

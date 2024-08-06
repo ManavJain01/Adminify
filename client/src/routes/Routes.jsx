@@ -4,6 +4,10 @@ import ReactDOM from 'react-dom/client'
 import '../../public/assets/styles/index.css'
 import { RouterProvider, createBrowserRouter, Route, Navigate } from 'react-router-dom'
 
+// Importing Redux Configuration
+import {Provider} from 'react-redux'
+import {store} from '../Redux/Store/store'
+
 // Importing Local Components
 import HomePage from '../pages/Home Page/Main'
 import Login from '../pages/Login-Signup/Login'
@@ -43,6 +47,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
   </React.StrictMode>
 )

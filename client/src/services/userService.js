@@ -4,9 +4,9 @@ import axios from 'axios'
 // Signup
 export const signup = async (data) => {
   try {
-    const { userName, email, password } = data;
+    const { userName, email, password, company, owner } = data;
     
-    const response = await axios.post(`${import.meta.env.VITE_REACT_APP_ServerLocation}/user/signup`, { name: userName, email: email, password: password})
+    const response = await axios.post(`${import.meta.env.VITE_REACT_APP_ServerLocation}/user/signup`, { name: userName, email: email, password: password, company: company, owner: owner})
 
     if (response.status !== 200) {
       throw new Error('Failed to Sign Up');
@@ -34,5 +34,21 @@ export const login = async (data) => {
   } catch (error) {
     console.log('Error Logging In:', error);
     return {};
+  }
+}
+
+// Fetching the User
+export const fetchUser = async (id) => {
+  try {    
+    const response = await axios.get(`${import.meta.env.VITE_REACT_APP_ServerLocation}/user/_id`, { params: { id: id }})
+    
+    if (response.status !== 200) {
+      throw new Error('Failed to Fetch User');
+    }
+
+    return response.data;
+  } catch (error) {
+    console.log('Error Fetching USer:', error);
+    return [];
   }
 }

@@ -11,7 +11,7 @@ const Model = require('../models/UserModel');
 // SignUp
 const signup = async (data) => {
   try {  
-    const { name, email, password } = data
+    const { name, email, password, company, owner } = data
     let user = await Model.findOne({
       $or: [{ name }, { email }]
     });
@@ -20,7 +20,9 @@ const signup = async (data) => {
       user = await Model.create({
         name: name,
         email: email,
-        password: password
+        password: password,
+        company: company,
+        owner: owner
       })
 
       const authToken = jwt.sign((user._id).toString(), jwtSecret)
@@ -60,4 +62,21 @@ const login = async (data) => {
   }
 }
 
-module.exports = { signup, login }
+const getUser = async (_id) => {
+  try {
+    const id = jwt.decode(_id);
+  
+    jwt.verify(_id, jwtSecret, (err, id) => {
+      if (err) {
+        throw new Error('Token verification failed:', err);
+      }
+    });
+
+    return user = await Model.findById(id).select(['name', 'email', 'company', 'owner', '-_id']);
+  } catch (error) {
+    console.log("Error Occurred while Fetching Error:", error);
+    throw error
+  }
+}
+
+module.exports = { signup, login, getUser }

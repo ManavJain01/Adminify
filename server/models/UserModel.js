@@ -16,6 +16,12 @@ const UserSchema = new Schema({
     type: String,
     required: true
   },
+  company:{
+    type: String,
+  },
+  owner:{
+    type: String,
+  },
   age:{
     type: Number
   },

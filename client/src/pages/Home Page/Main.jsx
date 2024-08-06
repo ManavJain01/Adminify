@@ -11,6 +11,7 @@ import './Main.css'
 
 export default function Main() {
   // useState
+  const [companyDetails, setCompanyDetails] = useState([])
   const [showPassword, setShowPassword] = useState(false);
 
   // useEffect
@@ -25,8 +26,6 @@ export default function Main() {
     }
   }, [])
 
-  // Functions
-
   return (
     <div className="text-lg text-white bg-[#222] flex justify-center items-center w-lvw h-lvh p-5">
       <div
@@ -37,12 +36,12 @@ export default function Main() {
         >
           <div className="z-20 relative font-bold text-xl text-black flex flex-col gap-10 w-full h-full rounded-full">
             <section className="relative">
-              <input type="text" name="companyName" id="companyName" className="peer w-full px-5 py-2 rounded-full outline-none" />
+              <input type="text" name="companyName" id="companyName" onChange={(e) => setCompanyDetails(prevValue => {return {...prevValue, company: e.target.value}})} className="peer w-full px-5 py-2 rounded-full outline-none" />
               <label htmlFor="companyName" className="absolute top-2 left-5 peer-focus:-top-4 peer-focus:left-4 peer-focus:backdrop-blur-sm peer-focus:rounded-full duration-700">Company Name</label>
             </section>
 
             <section className="relative">
-              <input type="text" name="ownerName" id="ownerName" className="peer w-full px-5 py-2 rounded-full outline-none" />
+              <input type="text" name="ownerName" id="ownerName" onChange={(e) => setCompanyDetails(prevValue => {return {...prevValue, owner: e.target.value}})} className="peer w-full px-5 py-2 rounded-full outline-none" />
               <label htmlFor="ownerName" className="absolute top-2 left-5 peer-focus:-top-4 peer-focus:left-4 peer-focus:backdrop-blur-sm peer-focus:rounded-full duration-700">Owner Name</label>
             </section>
 
@@ -68,7 +67,7 @@ export default function Main() {
               </label>
             </section>
 
-            <Link to='/login' className="text-white bg-green-600 w-fit ml-auto mt-auto px-5 py-2 rounded-lg">Next</Link>
+            <Link to='/login' state={companyDetails} className="text-white bg-green-600 w-fit ml-auto mt-auto px-5 py-2 rounded-lg">Next</Link>
           </div>
         </div>
     </div>

@@ -4,7 +4,7 @@ import { FaEyeSlash } from "react-icons/fa";
 import { FaRegEye } from "react-icons/fa";
 
 // Importing React Packages
-import { Link, useNavigate } from "react-router-dom"
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom"
 import { useState, useEffect } from "react";
 
 // Importing Hooks
@@ -19,6 +19,10 @@ export default function Login() {
 
   // useNavigation
   const navigate = useNavigate();
+
+  // useLocation
+  const location = useLocation();
+  const companyDetails = location.state || {};
 
   // useState
   const [logo, setLogo] = useState('')
@@ -77,8 +81,8 @@ export default function Login() {
             </div>
 
             <div className="text-white flex justify-between gap-5 flex-wrap w-full">
-              <span>Company Name</span>
-              <span>Owner Name</span>
+              <span>{companyDetails.company || 'Company Name'}</span>
+              <span>{companyDetails.owner || 'Owner Name'}</span>
             </div>
           </div>
 
@@ -115,7 +119,7 @@ export default function Login() {
           <section className="relative flex flex-col gap-5">
             <hr className="opacity-50" />
             <span className="absolute -top-4 left-44 text-white backdrop-blur-md px-2">New User?</span>
-            <Link to='/signup' className="font-semibold text-xl text-center bg-white w-full px-5 py-2 rounded-lg">Create A New Account</Link>
+            <Link to='/signup' state={companyDetails} className="font-semibold text-xl text-center bg-white w-full px-5 py-2 rounded-lg">Create A New Account</Link>
           </section>
         </div>
       </div>
