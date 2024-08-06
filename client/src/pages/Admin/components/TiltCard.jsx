@@ -74,7 +74,7 @@ export default function TiltCard({data=[]}) {
           <span>{data.timing}</span>
         </section>
 
-        <button style={{transform: "translateZ(50px)"}} className="text-white bg-blue-700 group-hover:text-blue-900 group-hover:bg-white w-full mt-auto px-5 py-2 rounded-lg">{data.more}</button>
+        <button style={{transform: "translateZ(50px)"}} className="text-white bg-blue-700 group-hover:text-blue-900 group-hover:bg-white w-full mt-auto px-5 py-2 rounded-lg group-hover:shadow-xl">{data.more}</button>
       </div>
     </motion.div>
   )

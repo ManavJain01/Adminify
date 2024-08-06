@@ -29,20 +29,18 @@ const signup = async (data) => {
       return { data: user, authToken: authToken }
 
     }else{
-      console.log("User: ", user);
-      
       throw new Error("User Already exist!!!");
     }
   } catch (error) {
-    console.log("Error Occurred while Signing Up:", error);
+    console.log("Error Occurred while Signing Up:", error.message);
     throw error;
   }
 }
 
 // Login
 const login = async (data) => {
-  try {
-    const { name } = data
+  try {  
+    const { name, password } = data
     
     let user = await Model.findOne({$or: [
       { name: name },
@@ -51,13 +49,47 @@ const login = async (data) => {
 
     if(user === null){
       throw new Error("No User Found!!!");
-    }else{   
+    }else if(user && user.password === password){
       const authToken = jwt.sign((user._id).toString(), jwtSecret)
       return { data: user, authToken: authToken }
-    }
+    } else throw new Error("Password is Incorrect.");
     
   } catch (error) {
-    console.log("Error Occurred while Logging In:", error);
+    console.log("Error Occurred while Logging In:", error.message);
+    throw error
+  }
+}
+
+const userSearch = async (data) => {
+  try {
+    const { name } = data;
+    let user = await Model.findOne({$or: [
+      { name: name },
+      { email: name }
+    ]})
+    .select('email -_id');
+
+    if(!user) throw new Error('User Not Found.')
+
+    return {email: 'Successful!!!'};    
+  } catch (error) {
+    console.log("Error Occurred while Searching User:", error.message);
+    throw error
+  }
+}
+
+const userReset = async (data) => {
+  try {    
+    const {name, password} = data
+
+    await Model
+    .updateOne({$or: [{ name: name },{ email: name }]},
+      { $set: { "password": password } }
+    )
+
+    return {reset: 'Successfull!!!'};    
+  } catch (error) {
+    console.log("Error Occurred while Resetting Password:", error.message);
     throw error
   }
 }
@@ -74,9 +106,9 @@ const getUser = async (_id) => {
 
     return user = await Model.findById(id).select(['name', 'email', 'company', 'owner', '-_id']);
   } catch (error) {
-    console.log("Error Occurred while Fetching Error:", error);
+    console.log("Error Occurred while Fetching Error:", error.message);
     throw error
   }
 }
 
-module.exports = { signup, login, getUser }
+module.exports = { signup, login, userSearch, userReset, getUser }

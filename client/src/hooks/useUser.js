@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { creatingInitialState } from '../Redux/features/UserSlice'
 
 // Importing Services
-import { signup as signupService, login as loginService, fetchUser } from '../services/userService'
+import { signup as signupService, login as loginService, UserSearch, UserResetPassword, fetchUser } from '../services/userService'
 
 export const useUser = () => {
   // useDispatch
@@ -18,6 +18,8 @@ export const useUser = () => {
   const signup = async (data) => {
     try {
       const user = await signupService(data);    
+      
+      if(typeof user === 'string') return user;
       
       // setting localStorage variables
       localStorage.setItem("authToken", user.authToken);
@@ -32,6 +34,8 @@ export const useUser = () => {
     try {
       const user = await loginService(data);
   
+      if(typeof user === 'string') return user;
+
       // setting localStorage variables
       localStorage.setItem("authToken", user.authToken); 
       return user.data;
@@ -53,6 +57,25 @@ export const useUser = () => {
     }
   }
 
+  const searchUser = async (user) => {
+    try {
+      const response = await UserSearch(user);
+      
+      return response;
+    } catch (error) {
+      console.log("Error Resetting password in UseUser Hook: ", error); 
+    }
+  }
+
+  const resetPassword = async (data) => {
+    try {
+      const response = await UserResetPassword(data);
+      return response;
+    } catch (error) {
+      console.log("Error Resetting password in UseUser Hook: ", error); 
+    }
+  }
+
   const getUser = async () => {
     try {
       const id = localStorage.getItem("authToken");
@@ -69,5 +92,5 @@ export const useUser = () => {
     }
   }
 
-  return { signup, login, logout, getUser }
+  return { signup, login, searchUser, resetPassword, logout, getUser }
 }

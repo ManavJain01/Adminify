@@ -24,6 +24,7 @@ export default function Signup() {
 
   // useState
   const [logo, setLogo] = useState('')
+  const [error, setError] = useState('')
 
   // useEffect
   useEffect(() => {
@@ -46,13 +47,13 @@ export default function Signup() {
     // Validation
     const { userName, email, password, confirmPass } = data;
     if (!userName || !email || !password || !confirmPass) {
-      alert("All fields are required.");
+      setError("All fields are required.");
       return;
     }
 
     // Check if passwords match
     if (password !== confirmPass) {
-      alert("Passwords do not match.");
+      setError("Passwords do not match.");
       return;
     }
 
@@ -61,9 +62,16 @@ export default function Signup() {
 
     const user = await signup(data);
 
+    if(user === 'already exists'){
+      setError('User already exist!!!');
+      return;
+    }
+
     if(user){
       console.log("User: ",user);
-      navigate('/Admin');
+      navigate('/admin');
+    }else{
+      setError('Error While SigningUp');
     }
   }
 
@@ -91,26 +99,31 @@ export default function Signup() {
             </div>
           </div>
 
-          <form onSubmit={(e) => handleSubmit(e)} className="flex flex-col gap-8">
+          <form onSubmit={(e) => handleSubmit(e)} className="relative flex flex-col gap-8">
             <section className="relative">
-              <input type="text" name="userName" id="userName" className="peer w-full px-5 py-2 rounded-full outline-none" />
-              <label htmlFor="userName" className="absolute top-2 left-5 peer-focus:-top-4 peer-focus:left-4 peer-focus:backdrop-blur-sm peer-focus:rounded-full duration-700">User Name</label>
+              <input type="text" name="userName" id="userName" required className="peer w-full px-5 py-2 rounded-full outline-none" />
+              <label htmlFor="userName" className="absolute top-2 left-5 peer-focus:-top-4 peer-focus:left-4 peer-focus:backdrop-blur-sm peer-focus:rounded-full peer-valid:-top-4 peer-valid:left-4 peer-valid:backdrop-blur-sm peer-valid:rounded-full duration-700 cursor-pointer">User Name</label>
             </section>
 
             <section className="relative">
-              <input type="email" name="email" id="email" className="peer w-full px-5 py-2 rounded-full outline-none" />
-              <label htmlFor="email" className="absolute top-2 left-5 peer-focus:-top-4 peer-focus:left-4 peer-focus:backdrop-blur-sm peer-focus:rounded-full duration-700">Email ID</label>
+              <input type="email" name="email" id="email" required className="peer w-full px-5 py-2 rounded-full outline-none" />
+              <label htmlFor="email" className="absolute top-2 left-5 peer-focus:-top-4 peer-focus:left-4 peer-focus:backdrop-blur-sm peer-focus:rounded-full peer-valid:-top-4 peer-valid:left-4 peer-valid:backdrop-blur-sm peer-valid:rounded-full duration-700 cursor-pointer">Email ID</label>
             </section>
 
             <section className="relative">
-              <input type="password" name="password" id="password" className="peer w-full px-5 py-2 rounded-full outline-none" />
-              <label htmlFor="password" className="absolute top-2 left-5 peer-focus:-top-4 peer-focus:left-4 peer-focus:backdrop-blur-sm peer-focus:rounded-full duration-700">Password</label>
+              <input type="password" name="password" id="password" required className="peer w-full px-5 py-2 rounded-full outline-none" />
+              <label htmlFor="password" className="absolute top-2 left-5 peer-focus:-top-4 peer-focus:left-4 peer-focus:backdrop-blur-sm peer-focus:rounded-full peer-valid:-top-4 peer-valid:left-4 peer-valid:backdrop-blur-sm peer-valid:rounded-full duration-700 cursor-pointer">Password</label>
             </section>
 
             <section className="relative">
-              <input type="password" name="confirmPass" id="confirmPass" className="peer w-full px-5 py-2 rounded-full outline-none" />
-              <label htmlFor="confirmPass" className="absolute top-2 left-5 peer-focus:-top-4 peer-focus:left-4 peer-focus:backdrop-blur-sm peer-focus:rounded-full duration-700">Confirm Password</label>
+              <input type="password" name="confirmPass" id="confirmPass" required className="peer w-full px-5 py-2 rounded-full outline-none" />
+              <label htmlFor="confirmPass" className="absolute top-2 left-5 peer-focus:-top-4 peer-focus:left-4 peer-focus:backdrop-blur-sm peer-focus:rounded-full peer-valid:-top-4 peer-valid:left-4 peer-valid:backdrop-blur-sm peer-valid:rounded-full duration-700 cursor-pointer">Confirm Password</label>
             </section>
+            
+            {/* Show Error */}
+            {error
+              &&<span className="absolute bottom-12 left-32 text-red-600">{error}</span>
+            }
 
             {/* Signup */}
             <div className="flex gap-5 justify-between flex-wrap">

@@ -37,22 +37,12 @@ export default function Main() {
           <div className="z-20 relative font-bold text-xl text-black flex flex-col gap-10 w-full h-full rounded-full">
             <section className="relative">
               <input type="text" name="companyName" id="companyName" onChange={(e) => setCompanyDetails(prevValue => {return {...prevValue, company: e.target.value}})} className="peer w-full px-5 py-2 rounded-full outline-none" />
-              <label htmlFor="companyName" className="absolute top-2 left-5 peer-focus:-top-4 peer-focus:left-4 peer-focus:backdrop-blur-sm peer-focus:rounded-full duration-700">Company Name</label>
+              <label htmlFor="companyName" className={`absolute top-2 left-5 peer-focus:-top-4 peer-focus:left-4 peer-focus:backdrop-blur-sm peer-focus:rounded-full ${companyDetails.company && 'peer-valid:-top-4 peer-valid:left-4 peer-valid:backdrop-blur-sm peer-valid:rounded-full'} duration-700 cursor-pointer`}>Company Name</label>
             </section>
 
             <section className="relative">
               <input type="text" name="ownerName" id="ownerName" onChange={(e) => setCompanyDetails(prevValue => {return {...prevValue, owner: e.target.value}})} className="peer w-full px-5 py-2 rounded-full outline-none" />
-              <label htmlFor="ownerName" className="absolute top-2 left-5 peer-focus:-top-4 peer-focus:left-4 peer-focus:backdrop-blur-sm peer-focus:rounded-full duration-700">Owner Name</label>
-            </section>
-
-            <section className="relative">
-              <input type={showPassword ? 'text' : 'password'} name="password" id="password" className="peer w-full px-5 py-2 rounded-full outline-none" />
-              <label htmlFor="password" className="absolute top-2 left-5 peer-focus:-top-4 peer-focus:left-4 peer-focus:backdrop-blur-sm peer-focus:rounded-full duration-700">Password</label>
-              <div onClick={() => setShowPassword(!showPassword)} className="absolute top-4 right-4 cursor-pointer">{
-                showPassword
-                  ?<FaRegEye />
-                  :<FaEyeSlash />
-              }</div>
+              <label htmlFor="ownerName" className={`absolute top-2 left-5 peer-focus:-top-4 peer-focus:left-4 peer-focus:backdrop-blur-sm peer-focus:rounded-full ${companyDetails.owner && 'peer-valid:-top-4 peer-valid:left-4 peer-valid:backdrop-blur-sm peer-valid:rounded-full'} duration-700 cursor-pointer`}>Owner Name</label>
             </section>
 
             <section className="relative mx-auto">

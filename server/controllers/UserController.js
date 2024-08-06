@@ -8,8 +8,8 @@ const signupController = async (req, res) => {
     res.status(200).send(result);
     
   } catch (error) {
-    console.log("Error: ", error);
-    res.status(400).send(error);
+    console.log("Error: ", error.message);
+    res.status(400).send(error.message);
   }
 }
 
@@ -20,8 +20,31 @@ const loginController = async (req, res) => {
     res.status(200).send(result);
 
   } catch (error) {
-    console.log("Error: ", error);
-    res.status(400).send(error);
+    console.log("Error: ", error.message);
+    res.status(400).send(error.message);
+  }
+}
+
+const searchUserController = async (req, res) => {
+  try {    
+    const result = await service.userSearch(req.query.user); 
+    res.status(200).send(result);
+
+  } catch (error) {
+    console.log("Error: ", error.message);
+    res.status(400).send(error.message);
+  }
+}
+
+// reset Password
+const resetController = async (req, res) => {
+  try {
+    const result = await service.userReset(req.body); 
+    res.status(200).send(result);
+
+  } catch (error) {
+    console.log("Error: ", error.message);
+    res.status(400).send(error.message);
   }
 }
 
@@ -31,10 +54,10 @@ const userController = async (req, res) => {
     res.status(200).send(result);
 
   } catch (error) {
-    console.log("Error: ", error);
-    res.status(400).send(error);
+    console.log("Error: ", error.message);
+    res.status(400).send(error.message);
   }
 }
 
 // Exporting controllers
-module.exports = { signupController, loginController, userController }
+module.exports = { signupController, loginController, searchUserController, resetController, userController }

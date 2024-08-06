@@ -14,6 +14,7 @@ export const signup = async (data) => {
 
     return response.data;
   } catch (error) {
+    if(error.response.data) return error.response.data;
     console.log('Error Signing Up:', error);
     return {};
   }
@@ -32,8 +33,42 @@ export const login = async (data) => {
 
     return response.data;
   } catch (error) {
+    if(error.response.data) return error.response.data
     console.log('Error Logging In:', error);
     return {};
+  }
+}
+
+export const UserSearch = async (user) => {
+  try {
+    const response = await axios.get(`${import.meta.env.VITE_REACT_APP_ServerLocation}/user/searchUser`, { params: { user: user }})
+    
+    if (response.status !== 200) {
+      throw new Error('Failed to Search User');
+    }
+
+    return response.data;
+  } catch (error) {
+    if(error.response.data) return error.response.data;
+    console.log('Error Searching User:', error);
+    return [];
+  }
+}
+
+// Forget Password
+export const UserResetPassword = async (data) => {
+  try {    
+    const response = await axios.post(`${import.meta.env.VITE_REACT_APP_ServerLocation}/user/reset`, data)
+    
+    if (response.status !== 200) {
+      throw new Error('Failed to Reset Password');
+    }
+
+    return response.data;
+  } catch (error) {
+    if(error.response.data) return error.response.data;
+    console.log('Error Resetting Password:', error);
+    return [];
   }
 }
 
@@ -48,7 +83,7 @@ export const fetchUser = async (id) => {
 
     return response.data;
   } catch (error) {
-    console.log('Error Fetching USer:', error);
+    console.log('Error Fetching User:', error);
     return [];
   }
 }
