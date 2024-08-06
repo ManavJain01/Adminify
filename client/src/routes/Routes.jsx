@@ -14,7 +14,13 @@ import Login from '../pages/Login-Signup/Login'
 import Signup from '../pages/Login-Signup/Signup'
 import Admin from '../pages/Admin/Admin'
 import MainPanel from '../pages/Admin/pages/MainPanel'
+import Customers from '../pages/Admin/pages/Customers'
+import Messages from '../pages/Admin/pages/Messages'
+import Products from '../pages/Admin/pages/Products'
 import Subscriptions from '../pages/Admin/pages/Subscriptions'
+import Broadcast from '../pages/Admin/pages/Broadcast'
+import Reports from '../pages/Admin/pages/Reports'
+import Settings from '../pages/Admin/pages/Settings'
 
 const router = createBrowserRouter([
   {
@@ -38,8 +44,32 @@ const router = createBrowserRouter([
         element: <MainPanel />
       },
       {
+        path: "customers",
+        element: <Customers />
+      },
+      {
+        path: "messages",
+        element: <Messages />
+      },
+      {
+        path: "products",
+        element: <Products />
+      },
+      {
         path: "subscription",
         element: <Subscriptions />
+      },
+      {
+        path: "broadcast",
+        element: <Broadcast />
+      },
+      {
+        path: "reports",
+        element: <Reports />
+      },
+      {
+        path: "settings",
+        element: <Settings />
       },
     ]
   }

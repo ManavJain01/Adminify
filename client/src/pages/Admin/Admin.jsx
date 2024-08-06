@@ -11,6 +11,7 @@ import { useUser } from "../../hooks/useUser";
 // Importing Local files
 import Header from './components/Header'
 import Footer from './components/Footer'
+import Sidebar from './components/Sidebar';
 
 export default function Admin() {
   // redux
@@ -26,8 +27,9 @@ export default function Admin() {
   return (
     <div className="text-lg text-white bg-[#222] flex flex-col w-lvw min-h-lvh">
       <Header user={user} />
-      <div className="flex-1 p-5">
-        <Outlet />
+      <div className="relative flex-1 flex">
+        <Sidebar />
+        <div className='px-10 py-5 flex-1'><Outlet /></div>
       </div>
       <Footer data={{company: user.company, owner:user.owner}} />
     </div>
