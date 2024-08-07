@@ -16,14 +16,14 @@ export default function Customers() {
 
         <tbody>
           {/* Sample rows */}
-          <tr>
+          <tr className="hover:bg-blue-900">
             <td className="px-4 py-2 text-white">John Doe</td>
             <td className="px-4 py-2 text-white">John@gmail.com</td>
             <td className="px-4 py-2 text-white">2023-01-01</td>
             <td className="px-4 py-2 text-white">Admin</td>
             <td className="px-4 py-2 text-white">$100</td>
           </tr>
-          <tr>
+          <tr className="hover:bg-blue-900">
             <td className="px-4 py-2 text-white">Jane Smith</td>
             <td className="px-4 py-2 text-white">Jane@gmail.com</td>
             <td className="px-4 py-2 text-white">2023-02-01</td>

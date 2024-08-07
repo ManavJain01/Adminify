@@ -62,21 +62,21 @@ export default function Signup() {
 
     const user = await signup(data);
 
-    if(user === 'already exists'){
-      setError('User already exist!!!');
+    if(typeof user === 'string'){
+      setError(user);
       return;
     }
 
     if(user){
-      console.log("User: ",user);
       navigate('/admin');
     }else{
       setError('Error While SigningUp');
+      return;
     }
   }
 
   return (
-    <div className="text-lg text-white bg-[#222] flex justify-center items-center w-lvw h-lvh p-5">
+    <div className="text-lg text-white bg-[#222] flex justify-center items-center w-lvw min-h-lvh p-5">
       <div
         id="card-signup"
         className="relative bg-[#2d2d2d] w-[30rem] min-h-[30rem] px-8 py-5 rounded-lg shadow-lg

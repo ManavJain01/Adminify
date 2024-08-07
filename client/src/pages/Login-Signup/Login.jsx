@@ -70,7 +70,7 @@ export default function Login() {
   }
 
   return (
-    <div className="text-lg text-white bg-[#222] flex justify-center items-center w-lvw h-lvh p-5">
+    <div className="text-lg text-white bg-[#222] flex justify-center items-center w-lvw min-h-lvh p-5">
       <div
         id="card-login"
         className="relative bg-[#2d2d2d] w-[30rem] h-[30rem] px-8 py-5 rounded-lg shadow-lg

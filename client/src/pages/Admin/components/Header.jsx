@@ -23,7 +23,7 @@ export default function Header({user}) {
         <li className="hover:underline"><Link to='/admin'>Home</Link></li>
         <li className="hover:underline">About</li>
         <li className="hover:underline">Contact Us</li>
-        <li className="hover:underline">My Account</li>
+        <li className="hover:underline"><Link to="/admin/settings">My Account</Link></li>
         <li className="hover:underline"><button onClick={() => logoutService()}>Log Out</button></li>
       </ul>
     </nav>

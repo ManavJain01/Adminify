@@ -33,6 +33,7 @@ export default function Sidebar() {
     {
       name: 'Messages',
       component: <LuMessagesSquare className="size-8" />,
+      count: "0",
       link: '/admin/messages'
     },
     {
@@ -67,9 +68,12 @@ export default function Sidebar() {
       <ul className="flex flex-col">
         {sidebar.map((e,i) => {
           return(
-            <li key={i}><NavLink to={e?.link} end className="flex gap-3 items-center p-5 hover:bg-blue-900 aria-[current=page]:bg-blue-950 aria-[current=page]:text-green-700">
+            <li key={i}><NavLink to={e?.link} end className="relative flex gap-3 items-center p-5 hover:bg-blue-900 aria-[current=page]:bg-blue-950 aria-[current=page]:text-green-700">
               {e?.component}
               <span>{e.name}</span>
+              {e.count
+                &&<span className="absolute right-16 top-[27px] text-xs text-white bg-green-800 flex justify-center items-center h-[18px] w-[16px] rounded-lg">{e?.count}</span>
+              }
             </NavLink></li>
           )
         })}
