@@ -59,5 +59,17 @@ const userController = async (req, res) => {
   }
 }
 
+const allUsersController = async (req, res) => {
+  try {
+    const loggedInUserId = req.user._id
+    const result = await service.allUsers(loggedInUserId); 
+    res.status(200).send(result);
+
+  } catch (error) {
+    console.error("Error: ", error.message);
+    res.status(400).send(error.message);
+  }
+}
+
 // Exporting controllers
-module.exports = { signupController, loginController, searchUserController, resetController, userController }
+module.exports = { signupController, loginController, searchUserController, resetController, userController, allUsersController }

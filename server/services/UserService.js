@@ -111,4 +111,15 @@ const getUser = async (_id) => {
   }
 }
 
-module.exports = { signup, login, userSearch, userReset, getUser }
+const allUsers = async (loggedInUserId) => {
+  try {
+    const filteredUsers = await Model.find({_id: { $ne: loggedInUserId }}).select("-password")
+    
+    return filteredUsers;
+  } catch (error) {
+    console.error("Error Occurred while Fetching All Users:", error.message);
+    throw error
+  }
+}
+
+module.exports = { signup, login, userSearch, userReset, getUser, allUsers }
