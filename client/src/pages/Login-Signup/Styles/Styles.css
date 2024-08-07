@@ -35,3 +35,19 @@
   border-radius: 18px;
   pointer-events: none; /* Ensures it doesn't block interactions */
 }
+
+.create-admin-header {
+  padding: 10px;
+  background-color: gold;
+  border-radius: 30px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.25rem;
+}
+
+.brand-logo {
+  width: 100px;
+  height: 100px;
+  border-radius: 100%;
+  margin-bottom: -30px;
+}

@@ -16,3 +16,28 @@
   border-radius: 18px;
   pointer-events: none; /* Ensures it doesn't block interactions */
 }
+
+
+.logo-preview {
+  width: 100px;
+  height: 100px;
+  margin-top: 10px;
+  border-radius: 100%;
+  
+}
+
+.company-details {
+  position: relative;
+  bottom: 20px;
+  color: black;
+  /* margin: 20px; */
+  z-index: 1800;
+  padding: 10px;
+  background-color: gold;
+  border-radius: 30px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.25rem;
+  opacity: 1;
+}
+
