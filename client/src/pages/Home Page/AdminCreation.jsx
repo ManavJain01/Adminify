@@ -181,7 +181,7 @@ export default function AdminCreation() {
             {/* Signup */}
             <div className="flex gap-5 justify-between flex-wrap">
               <Link
-                to="/"
+                to="/initial-setup"
                 state={companyDetails}
                 className="text-white bg-blue-600 w-fit px-5 py-2 rounded-lg"
               >

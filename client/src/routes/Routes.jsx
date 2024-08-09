@@ -29,6 +29,7 @@ import Settings from "../pages/Admin/pages/Settings";
 import EditCustomer from "../pages/Admin/pages/EditCustomer";
 import CreateUser from "../pages/Admin/pages/CreateUser";
 import AdminCreation from "../pages/Home Page/AdminCreation";
+import Main from "../pages/Home Page/Main";
 
 const router = createBrowserRouter([
   {
@@ -36,8 +37,8 @@ const router = createBrowserRouter([
     element: <Login />,
   },
   {
-    path: "login",
-    element: <Login />,
+    path: "initial-setup",
+    element: <Main />,
   },
   {
     path: "create-admin",
