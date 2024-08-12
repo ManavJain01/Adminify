@@ -28,7 +28,6 @@ export default function Main() {
       cards.style.setProperty("--y", y + "px");
     };
   }, []);
-
   //handle logo preview
   const handlePreview = (event) => {
     const file = event.target.files[0];

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 // Importing React Icons
 import { AiOutlineProduct } from "react-icons/ai";
 import { MdSubscriptions } from "react-icons/md";
@@ -5,12 +6,17 @@ import { FaTowerBroadcast } from "react-icons/fa6";
 import { TbReportSearch } from "react-icons/tb";
 import { CiSettings } from "react-icons/ci";
 
+=======
+>>>>>>> 3187acf488c0f3bbabb0f6791299e75acfed87b0
 // Importing React Packages
 import { Link } from 'react-router-dom'
 
 // Importing local files
 import Conversations from './Messages/Conversations'
+<<<<<<< HEAD
 import ShowCustomers from './Customers/ShowCustomers'
+=======
+>>>>>>> 3187acf488c0f3bbabb0f6791299e75acfed87b0
 
 export default function MainPanel() {
   return (
