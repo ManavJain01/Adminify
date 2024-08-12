@@ -154,14 +154,7 @@ export default function Login() {
               </div>
 
               {/* Login */}
-              <div className="flex gap-5 justify-between flex-wrap">
-                <Link
-                  to="/"
-                  className="text-white bg-blue-600 w-fit px-5 py-2 rounded-lg"
-                >
-                  Go Back
-                </Link>
-
+              <div className="flex gap-5 justify-end flex-wrap">
                 <button
                   type="submit"
                   className="text-white bg-green-600 w-fit px-5 py-2 rounded-lg"

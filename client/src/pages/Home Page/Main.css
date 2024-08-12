@@ -16,11 +16,3 @@
   border-radius: 18px;
   pointer-events: none; /* Ensures it doesn't block interactions */
 }
-
-.logo-preview {
-  width: 100px;
-  height: 100px;
-  margin-top: 10px;
-  border-radius: 100%;
-  
-}

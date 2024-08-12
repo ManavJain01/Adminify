@@ -11,13 +11,8 @@ import "./Main.css";
 
 export default function Main() {
   // useState
-  // const [companyDetails, setCompanyDetails] = useState([]);
+  const [companyDetails, setCompanyDetails] = useState([]);
   const [showPassword, setShowPassword] = useState(false);
-  const [logo, setLogo] = useState(null);
-
-  //useRef
-  const company = useRef();
-  const owner = useRef();
 
   //useNavigate
   const navigate = useNavigate();
@@ -33,22 +28,18 @@ export default function Main() {
       cards.style.setProperty("--y", y + "px");
     };
   }, []);
+
   //handle logo preview
   const handlePreview = (event) => {
     const file = event.target.files[0];
     if (file) {
-      setLogo(file);
+      setCompanyDetails(prevInput => {return {...prevInput, logo: file}})
     } else {
-      setLogo(null);
+      setCompanyDetails(prevInput => {return {...prevInput, logo: ''}})
     }
   };
-  let companyDetails = {};
+
   const handleNext = () => {
-    companyDetails = {
-      company: company.current.value,
-      owner: owner.current.value,
-      logo: logo,
-    };
     console.log(companyDetails);
     navigate("/create-admin", { state: companyDetails });
   };
@@ -70,13 +61,13 @@ export default function Main() {
               type="text"
               name="companyName"
               id="companyName"
-              ref={company}
+              onChange={(e) => setCompanyDetails(prevInput => {return {...prevInput, company: e.target?.value}})}
               className="peer w-full px-5 py-2 rounded-full outline-none"
             />
             <label
               htmlFor="companyName"
               className={`absolute top-2 left-5 peer-focus:-top-4 peer-focus:left-4 peer-focus:backdrop-blur-sm peer-focus:rounded-full ${
-                company.current?.value &&
+                companyDetails?.company &&
                 "peer-valid:-top-4 peer-valid:left-4 peer-valid:backdrop-blur-sm peer-valid:rounded-full"
               } duration-700 cursor-pointer`}
             >
@@ -89,13 +80,13 @@ export default function Main() {
               type="text"
               name="ownerName"
               id="ownerName"
-              ref={owner}
+              onChange={(e) => setCompanyDetails(prevInput => {return {...prevInput, owner: e.target?.value}})}
               className="peer w-full px-5 py-2 rounded-full outline-none"
             />
             <label
               htmlFor="ownerName"
               className={`absolute top-2 left-5 peer-focus:-top-4 peer-focus:left-4 peer-focus:backdrop-blur-sm peer-focus:rounded-full ${
-                company.current?.value &&
+                companyDetails?.owner &&
                 "peer-valid:-top-4 peer-valid:left-4 peer-valid:backdrop-blur-sm peer-valid:rounded-full"
               } duration-700 cursor-pointer`}
             >
@@ -119,10 +110,10 @@ export default function Main() {
               <CiImport className="size-8" />
             </label>
 
-            {logo ? (
-              <img src={URL.createObjectURL(logo)} className="logo-preview" />
+            {companyDetails.logo ? (
+              <img src={URL.createObjectURL(companyDetails.logo)} className="w-[100px] h-[100px] mx-auto mt-[10px] rounded-full" />
             ) : (
-              <p>not selected</p>
+              <p className="text-center text-red-700">not selected</p>
             )}
           </section>
 
