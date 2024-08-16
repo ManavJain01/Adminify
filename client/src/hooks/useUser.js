@@ -34,7 +34,7 @@ export const useUser = () => {
       // setting localStorage variables
       localStorage.setItem("authToken", user.authToken);
       
-      return user.data;
+      return "success";
     } catch (error) {
       console.log("Error Signing Up in UseUser Hook: ", error); 
     }
@@ -48,7 +48,7 @@ export const useUser = () => {
 
       // setting localStorage variables
       localStorage.setItem("authToken", user.authToken); 
-      return user.data;
+      return "success";
     } catch (error) {
       console.log("Error Logging In in UseUser Hook: ", error); 
     }

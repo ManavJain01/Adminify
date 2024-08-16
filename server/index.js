@@ -54,8 +54,8 @@ app.use(express.static(path.join(__dirname, 'views')))
 const mongoDB = require("./db/db")
 
 // middleware or to set router
-app.use("/", routes)
-app.use("/user", upload.single('logo'), UserRoutes);
+app.use("/", upload.single('logo'), routes)
+app.use("/user", UserRoutes);
 app.use("/messages", MessageRoutes)
 
 // Connecting MongoDB Server

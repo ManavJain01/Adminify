@@ -13,7 +13,7 @@ export const CompanySlice = createSlice({
   initialState,
   reducers: {
     setCompanyDetails: (state, action) => {
-      state.companyDetails = action.payload;   
+      state.companyDetails = action.payload;
     },
   }
 })

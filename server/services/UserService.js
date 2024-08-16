@@ -9,16 +9,17 @@ const jwtSecret = process.env.JWT_TOKEN
 const Model = require('../models/UserModel');
 
 // Creating Admin
-const createAdmin = async (data, logo) => {
+const createAdmin = async (data) => {
   try {
-    // Check if file is uploaded
-    if (!logo) {
-      return res.status(400).json({ message: 'Logo is required' });
-    }
-    
-    const { userName, email, password } = data;
-    const { company, owner } = data;
-    
+    const newAdmin = await Model.create({
+      name: data.userName,
+      email: data.email,
+      password: data.password,
+      privilege: 'admin'
+    })
+
+    const authToken = jwt.sign((newAdmin._id).toString(), jwtSecret);
+    return { authToken: authToken };
   } catch (error) {
     throw error;
   }
@@ -42,7 +43,7 @@ const signup = async (data) => {
       })
 
       const authToken = jwt.sign((user._id).toString(), jwtSecret)
-      return { data: user, authToken: authToken }
+      return { authToken: authToken }
 
     }else{
       throw new Error("User Already exist!!!");
@@ -67,7 +68,7 @@ const login = async (data) => {
       throw new Error("No User Found!!!");
     }else if(user && user.password === password){
       const authToken = jwt.sign((user._id).toString(), jwtSecret)
-      return { data: user, authToken: authToken }
+      return { authToken: authToken }
     } else throw new Error("Password is Incorrect.");
     
   } catch (error) {

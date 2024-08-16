@@ -11,17 +11,17 @@ export const useRefresh = () => {
   // useDispatch
   const dispatch = useDispatch();
 
-  // useSelector
+  // // useSelector
   const companyDetails = useSelector((state) => state.company.companyDetails);
 
-  const getCompanyDetails = async (compo = "") => {
+  const getCompanyDetails = async () => {
     try {
-      if(!companyDetails.company || !companyDetails.owner || !companyDetails.logo){
+      if(!companyDetails?.company && !companyDetails?.owner && !companyDetails?.logo){
         const response = await CompanyDetailsRequest();
-        console.log("useRefresh: ", response);
+        return await setCompanyDetails({company: response[0]?.company || "", owner: response[0]?.owner || "", logo: response[0]?.logo || ""});
       }
-
-      return companyDetails;
+      
+      return await companyDetails;
     } catch (error) {
       console.error("Error Getting Company Details:", error.message);   
     }
@@ -29,8 +29,8 @@ export const useRefresh = () => {
 
   const setCompanyDetails = async (data) => {
     try {
-      dispatch(storeCompanyDetails(data));
 
+      return dispatch(storeCompanyDetails(data)).payload;
     } catch (error) {
       console.error("Error Getting Company Details:", error.message);   
     }

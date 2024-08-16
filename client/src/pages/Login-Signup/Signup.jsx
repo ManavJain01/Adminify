@@ -36,11 +36,13 @@ export default function Signup() {
     };
 
     const handleRefresh = async () => {
-      const response = getCompanyDetails();
+      const response = await getCompanyDetails();
 
-      if(!response.company && !response.owner && !response.logo){
+      if(!response?.company && !response?.owner && !response?.logo){
         navigate('/companyDetails');
       }
+
+      setCompanyDetails({ company: response?.company || "", owner: response?.owner || "", logo: response?.logo || ""})
     }
 
     handleRefresh();
@@ -192,7 +194,7 @@ export default function Signup() {
               Already A User?
             </span>
             <Link
-              to="/login"
+              to="/"
               state={companyDetails}
               className="font-semibold text-xl text-center bg-white w-full px-5 py-2 rounded-lg"
             >

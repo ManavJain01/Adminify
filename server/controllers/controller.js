@@ -3,7 +3,7 @@ const service = require('../services/service')
 
 const establishCompany = async (req, res) => {
   try {
-    const result = await service.setCompanyDetails(req.body);
+    const result = await service.setCompanyDetails(req.body, req.file);
     res.status(200).send(result);
     
   } catch (error) {

@@ -11,9 +11,12 @@ const schema = new Schema({
     type: String,
     required: true,
   },
+  // logo:{
+  //   data: Buffer,
+  //   contentType: String,
+  // }
   logo:{
-    type: Buffer,
-    required: true
+    type: String,
   }
 }, {timestamps: true})
 

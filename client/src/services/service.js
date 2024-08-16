@@ -4,7 +4,7 @@ import axios from 'axios'
 // Creating Company
 export const newCompany = async (data) => {
   try {
-    const response = await axios.post(`${import.meta.env.VITE_REACT_APP_ServerLocation}/user/createCompany`, data);
+    const response = await axios.post(`${import.meta.env.VITE_REACT_APP_ServerLocation}/create-company`, data);
 
     if (response.status !== 200) {
       throw new Error('Failed to create Company');

@@ -16,7 +16,10 @@ export const useHook = () => {
     try {
       const user = await newCompany(data);    
   
-      return user;
+      // setting localStorage variables
+      localStorage.setItem("authToken", user.authToken);
+      
+      return "success";
     } catch (error) {
       console.error("Error creating Company in UseUser Hook: ", error.message); 
     }

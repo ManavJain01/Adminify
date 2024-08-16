@@ -1,5 +1,7 @@
 // Importing React Icons
 import { CiUser } from "react-icons/ci";
+import { FaEyeSlash } from "react-icons/fa";
+import { FaRegEye } from "react-icons/fa";
 
 // Importing React Packages
 import { Link, useNavigate } from "react-router-dom";
@@ -39,11 +41,14 @@ export default function Login() {
     };
 
     const handleRefresh = async () => {
-      const response = getCompanyDetails();
-
-      if(!response.company && !response.owner && !response.logo){
+      const response = await getCompanyDetails();
+      
+      if(!response?.company && !response?.owner && !response?.logo){
         navigate('/companyDetails');
+        
       }
+
+      setCompanyDetails({ company: response?.company || "", owner: response?.owner || "", logo: response?.logo || ""})
     }
 
     handleRefresh();
@@ -137,7 +142,7 @@ export default function Login() {
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute top-4 right-4 cursor-pointer"
                   >
-                    {/* {showPassword ? <FaRegEye /> : <FaEyeSlash />} */}
+                    {showPassword ? <FaRegEye /> : <FaEyeSlash />}
                   </div>
                 </section>
               </div>

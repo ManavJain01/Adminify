@@ -38,11 +38,11 @@ export default function AdminCreation() {
     const handleRefresh = async () => {
       const data = await getCompanyDetails();
 
-      if(!data.company && !data.owner && !data.logo){
+      if(!data?.company && !data?.owner && !data?.logo){
         navigate('/companyDetails');
       }
 
-      setCompanyDetails({ company: data.company, owner: data.owner, logo: data.logo})
+      setCompanyDetails({ company: data?.company || "", owner: data?.owner || "", logo: data?.logo || ""})
     }
 
     handleRefresh();
@@ -87,8 +87,7 @@ export default function AdminCreation() {
     }
 
     if (user) {
-      console.log("User: ", user);
-      // navigate("/admin");
+      navigate("/admin");
     } else {
       setError("Error While SigningUp");
     }
@@ -107,7 +106,8 @@ export default function AdminCreation() {
           <div className="flex flex-col items-center gap-5">
             <div>
               {companyDetails.logo ? (
-                <img src={URL.createObjectURL(companyDetails.logo)} className="brand-logo" />
+                // <img src={URL.createObjectURL(companyDetails.logo)} className="brand-logo" />
+                <div>hi</div>
               ) : (
                 <CiUser className="size-16 text-white" />
               )}
