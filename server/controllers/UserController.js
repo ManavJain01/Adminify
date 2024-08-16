@@ -4,7 +4,7 @@ const service = require('../services/UserService')
 // Creating Admin
 const createAdminController = async (req, res) => {
   try {
-    const result = await service.createAdmin(req.body);
+    const result = await service.createAdmin(req.body, req.file);
     res.status(200).send(result);
 
   } catch (error) {

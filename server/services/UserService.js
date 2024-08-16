@@ -9,9 +9,15 @@ const jwtSecret = process.env.JWT_TOKEN
 const Model = require('../models/UserModel');
 
 // Creating Admin
-const createAdmin = async (data) => {
+const createAdmin = async (data, logo) => {
   try {
-    console.log("data: ", data);
+    // Check if file is uploaded
+    if (!logo) {
+      return res.status(400).json({ message: 'Logo is required' });
+    }
+    
+    const { userName, email, password } = data;
+    const { company, owner } = data;
     
   } catch (error) {
     throw error;

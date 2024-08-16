@@ -6,6 +6,9 @@ const router = express.Router();
 const { establishCompany, getCompanyDetails } = require('../controllers/controller')
 
 // Routes
+router.get('/', (req, res) => {
+  return res.render('homepage')
+})
 router.route('/create-company').post(establishCompany);
 router.route('/companyDetails').get(getCompanyDetails);
 
