@@ -14,7 +14,6 @@ import { Provider } from "react-redux";
 import { store } from "../Redux/Store/store";
 
 // Importing Local Components
-import HomePage from "../pages/Home Page/Main";
 import Login from "../pages/Login-Signup/Login";
 import Signup from "../pages/Login-Signup/Signup";
 import Admin from "../pages/Admin/Admin";
@@ -30,14 +29,23 @@ import EditCustomer from "../pages/Admin/pages/Customers/EditCustomer";
 import CreateUser from "../pages/Admin/pages/Customers/CreateUser";
 import AdminCreation from "../pages/Home Page/AdminCreation";
 import CompanyDetails from "../pages/Home Page/Main";
+import Main from "../pages/Home Page/Main";
 
 const router = createBrowserRouter([
   {
-    path: 'companyDetails',
-    element:<CompanyDetails />,
+    path: "main",
+    element: <Main />,
+  },
+  {
+    path: "companyDetails",
+    element: <CompanyDetails />,
   },
   {
     path: "/",
+    element: <Login />,
+  },
+  {
+    path: "/login",
     element: <Login />,
   },
   {

@@ -12,6 +12,10 @@ import {
   UserSearch,
   UserResetPassword,
   fetchUser,
+  registerAdmin,
+  registerCompany,
+  getCompany,
+  loginAdmin,
 } from "../services/userService";
 
 export const useUser = () => {
@@ -20,6 +24,60 @@ export const useUser = () => {
 
   // useNavigate
   const navigate = useNavigate();
+
+  const createCompany = async (companyData) => {
+    try {
+      const company = await registerCompany(companyData);
+
+      // if (typeof user === "string") return user;
+
+      // setting localStorage variables
+      localStorage.setItem("authToken", company.authToken);
+
+      return company.data;
+    } catch (error) {
+      console.log("Error Creating Admin in UseUser Hook: ", error);
+    }
+  };
+
+  const getCompanyDetails = async (data) => {
+    try {
+      const company = await getCompany(data);
+
+      return company;
+    } catch (error) {
+      console.log("Error getting company Details in UseUser Hook: ", error);
+    }
+  };
+
+  const createAdmin = async (adminData) => {
+    try {
+      const admin = await registerAdmin(adminData);
+
+      // if (typeof user === "string") return user;
+
+      // setting localStorage variables
+      localStorage.setItem("authToken", admin.authToken);
+
+      return admin.data;
+    } catch (error) {
+      console.log("Error Creating Admin in UseUser Hook: ", error);
+    }
+  };
+
+  const adminLogin = async (data) => {
+    try {
+      const admin = await loginAdmin(data);
+      console.log("returned:", admin);
+      if (typeof admin === "string") return admin;
+
+      // setting localStorage variables
+      localStorage.setItem("authToken", admin.authToken);
+      return admin.data;
+    } catch (error) {
+      console.log("Error Logging In admin in UseUser Hook: ", error);
+    }
+  };
 
   const signup = async (data) => {
     try {
@@ -98,5 +156,16 @@ export const useUser = () => {
     }
   };
 
-  return { signup, login, searchUser, resetPassword, logout, getUser };
+  return {
+    createCompany,
+    getCompanyDetails,
+    createAdmin,
+    adminLogin,
+    signup,
+    login,
+    searchUser,
+    resetPassword,
+    logout,
+    getUser,
+  };
 };

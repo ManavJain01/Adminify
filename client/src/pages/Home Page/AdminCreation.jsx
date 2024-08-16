@@ -13,7 +13,7 @@ import "../Login-Signup/Styles/Styles.css";
 
 export default function AdminCreation() {
   // Custom Hooks
-  const { signup } = useUser();
+  const { createAdmin, createCompany } = useUser();
 
   // useNavigate
   const navigate = useNavigate();
@@ -21,8 +21,7 @@ export default function AdminCreation() {
   // useLocation
   const location = useLocation();
   const companyDetails = location.state || {};
-  const logo = companyDetails.logo;
-
+  const logo = companyDetails.logo.data;
   // useState
   const [error, setError] = useState("");
 
@@ -38,15 +37,17 @@ export default function AdminCreation() {
     };
   }, []);
 
+  //on change of input field
+
   // Functions
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    const data = Object.fromEntries(formData.entries());
+    const adminDetails = Object.fromEntries(formData.entries());
 
-    // Validation
-    const { userName, email, password, confirmPass } = data;
-    if (!userName || !email || !password || !confirmPass) {
+    // // Validation
+    const { name, email, password, confirmPass } = adminDetails;
+    if (!name || !email || !password || !confirmPass) {
       setError("All fields are required.");
       return;
     }
@@ -56,23 +57,25 @@ export default function AdminCreation() {
       setError("Passwords do not match.");
       return;
     }
+    //if pasword matchs then delte confirst password property because of no use of it
+    delete adminDetails.confirmPass;
 
-    data.company = companyDetails.company || "";
-    data.owner = companyDetails.owner || "";
-    data.logo = companyDetails.logo || null;
+    // adminDetails.owner = companyDetails.owner || "";
+    // adminDetails.logo = companyDetails.logo || null;
 
-    const user = await signup(data);
+    const admin = await createAdmin(adminDetails);
+    const company = await createCompany(companyDetails);
 
-    if (user === "already exists") {
-      setError("User already exist!!!");
-      return;
-    }
+    // if (user === "already exists") {
+    //   setError("User already exist!!!");
+    //   return;
+    // }
 
-    if (user) {
-      console.log("User: ", user);
+    if (admin && company) {
+      console.log("User: ", admin, company);
       navigate("/admin");
     } else {
-      setError("Error While SigningUp");
+      setError("Error While Creating Admin");
     }
   };
 
@@ -104,22 +107,22 @@ export default function AdminCreation() {
             <span>Admin Creation Window</span>
           </div>
           <form
-            onSubmit={(e) => handleSubmit(e)}
+            onSubmit={(event) => handleSubmit(event)}
             className="relative flex flex-col gap-8"
           >
             <section className="relative">
               <input
                 type="text"
-                name="userName"
-                id="userName"
+                name="name"
+                id="adminName"
                 required
                 className="peer w-full px-5 py-2 rounded-full outline-none"
               />
               <label
-                htmlFor="userName"
+                htmlFor="adminName"
                 className="absolute top-2 left-5 peer-focus:-top-4 peer-focus:left-4 peer-focus:backdrop-blur-sm peer-focus:rounded-full peer-valid:-top-4 peer-valid:left-4 peer-valid:backdrop-blur-sm peer-valid:rounded-full duration-700 cursor-pointer"
               >
-                User Name
+                Admin Name
               </label>
             </section>
 
@@ -188,26 +191,14 @@ export default function AdminCreation() {
                 Go Back
               </Link>
 
-              <button className="text-white bg-green-600 w-fit px-5 py-2 rounded-lg">
+              <button
+                type="submit"
+                className="text-white bg-green-600 w-fit px-5 py-2 rounded-lg"
+              >
                 Create Admin
               </button>
             </div>
           </form>
-
-          {/* Login */}
-          {/* <section className="relative flex flex-col gap-5">
-            <hr className="opacity-50" />
-            <span className="absolute -top-4 left-[140px] text-white backdrop-blur-md px-2">
-              Already A User?
-            </span>
-            <Link
-              to="/login"
-              state={companyDetails}
-              className="font-semibold text-xl text-center bg-white w-full px-5 py-2 rounded-lg"
-            >
-              Login to Existing Account
-            </Link>
-          </section> */}
         </div>
       </div>
     </div>

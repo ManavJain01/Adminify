@@ -4,7 +4,7 @@ import { FaEyeSlash } from "react-icons/fa";
 import { FaRegEye } from "react-icons/fa";
 
 // Importing React Packages
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 // Importing Hooks
@@ -16,7 +16,7 @@ import ForgetPassword from "./components/ForgetPassword";
 
 export default function Login() {
   // Custom Hooks
-  const { login } = useUser();
+  const { login, adminLogin } = useUser();
 
   // useNavigation
   const navigate = useNavigate();
@@ -30,6 +30,7 @@ export default function Login() {
   const [error, setError] = useState("");
   const [forgetPassword, setForgetPassword] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [activeTab, setActiveTab] = useState("user"); // Default tab is 'user'
 
   // useEffect
   useEffect(() => {
@@ -44,9 +45,9 @@ export default function Login() {
   }, []);
 
   // Functions
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const formData = new FormData(e.target);
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
     const data = Object.fromEntries(formData.entries());
 
     // Validation
@@ -57,15 +58,26 @@ export default function Login() {
       return;
     }
 
-    const user = await login(data);
+    // Add admin flag to data if on the admin tab
+    let result;
+    console.log("active tab: ", activeTab);
+    if (activeTab === "admin") {
+      result = await adminLogin(data);
+    } else {
+      result = await login(data);
+    }
 
-    if (typeof user === "string") {
-      setError(user);
+    console.log("Final Result: ", result);
+
+    if (typeof result === "string") {
+      setError(result);
       return;
     }
 
-    if (user) {
-      navigate("/admin");
+    if (activeTab === "admin") {
+      navigate("/admin", { state: result });
+    } else {
+      //navigate("/user-welcome-page");
     }
   };
 
@@ -73,7 +85,7 @@ export default function Login() {
     <div className="text-lg text-white bg-[#222] flex justify-center items-center w-lvw min-h-lvh p-5">
       <div
         id="card-login"
-        className="relative bg-[#2d2d2d] w-[30rem] h-[30rem] px-8 py-5 rounded-lg shadow-lg
+        className="relative bg-[#2d2d2d] w-[30rem] h-auto px-8 py-5 rounded-lg shadow-lg
           before:absolute before:top-[--y] before:left-[--x] before:content-[''] before:opacity-0 hover:before:opacity-100 before:rounded-full
           overflow-hidden"
       >
@@ -81,6 +93,30 @@ export default function Login() {
           <ForgetPassword setForgetPassword={setForgetPassword} />
         ) : (
           <div className="z-20 relative text-black flex flex-col gap-8 rounded-lg">
+            {/* Tab Navigation */}
+            <div className="flex justify-between gap-5 border-b border-gray-500 mb-5">
+              <button
+                onClick={() => setActiveTab("user")}
+                className={`pb-2 ${
+                  activeTab === "user"
+                    ? "border-b-2 border-white text-white"
+                    : "text-gray-500"
+                }`}
+              >
+                User Login
+              </button>
+              <button
+                onClick={() => setActiveTab("admin")}
+                className={`pb-2 ${
+                  activeTab === "admin"
+                    ? "border-b-2 border-white text-white"
+                    : "text-gray-500"
+                }`}
+              >
+                Admin Login
+              </button>
+            </div>
+
             {/* Company Details */}
             <div className="flex flex-col items-center gap-5">
               <div>{logo ? "" : <CiUser className="size-16 text-white" />}</div>
@@ -91,6 +127,7 @@ export default function Login() {
               </div>
             </div>
 
+            {/* Login Form */}
             <form
               onSubmit={(e) => handleSubmit(e)}
               className="flex flex-col gap-3"
@@ -131,7 +168,7 @@ export default function Login() {
                     onClick={() => setShowPassword(!showPassword)}
                     className="absolute top-4 right-4 cursor-pointer"
                   >
-                    {/* {showPassword ? <FaRegEye /> : <FaEyeSlash />} */}
+                    {showPassword ? <FaRegEye /> : <FaEyeSlash />}
                   </div>
                 </section>
               </div>
@@ -165,19 +202,21 @@ export default function Login() {
             </form>
 
             {/* Signup */}
-            <section className="relative flex flex-col gap-5">
-              <hr className="opacity-50" />
-              <span className="absolute -top-4 left-44 text-white backdrop-blur-md px-2">
-                New User?
-              </span>
-              <Link
-                to="/signup"
-                state={companyDetails}
-                className="font-semibold text-xl text-center bg-white w-full px-5 py-2 rounded-lg"
-              >
-                Create A New Account
-              </Link>
-            </section>
+            {activeTab === "user" && (
+              <section className="relative flex flex-col gap-5 mt-5">
+                <hr className="opacity-50" />
+                <span className="absolute -top-4 left-44 text-white backdrop-blur-md px-2">
+                  New User?
+                </span>
+                <Link
+                  to="/signup"
+                  state={companyDetails}
+                  className="font-semibold text-xl text-center bg-white w-full px-5 py-2 rounded-lg"
+                >
+                  Create A New Account
+                </Link>
+              </section>
+            )}
           </div>
         )}
       </div>

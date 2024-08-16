@@ -1,18 +1,18 @@
 // Importing React Icons
 import { CiImport } from "react-icons/ci";
-import { FaRegEye } from "react-icons/fa";
-import { FaEyeSlash } from "react-icons/fa";
+// import { FaRegEye } from "react-icons/fa";
+// import { FaEyeSlash } from "react-icons/fa";
 
 // Importing React Packages
-import { useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import "./Main.css";
 
 export default function Main() {
   // useState
   const [companyDetails, setCompanyDetails] = useState([]);
-  const [showPassword, setShowPassword] = useState(false);
+  // const [showPassword, setShowPassword] = useState(false);
 
   //useNavigate
   const navigate = useNavigate();
@@ -33,9 +33,13 @@ export default function Main() {
   const handlePreview = (event) => {
     const file = event.target.files[0];
     if (file) {
-      setCompanyDetails(prevInput => {return {...prevInput, logo: file}})
+      setCompanyDetails((prevInput) => {
+        return { ...prevInput, logo: { data: file, contentType: "png" } };
+      });
     } else {
-      setCompanyDetails(prevInput => {return {...prevInput, logo: ''}})
+      setCompanyDetails((prevInput) => {
+        return { ...prevInput, logo: null };
+      });
     }
   };
 
@@ -61,7 +65,11 @@ export default function Main() {
               type="text"
               name="companyName"
               id="companyName"
-              onChange={(e) => setCompanyDetails(prevInput => {return {...prevInput, company: e.target?.value}})}
+              onChange={(e) =>
+                setCompanyDetails((prevInput) => {
+                  return { ...prevInput, company: e.target?.value };
+                })
+              }
               className="peer w-full px-5 py-2 rounded-full outline-none"
             />
             <label
@@ -80,7 +88,11 @@ export default function Main() {
               type="text"
               name="ownerName"
               id="ownerName"
-              onChange={(e) => setCompanyDetails(prevInput => {return {...prevInput, owner: e.target?.value}})}
+              onChange={(e) =>
+                setCompanyDetails((prevInput) => {
+                  return { ...prevInput, owner: e.target?.value };
+                })
+              }
               className="peer w-full px-5 py-2 rounded-full outline-none"
             />
             <label
@@ -111,7 +123,10 @@ export default function Main() {
             </label>
 
             {companyDetails.logo ? (
-              <img src={URL.createObjectURL(companyDetails.logo)} className="w-[100px] h-[100px] mx-auto mt-[10px] rounded-full" />
+              <img
+                src={URL.createObjectURL(companyDetails.logo.data)}
+                className="w-[100px] h-[100px] mx-auto mt-[10px] rounded-full"
+              />
             ) : (
               <p className="text-center text-red-700">not selected</p>
             )}
