@@ -2,11 +2,12 @@
 import { CiUser } from "react-icons/ci";
 
 // Importing React Packages
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 // Importing Hooks
 import { useUser } from "../../hooks/useUser";
+import { useRefresh } from "../../hooks/useRefresh";
 
 // Importing Local Files
 import "./Styles/Styles.css";
@@ -14,16 +15,13 @@ import "./Styles/Styles.css";
 export default function Signup() {
   // Custom Hooks
   const { signup } = useUser();
+  const { getCompanyDetails } = useRefresh();
 
   // useNavigate
   const navigate = useNavigate();
 
-  // useLocation
-  const location = useLocation();
-  const companyDetails = location.state || {};
-
   // useState
-  const [logo, setLogo] = useState("");
+  const [companyDetails, setCompanyDetails] = useState({});
   const [error, setError] = useState("");
 
   // useEffect
@@ -36,6 +34,16 @@ export default function Signup() {
       cards.style.setProperty("--x", x + "px");
       cards.style.setProperty("--y", y + "px");
     };
+
+    const handleRefresh = async () => {
+      const response = getCompanyDetails();
+
+      if(!response.company && !response.owner && !response.logo){
+        navigate('/companyDetails');
+      }
+    }
+
+    handleRefresh();
   }, []);
 
   // Functions
@@ -86,7 +94,7 @@ export default function Signup() {
         <div className="z-20 relative text-black flex flex-col gap-8 rounded-lg">
           {/* Company Details */}
           <div className="flex flex-col items-center gap-5">
-            <div>{logo ? "" : <CiUser className="size-16 text-white" />}</div>
+            <div>{companyDetails.logo ? "" : <CiUser className="size-16 text-white" />}</div>
 
             <div className="text-white flex justify-between gap-5 flex-wrap w-full">
               <span>{companyDetails.company || "Company Name"}</span>

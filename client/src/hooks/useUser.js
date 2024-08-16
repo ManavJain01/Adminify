@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { creatingInitialState } from '../Redux/features/UserSlice'
 
 // Importing Services
-import { newAdmin, signup as signupService, login as loginService, UserSearch, UserResetPassword, fetchUser } from '../services/userService'
+import { signup as signupService, login as loginService, UserSearch, UserResetPassword, fetchUser } from '../services/userService'
 
 export const useUser = () => {
   // useDispatch
@@ -17,7 +17,7 @@ export const useUser = () => {
 
   const createAdmin = async (data) => {
     try {
-      const user = await newAdmin({company: data.company, owner: data.owner, logo: data.logo, userName: data.userName, email: data.email, password: data.password});    
+      const user = await newAdmin(data);    
 
       return user;
     } catch (error) {

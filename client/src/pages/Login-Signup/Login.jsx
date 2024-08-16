@@ -1,10 +1,8 @@
 // Importing React Icons
 import { CiUser } from "react-icons/ci";
-import { FaEyeSlash } from "react-icons/fa";
-import { FaRegEye } from "react-icons/fa";
 
 // Importing React Packages
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 // Importing Hooks
@@ -23,12 +21,8 @@ export default function Login() {
   // useNavigation
   const navigate = useNavigate();
 
-  // useLocation
-  const location = useLocation();
-  const companyDetails = location.state || {};
-
   // useState
-  const [logo, setLogo] = useState("");
+  const [companyDetails, setCompanyDetails] = useState({});
   const [error, setError] = useState("");
   const [forgetPassword, setForgetPassword] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -46,6 +40,10 @@ export default function Login() {
 
     const handleRefresh = async () => {
       const response = getCompanyDetails();
+
+      if(!response.company && !response.owner && !response.logo){
+        navigate('/companyDetails');
+      }
     }
 
     handleRefresh();
@@ -91,7 +89,7 @@ export default function Login() {
           <div className="z-20 relative text-black flex flex-col gap-8 rounded-lg">
             {/* Company Details */}
             <div className="flex flex-col items-center gap-5">
-              <div>{logo ? "" : <CiUser className="size-16 text-white" />}</div>
+              <div>{companyDetails.logo ? "" : <CiUser className="size-16 text-white" />}</div>
 
               <div className="text-white flex justify-between gap-5 flex-wrap w-full">
                 <span>{companyDetails.company || "Company Name"}</span>

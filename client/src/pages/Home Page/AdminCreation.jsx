@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 // Importing Hooks
-import { useUser } from "../../hooks/useUser";
+import { useHook } from "../../hooks/useHook";
 import { useRefresh } from '../../hooks/useRefresh'
 
 // Importing Local Files
@@ -14,7 +14,7 @@ import "../Login-Signup/Styles/Styles.css";
 
 export default function AdminCreation() {
   // Custom Hooks
-  const { createAdmin } = useUser();
+  const { createCompany } = useHook();
   const { getCompanyDetails } = useRefresh();
 
   // useNavigate
@@ -37,6 +37,11 @@ export default function AdminCreation() {
     
     const handleRefresh = async () => {
       const data = await getCompanyDetails();
+
+      if(!data.company && !data.owner && !data.logo){
+        navigate('/companyDetails');
+      }
+
       setCompanyDetails({ company: data.company, owner: data.owner, logo: data.logo})
     }
 
@@ -47,10 +52,13 @@ export default function AdminCreation() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
-    const data = Object.fromEntries(formData.entries());
 
     // Validation
-    const { userName, email, password, confirmPass } = data;
+    const userName = formData.get("userName");
+    const email = formData.get("email");
+    const password = formData.get("password");
+    const confirmPass = formData.get("confirmPass");
+
     if (!userName || !email || !password || !confirmPass) {
       setError("All fields are required.");
       return;
@@ -62,11 +70,16 @@ export default function AdminCreation() {
       return;
     }
 
-    data.company = companyDetails.company || "";
-    data.owner = companyDetails.owner || "";
-    data.logo = companyDetails.logo || null;
+    formData.append("company", companyDetails.company || "");
+    formData.append("owner", companyDetails.owner || "");
+    if (companyDetails.logo) {
+      formData.append("logo", companyDetails.logo); // Assuming logo is a File object
+    }
+
+    // Remove the confirmPass field from FormData
+    formData.delete("confirmPass");
     
-    const user = await createAdmin(data);
+    const user = await createCompany(formData);
 
     if (user === "already exists") {
       setError("User already exist!!!");
