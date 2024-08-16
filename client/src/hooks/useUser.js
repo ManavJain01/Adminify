@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 import { creatingInitialState } from '../Redux/features/UserSlice'
 
 // Importing Services
-import { signup as signupService, login as loginService, UserSearch, UserResetPassword, fetchUser } from '../services/userService'
+import { newAdmin, signup as signupService, login as loginService, UserSearch, UserResetPassword, fetchUser } from '../services/userService'
 
 export const useUser = () => {
   // useDispatch
@@ -14,6 +14,16 @@ export const useUser = () => {
 
   // useNavigate
   const navigate = useNavigate();
+
+  const createAdmin = async (data) => {
+    try {
+      const user = await newAdmin({company: data.company, owner: data.owner, logo: data.logo, userName: data.userName, email: data.email, password: data.password});    
+
+      return user;
+    } catch (error) {
+      console.error("Error creating Admin in UseUser Hook: ", error.message); 
+    }
+  }
 
   const signup = async (data) => {
     try {
@@ -92,5 +102,5 @@ export const useUser = () => {
     }
   }
 
-  return { signup, login, searchUser, resetPassword, logout, getUser }
+  return { createAdmin, signup, login, searchUser, resetPassword, logout, getUser }
 }

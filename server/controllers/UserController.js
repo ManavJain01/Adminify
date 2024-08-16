@@ -1,6 +1,18 @@
 // Importing Services
 const service = require('../services/UserService')
 
+// Creating Admin
+const createAdminController = async (req, res) => {
+  try {
+    const result = await service.createAdmin(req.body);
+    res.status(200).send(result);
+
+  } catch (error) {
+    console.log("Error: ", error.message);
+    res.status(400).send(error.message);
+  }
+}
+
 // Signup
 const signupController = async (req, res) => {
   try {
@@ -72,4 +84,4 @@ const allUsersController = async (req, res) => {
 }
 
 // Exporting controllers
-module.exports = { signupController, loginController, searchUserController, resetController, userController, allUsersController }
+module.exports = { createAdminController, signupController, loginController, searchUserController, resetController, userController, allUsersController }

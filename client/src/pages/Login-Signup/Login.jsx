@@ -9,6 +9,7 @@ import { useState, useEffect } from "react";
 
 // Importing Hooks
 import { useUser } from "../../hooks/useUser";
+import { useRefresh } from "../../hooks/useRefresh";
 
 // Importing Local Files
 import "./Styles/Styles.css";
@@ -17,6 +18,7 @@ import ForgetPassword from "./components/ForgetPassword";
 export default function Login() {
   // Custom Hooks
   const { login } = useUser();
+  const { getCompanyDetails } = useRefresh();
 
   // useNavigation
   const navigate = useNavigate();
@@ -41,6 +43,12 @@ export default function Login() {
       cards.style.setProperty("--x", x + "px");
       cards.style.setProperty("--y", y + "px");
     };
+
+    const handleRefresh = async () => {
+      const response = getCompanyDetails();
+    }
+
+    handleRefresh();
   }, []);
 
   // Functions

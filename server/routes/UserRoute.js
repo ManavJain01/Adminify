@@ -6,9 +6,10 @@ const router = express.Router();
 const { protectRoute } = require('../middleware/protectRoute')
 
 // Importing Controllers
-const { signupController, loginController, searchUserController, resetController, userController, allUsersController } = require('../controllers/UserController')
+const { createAdminController, signupController, loginController, searchUserController, resetController, userController, allUsersController } = require('../controllers/UserController')
 
 // Routes
+router.route('/createAdmin').post(createAdminController);
 router.route('/signup').post(signupController);
 router.route('/login').post(loginController);
 router.route('/searchUser').get(searchUserController);

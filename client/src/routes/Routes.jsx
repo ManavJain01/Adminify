@@ -33,23 +33,23 @@ import CompanyDetails from "../pages/Home Page/Main";
 
 const router = createBrowserRouter([
   {
-    path: 'companyDetails',
-    element:<CompanyDetails />,
-  },
-  {
     path: "/",
     element: <Login />,
   },
   {
-    path: "create-admin",
-    element: <AdminCreation />,
-  },
-  {
-    path: "signup",
+    path: "/signup",
     element: <Signup />,
   },
   {
-    path: "admin",
+    path: '/companyDetails',
+    element:<CompanyDetails />,
+  },
+  {
+    path: "/create-admin",
+    element: <AdminCreation />,
+  },
+  {
+    path: "/admin",
     element: <Admin />,
     children: [
       {

@@ -2,29 +2,27 @@
 import { CiUser } from "react-icons/ci";
 
 // Importing React Packages
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 // Importing Hooks
 import { useUser } from "../../hooks/useUser";
+import { useRefresh } from '../../hooks/useRefresh'
 
 // Importing Local Files
 import "../Login-Signup/Styles/Styles.css";
 
 export default function AdminCreation() {
   // Custom Hooks
-  const { signup } = useUser();
+  const { createAdmin } = useUser();
+  const { getCompanyDetails } = useRefresh();
 
   // useNavigate
   const navigate = useNavigate();
 
-  // useLocation
-  const location = useLocation();
-  const companyDetails = location.state || {};
-  const logo = companyDetails.logo;
-
   // useState
   const [error, setError] = useState("");
+  const [companyDetails, setCompanyDetails] = useState({});
 
   // useEffect
   useEffect(() => {
@@ -36,6 +34,13 @@ export default function AdminCreation() {
       cards.style.setProperty("--x", x + "px");
       cards.style.setProperty("--y", y + "px");
     };
+    
+    const handleRefresh = async () => {
+      const data = await getCompanyDetails();
+      setCompanyDetails({ company: data.company, owner: data.owner, logo: data.logo})
+    }
+
+    handleRefresh();
   }, []);
 
   // Functions
@@ -60,8 +65,8 @@ export default function AdminCreation() {
     data.company = companyDetails.company || "";
     data.owner = companyDetails.owner || "";
     data.logo = companyDetails.logo || null;
-
-    const user = await signup(data);
+    
+    const user = await createAdmin(data);
 
     if (user === "already exists") {
       setError("User already exist!!!");
@@ -70,7 +75,7 @@ export default function AdminCreation() {
 
     if (user) {
       console.log("User: ", user);
-      navigate("/admin");
+      // navigate("/admin");
     } else {
       setError("Error While SigningUp");
     }
@@ -88,8 +93,8 @@ export default function AdminCreation() {
           {/* Company Details */}
           <div className="flex flex-col items-center gap-5">
             <div>
-              {logo ? (
-                <img src={URL.createObjectURL(logo)} className="brand-logo" />
+              {companyDetails.logo ? (
+                <img src={URL.createObjectURL(companyDetails.logo)} className="brand-logo" />
               ) : (
                 <CiUser className="size-16 text-white" />
               )}
@@ -193,21 +198,6 @@ export default function AdminCreation() {
               </button>
             </div>
           </form>
-
-          {/* Login */}
-          {/* <section className="relative flex flex-col gap-5">
-            <hr className="opacity-50" />
-            <span className="absolute -top-4 left-[140px] text-white backdrop-blur-md px-2">
-              Already A User?
-            </span>
-            <Link
-              to="/login"
-              state={companyDetails}
-              className="font-semibold text-xl text-center bg-white w-full px-5 py-2 rounded-lg"
-            >
-              Login to Existing Account
-            </Link>
-          </section> */}
         </div>
       </div>
     </div>

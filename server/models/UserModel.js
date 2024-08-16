@@ -16,11 +16,9 @@ const UserSchema = new Schema({
     type: String,
     required: true
   },
-  company:{
+  privilege:{
     type: String,
-  },
-  owner:{
-    type: String,
+    required: true
   },
   age:{
     type: Number
@@ -30,10 +28,6 @@ const UserSchema = new Schema({
   },
   address:{
     type: String
-  },
-  date:{
-    type: Date,
-    default: Date.now()
   }
 }, {timestamps: true})
 

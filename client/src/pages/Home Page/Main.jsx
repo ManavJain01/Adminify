@@ -1,21 +1,26 @@
 // Importing React Icons
 import { CiImport } from "react-icons/ci";
-import { FaRegEye } from "react-icons/fa";
-import { FaEyeSlash } from "react-icons/fa";
 
 // Importing React Packages
-import { useEffect, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
+// Importing local files
 import "./Main.css";
 
-export default function Main() {
-  // useState
-  const [companyDetails, setCompanyDetails] = useState([]);
-  const [showPassword, setShowPassword] = useState(false);
+// Importing Custom Hooks
+import { useRefresh } from '../../hooks/useRefresh'
 
-  //useNavigate
+export default function Main() {
+  // Custom Hooks
+  const { getCompanyDetails, setCompanyDetails: storeCompanyDetails } = useRefresh();
+
+  // useNavigate
   const navigate = useNavigate();
+  
+  // useState
+  const [companyDetails, setCompanyDetails] = useState({ company: '', owner: '', logo: null });
+  const [error, setError] = useState(false);
 
   // useEffect
   useEffect(() => {
@@ -27,8 +32,18 @@ export default function Main() {
       cards.style.setProperty("--x", x + "px");
       cards.style.setProperty("--y", y + "px");
     };
+
+    const handleRefresh = async () => {
+      const data = await getCompanyDetails();
+      
+      setCompanyDetails({ company: data.company || '', owner: data.owner || '', logo: data.logo || '' })
+    }
+
+    handleRefresh();
   }, []);
-  //handle logo preview
+
+  // Functions
+    //handle logo preview
   const handlePreview = (event) => {
     const file = event.target.files[0];
     if (file) {
@@ -38,9 +53,19 @@ export default function Main() {
     }
   };
 
-  const handleNext = () => {
-    console.log(companyDetails);
-    navigate("/create-admin", { state: companyDetails });
+  const handleNext = async () => {
+    if(!companyDetails || !companyDetails.company || !companyDetails.owner || !companyDetails.logo){
+      setError("Enter full creadentials.");
+    }else if(!companyDetails.company){
+      setError("Enter Company Name.");
+    }else if(!companyDetails.owner){
+      setError("Enter Owner Name.");
+    }else if(!companyDetails.logo){
+      setError("Enter your Logo.");
+    }else{
+      await storeCompanyDetails(companyDetails);
+      navigate("/create-admin");
+    }
   };
 
   return (
@@ -60,6 +85,7 @@ export default function Main() {
               type="text"
               name="companyName"
               id="companyName"
+              value={companyDetails.company || ''}
               onChange={(e) => setCompanyDetails(prevInput => {return {...prevInput, company: e.target?.value}})}
               className="peer w-full px-5 py-2 rounded-full outline-none"
             />
@@ -79,6 +105,7 @@ export default function Main() {
               type="text"
               name="ownerName"
               id="ownerName"
+              value={companyDetails.owner || ''}
               onChange={(e) => setCompanyDetails(prevInput => {return {...prevInput, owner: e.target?.value}})}
               className="peer w-full px-5 py-2 rounded-full outline-none"
             />
@@ -109,19 +136,23 @@ export default function Main() {
               <CiImport className="size-8" />
             </label>
 
-            {companyDetails.logo ? (
+            {companyDetails.logo && (
               <img src={URL.createObjectURL(companyDetails.logo)} className="w-[100px] h-[100px] mx-auto mt-[10px] rounded-full" />
-            ) : (
-              <p className="text-center text-red-700">not selected</p>
             )}
           </section>
 
-          <button
-            onClick={handleNext}
-            className="text-white bg-green-600 w-fit ml-auto mt-auto px-5 py-2 rounded-lg"
-          >
-            Next
-          </button>
+          <section className="flex flex-col gap-2 mt-auto">
+            {error
+              &&<span className="text-center text-red-700">{error}</span>
+            }
+
+            <button
+              onClick={handleNext}
+              className="text-white bg-green-600 px-5 py-2 rounded-lg"
+            >
+              Next
+            </button>
+          </section>
         </div>
       </div>
     </div>

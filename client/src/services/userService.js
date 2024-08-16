@@ -1,6 +1,22 @@
 // Importing Axios Packages
 import axios from 'axios'
 
+// Creating Admin
+export const newAdmin = async (data) => {
+  try {
+    console.log("data: ", data);
+    const response = await axios.post(`${import.meta.env.VITE_REACT_APP_ServerLocation}/user/createAdmin`, data);
+
+    if (response.status !== 200) {
+      throw new Error('Failed to create admin');
+    }
+
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+}
+
 // Signup
 export const signup = async (data) => {
   try {

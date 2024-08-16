@@ -8,6 +8,16 @@ const jwtSecret = process.env.JWT_TOKEN
 // Importing Models
 const Model = require('../models/UserModel');
 
+// Creating Admin
+const createAdmin = async (data) => {
+  try {
+    console.log("data: ", data);
+    
+  } catch (error) {
+    throw error;
+  }
+}
+
 // SignUp
 const signup = async (data) => {
   try {  
@@ -122,4 +132,4 @@ const allUsers = async (loggedInUserId) => {
   }
 }
 
-module.exports = { signup, login, userSearch, userReset, getUser, allUsers }
+module.exports = { createAdmin, signup, login, userSearch, userReset, getUser, allUsers }
