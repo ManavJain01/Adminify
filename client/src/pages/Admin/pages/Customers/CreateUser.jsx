@@ -1,8 +1,9 @@
-import React from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useUser } from "../../../../hooks/useUser";
 
 const CreateUser = () => {
   const navigate = useNavigate();
+  const { createUser } = useUser();
 
   let customer = {};
 
@@ -15,10 +16,10 @@ const CreateUser = () => {
     //check if entered email is already exist
 
     //check if username is available or not
+    console.log(customer);
+    createUser(customer);
 
     navigate("../customers");
-
-    console.log(customer);
   };
 
   return (

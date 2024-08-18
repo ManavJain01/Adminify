@@ -13,6 +13,12 @@ const UserSchema = new Schema(
       required: true,
       unique: true,
     },
+    username: {
+      type: String,
+    },
+    phone: {
+      type: Number,
+    },
     password: {
       type: String,
       required: true,
@@ -20,6 +26,9 @@ const UserSchema = new Schema(
     privilege: {
       type: String,
       required: true,
+    },
+    birthday: {
+      type: String,
     },
     age: {
       type: Number,
@@ -29,6 +38,15 @@ const UserSchema = new Schema(
     },
     address: {
       type: String,
+    },
+    join_date: {
+      type: String,
+    },
+    payment: {
+      type: Number,
+    },
+    aadhaar: {
+      type: Number,
     },
   },
   { timestamps: true }

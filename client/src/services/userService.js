@@ -15,7 +15,25 @@ export const newAdmin = async (data) => {
 
     return response.data;
   } catch (error) {
-    throw error;
+    throw new Error("Error in newAdmin", error);
+  }
+};
+
+// Creating User
+export const newUser = async (data) => {
+  try {
+    const response = await axios.post(
+      `${import.meta.env.VITE_REACT_APP_ServerLocation}/user/createUser`,
+      data
+    );
+
+    if (response.status !== 200) {
+      throw new Error("Failed to create user");
+    }
+
+    return response.data;
+  } catch (error) {
+    throw new Error("Error in newUser", error);
   }
 };
 
@@ -66,6 +84,41 @@ export const login = async (data) => {
     if (error.response.data) return error.response.data;
     console.log("Error Logging In:", error);
     return {};
+  }
+};
+
+export const usersList = async () => {
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_REACT_APP_ServerLocation}/user/user-list`
+    );
+    return response;
+  } catch (error) {
+    console.log("Error while getting all users", error);
+  }
+};
+
+export const updateUserService = async (data) => {
+  try {
+    const response = await axios.put(
+      `${import.meta.env.VITE_REACT_APP_ServerLocation}/user/update-user`,
+      data
+    );
+    return response;
+  } catch (error) {
+    console.log("Error in updateUserService: ", error);
+  }
+};
+
+export const deleteUserService = async (id) => {
+  try {
+    const response = await axios.delete(
+      `${import.meta.env.VITE_REACT_APP_ServerLocation}/user/delete-user`,
+      id
+    );
+    return response;
+  } catch (error) {
+    console.log("Error in DeleteUserService: ", error);
   }
 };
 
