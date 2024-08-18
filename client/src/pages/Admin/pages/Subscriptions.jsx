@@ -1,7 +1,7 @@
 import { FaPlus } from "react-icons/fa";
 
 // Importing Local Files
-import TiltCard from "../components/TiltCard"
+import TiltCard from "../components/TiltCard";
 
 export default function Subscriptions() {
   const subs = [
@@ -11,7 +11,7 @@ export default function Subscriptions() {
       duration: "per month",
       subscription: "1 Month Subscription",
       features: ["upto 2 Hours Daily"],
-      more: "Learn More"
+      more: "Learn More",
     },
     {
       name: "Professional",
@@ -19,7 +19,7 @@ export default function Subscriptions() {
       duration: "per month",
       subscription: "3 Month Subscription",
       features: ["upto 4 Hours Daily", "Access to Spa"],
-      more: "Learn More"
+      more: "Learn More",
     },
     {
       name: "Ninja",
@@ -27,9 +27,9 @@ export default function Subscriptions() {
       duration: "per month",
       subscription: "6 Month Subscription",
       features: ["6+ Hours Daily", "Access to Spa", "A Personal Locker"],
-      more: "Learn More"
-    }
-  ]
+      more: "Learn More",
+    },
+  ];
 
   return (
     <div className="flex flex-col items-center gap-10">
@@ -39,10 +39,8 @@ export default function Subscriptions() {
       </div>
 
       <div className="flex gap-4 flex-wrap">
-        {subs.map((e,i) => {
-          return(
-            <TiltCard key={i} data={e} />
-          )
+        {subs.map((e, i) => {
+          return <TiltCard key={i} data={e} />;
         })}
 
         <button className="bg-gradient-to-br from-blue-500 to-pink-500 flex justify-center items-center h-[35rem] w-[20rem] rounded-xl shadow-lg">
@@ -51,8 +49,11 @@ export default function Subscriptions() {
       </div>
 
       <div>
-        <span>Re-Subscribe 15 Days before your subscription runs out to add 2 more days per month.</span>
+        <span>
+          Re-Subscribe 15 Days before your subscription runs out to add 2 more
+          days per month.
+        </span>
       </div>
     </div>
-  )
+  );
 }

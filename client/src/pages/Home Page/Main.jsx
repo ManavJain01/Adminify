@@ -9,17 +9,22 @@ import { useNavigate } from "react-router-dom";
 import "./Main.css";
 
 // Importing Custom Hooks
-import { useRefresh } from '../../hooks/useRefresh'
+import { useRefresh } from "../../hooks/useRefresh";
 
 export default function Main() {
   // Custom Hooks
-  const { getCompanyDetails, setCompanyDetails: storeCompanyDetails } = useRefresh();
+  const { getCompanyDetails, setCompanyDetails: storeCompanyDetails } =
+    useRefresh();
 
   // useNavigate
   const navigate = useNavigate();
-  
+
   // useState
-  const [companyDetails, setCompanyDetails] = useState({ company: '', owner: '', logo: null });
+  const [companyDetails, setCompanyDetails] = useState({
+    company: "",
+    owner: "",
+    logo: null,
+  });
   const [error, setError] = useState(false);
 
   // useEffect
@@ -35,34 +40,47 @@ export default function Main() {
 
     const handleRefresh = async () => {
       const data = await getCompanyDetails();
-      
-      setCompanyDetails({ company: data?.company || '', owner: data?.owner || '', logo: data?.logo || '' })
-    }
+
+      setCompanyDetails({
+        company: data?.company || "",
+        owner: data?.owner || "",
+        logo: data?.logo || "",
+      });
+    };
 
     handleRefresh();
   }, []);
 
   // Functions
-    //handle logo preview
+  //handle logo preview
   const handlePreview = (event) => {
     const file = event.target.files[0];
     if (file) {
-      setCompanyDetails(prevInput => {return {...prevInput, logo: file}})
+      setCompanyDetails((prevInput) => {
+        return { ...prevInput, logo: file };
+      });
     } else {
-      setCompanyDetails(prevInput => {return {...prevInput, logo: ''}})
+      setCompanyDetails((prevInput) => {
+        return { ...prevInput, logo: "" };
+      });
     }
   };
 
   const handleNext = async () => {
-    if(!companyDetails || !companyDetails.company || !companyDetails.owner || !companyDetails.logo){
+    if (
+      !companyDetails ||
+      !companyDetails.company ||
+      !companyDetails.owner ||
+      !companyDetails.logo
+    ) {
       setError("Enter full creadentials.");
-    }else if(!companyDetails.company){
+    } else if (!companyDetails.company) {
       setError("Enter Company Name.");
-    }else if(!companyDetails.owner){
+    } else if (!companyDetails.owner) {
       setError("Enter Owner Name.");
-    }else if(!companyDetails.logo){
+    } else if (!companyDetails.logo) {
       setError("Enter your Logo.");
-    }else{
+    } else {
       await storeCompanyDetails(companyDetails);
       navigate("/create-admin");
     }
@@ -85,8 +103,12 @@ export default function Main() {
               type="text"
               name="companyName"
               id="companyName"
-              value={companyDetails.company || ''}
-              onChange={(e) => setCompanyDetails(prevInput => {return {...prevInput, company: e.target?.value}})}
+              value={companyDetails.company || ""}
+              onChange={(e) =>
+                setCompanyDetails((prevInput) => {
+                  return { ...prevInput, company: e.target?.value };
+                })
+              }
               className="peer w-full px-5 py-2 rounded-full outline-none"
             />
             <label
@@ -105,8 +127,12 @@ export default function Main() {
               type="text"
               name="ownerName"
               id="ownerName"
-              value={companyDetails.owner || ''}
-              onChange={(e) => setCompanyDetails(prevInput => {return {...prevInput, owner: e.target?.value}})}
+              value={companyDetails.owner || ""}
+              onChange={(e) =>
+                setCompanyDetails((prevInput) => {
+                  return { ...prevInput, owner: e.target?.value };
+                })
+              }
               className="peer w-full px-5 py-2 rounded-full outline-none"
             />
             <label
@@ -143,9 +169,7 @@ export default function Main() {
           </section>
 
           <section className="flex flex-col gap-2 mt-auto">
-            {error
-              &&<span className="text-center text-red-700">{error}</span>
-            }
+            {error && <span className="text-center text-red-700">{error}</span>}
 
             <button
               onClick={handleNext}

@@ -1,6 +1,6 @@
 // Importing Models
-const Message = require('../models/message.model');
-const Conversation = require('../models/conversation.model');
+const Message = require("../models/message.model");
+const Conversation = require("../models/conversation.model");
 
 const messages = async (userToChatId, senderId) => {
   try {
@@ -8,47 +8,47 @@ const messages = async (userToChatId, senderId) => {
       participants: { $all: [senderId, userToChatId] },
     }).populate("messages");
 
-    if(!conversation) return [];
+    if (!conversation) return [];
 
     return conversation.messages;
   } catch (error) {
     console.log("Error in messages: ", error.message);
     throw error;
   }
-}
+};
 
 const messageSent = async (message, receiverId, senderId) => {
   try {
     let conversation = await Conversation.findOne({
-      participants: { $all: [senderId, receiverId] }
-    })
-  
-    if(!conversation){
+      participants: { $all: [senderId, receiverId] },
+    });
+
+    if (!conversation) {
       conversation = await Conversation.create({
-        participants: [senderId, receiverId]
-      })
-  
+        participants: [senderId, receiverId],
+      });
+
       const newMessage = new Message({
         senderId,
         receiverId,
-        message
-      })
-  
-      if(newMessage){
-        conversation.messages.push(newMessage._id)
+        message,
+      });
+
+      if (newMessage) {
+        conversation.messages.push(newMessage._id);
       }
-  
+
       // SOCKET IO FUNCTIONALITY
-  
+
       // This will run in parallel
-      await Promise.all([conversation.save(), newMessage.save()])
-  
+      await Promise.all([conversation.save(), newMessage.save()]);
+
       return newMessage;
-    }  
+    }
   } catch (error) {
     console.log("Error in messageSent: ", error.message);
     throw error;
   }
-}
+};
 
-module.exports = { messages, messageSent }
+module.exports = { messages, messageSent };

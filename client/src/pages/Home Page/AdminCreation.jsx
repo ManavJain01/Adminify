@@ -7,7 +7,7 @@ import { useState, useEffect } from "react";
 
 // Importing Hooks
 import { useHook } from "../../hooks/useHook";
-import { useRefresh } from '../../hooks/useRefresh'
+import { useRefresh } from "../../hooks/useRefresh";
 
 // Importing Local Files
 import "../Login-Signup/Styles/Styles.css";
@@ -34,16 +34,20 @@ export default function AdminCreation() {
       cards.style.setProperty("--x", x + "px");
       cards.style.setProperty("--y", y + "px");
     };
-    
+
     const handleRefresh = async () => {
       const data = await getCompanyDetails();
 
-      if(!data?.company && !data?.owner && !data?.logo){
-        navigate('/companyDetails');
+      if (!data?.company && !data?.owner && !data?.logo) {
+        navigate("/companyDetails");
       }
 
-      setCompanyDetails({ company: data?.company || "", owner: data?.owner || "", logo: data?.logo || ""})
-    }
+      setCompanyDetails({
+        company: data?.company || "",
+        owner: data?.owner || "",
+        logo: data?.logo || "",
+      });
+    };
 
     handleRefresh();
   }, []);
@@ -78,7 +82,7 @@ export default function AdminCreation() {
 
     // Remove the confirmPass field from FormData
     formData.delete("confirmPass");
-    
+
     const user = await createCompany(formData);
 
     if (user === "already exists") {

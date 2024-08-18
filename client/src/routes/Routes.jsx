@@ -41,8 +41,8 @@ const router = createBrowserRouter([
     element: <Signup />,
   },
   {
-    path: '/companyDetails',
-    element:<CompanyDetails />,
+    path: "/companyDetails",
+    element: <CompanyDetails />,
   },
   {
     path: "/create-admin",

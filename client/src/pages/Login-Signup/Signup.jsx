@@ -38,12 +38,18 @@ export default function Signup() {
     const handleRefresh = async () => {
       const response = await getCompanyDetails();
 
-      if(!response?.company && !response?.owner && !response?.logo){
-        navigate('/companyDetails');
+      if (!response?.company && !response?.owner && !response?.logo) {
+        navigate("/companyDetails");
       }
 
-      setCompanyDetails({ company: response?.company || "", owner: response?.owner || "", logo: response?.logo || ""})
-    }
+      setCompanyDetails({
+        company: response?.company || "",
+        owner: response?.owner || "",
+        logo: response?.logo || "",
+      });
+
+      if (localStorage.getItem("authToken")) navigate("/admin");
+    };
 
     handleRefresh();
   }, []);
@@ -96,7 +102,13 @@ export default function Signup() {
         <div className="z-20 relative text-black flex flex-col gap-8 rounded-lg">
           {/* Company Details */}
           <div className="flex flex-col items-center gap-5">
-            <div>{companyDetails.logo ? "" : <CiUser className="size-16 text-white" />}</div>
+            <div>
+              {companyDetails.logo ? (
+                ""
+              ) : (
+                <CiUser className="size-16 text-white" />
+              )}
+            </div>
 
             <div className="text-white flex justify-between gap-5 flex-wrap w-full">
               <span>{companyDetails.company || "Company Name"}</span>

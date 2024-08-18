@@ -1,5 +1,5 @@
-#card{
-  &::before{
+#card {
+  &::before {
     width: 700px;
     height: 700px;
     background: radial-gradient(#0f0, transparent, transparent);
@@ -8,12 +8,12 @@
     pointer-events: none; /* Ensures it doesn't block interactions */
   }
 
-  &::after{
+  &::after {
     z-index: 10;
-    content: '';
+    content: "";
     position: absolute;
     inset: 2px;
-    background: rgba(45,45,45,.75);
+    background: rgba(45, 45, 45, 0.75);
     border-radius: 18px;
     pointer-events: none; /* Ensures it doesn't block interactions */
   }

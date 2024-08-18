@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 
 // Importing Custom Hooks
-import { useRefresh } from '../../hooks/useRefresh'
+import { useRefresh } from "../../hooks/useRefresh";
 import { useUser } from "../../hooks/useUser";
 
 // Importing Local files
@@ -16,9 +16,9 @@ import Sidebar from "./components/Sidebar";
 
 export default function Admin() {
   // redux
-  const companyDetails = useSelector((state) => state.company.companyDetails) || {};
-  console.log("logo:", companyDetails.logo);
-  
+  const companyDetails =
+    useSelector((state) => state.company.companyDetails) || {};
+
   // Custom Hookes
   const { getCompanyDetails } = useRefresh();
   const { getUser } = useUser();
@@ -27,7 +27,7 @@ export default function Admin() {
     const handleRefresh = async () => {
       await getCompanyDetails();
       await getUser();
-    }
+    };
 
     handleRefresh();
   }, []);
@@ -41,7 +41,9 @@ export default function Admin() {
           <Outlet />
         </div>
       </div>
-      <Footer data={{ company: companyDetails.company, owner: companyDetails.owner }} />
+      <Footer
+        data={{ company: companyDetails.company, owner: companyDetails.owner }}
+      />
     </div>
   );
 }
