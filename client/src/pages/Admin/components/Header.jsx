@@ -25,9 +25,7 @@ export default function Header({ data }) {
       </div>
 
       <ul className="text-xl flex gap-8">
-        <li className="hover:underline">{`Hi, ${
-          admin.name.split(" ")[0] || "User"
-        }`}</li>
+        <li className="hover:underline">{`Hi, ${admin.name || "User"}`}</li>
         <li className="hover:underline">
           <Link to="/admin">Home</Link>
         </li>

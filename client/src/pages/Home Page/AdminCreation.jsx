@@ -57,19 +57,12 @@ export default function AdminCreation() {
       setError("Passwords do not match.");
       return;
     }
-    //if pasword matchs then delte confirst password property because of no use of it
     delete adminDetails.confirmPass;
 
-    // adminDetails.owner = companyDetails.owner || "";
-    // adminDetails.logo = companyDetails.logo || null;
-
+    console.log(adminDetails, companyDetails);
     const admin = await createAdmin(adminDetails);
     const company = await createCompany(companyDetails);
-
-    // if (user === "already exists") {
-    //   setError("User already exist!!!");
-    //   return;
-    // }
+    console.log(admin, company);
 
     if (admin && company) {
       console.log("User: ", admin, company);

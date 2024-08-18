@@ -4,8 +4,6 @@ import axios from "axios";
 //Register Company
 export const registerCompany = async (data) => {
   try {
-    // const { company, owner, logo } = data;
-
     ///remove it ********************************
     //testing
     delete data.logo;
@@ -14,9 +12,7 @@ export const registerCompany = async (data) => {
 
     const response = await axios.post(
       `${import.meta.env.VITE_REACT_APP_ServerLocation}/create-company`,
-      {
-        params: data,
-      }
+      data
     );
 
     if (response.status !== 200) {
@@ -53,12 +49,11 @@ export const getCompany = async (data) => {
 export const registerAdmin = async (data) => {
   try {
     // const { userName, email, password } = data;
+    console.log("Admin-data: ", data);
 
     const response = await axios.post(
       `${import.meta.env.VITE_REACT_APP_ServerLocation}/create-admin`,
-      {
-        params: data,
-      }
+      data
     );
 
     if (response.status !== 200) {

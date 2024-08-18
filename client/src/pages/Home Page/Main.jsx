@@ -44,7 +44,7 @@ export default function Main() {
   };
 
   const handleNext = () => {
-    console.log(companyDetails);
+    // console.log(companyDetails);
     navigate("/create-admin", { state: companyDetails });
   };
 
