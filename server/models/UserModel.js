@@ -48,6 +48,12 @@ const UserSchema = new Schema(
     aadhaar: {
       type: Number,
     },
+    subscription_type: {
+      type: String,
+    },
+    subscribed_on: {
+      type: String,
+    },
   },
   { timestamps: true }
 );

@@ -28,7 +28,6 @@ import Subscriptions from "../pages/Admin/pages/Subscriptions";
 import Broadcast from "../pages/Admin/pages/Broadcast";
 import Reports from "../pages/Admin/pages/Reports";
 import Settings from "../pages/Admin/pages/Settings";
-import EditCustomer from "../pages/Admin/pages/Customers/EditCustomer";
 import CreateUser from "../pages/Admin/pages/Customers/CreateUser";
 import AdminCreation from "../pages/Home Page/AdminCreation";
 import CompanyDetails from "../pages/Home Page/Main";
@@ -90,10 +89,6 @@ const router = createBrowserRouter([
       {
         path: "settings",
         element: <Settings />,
-      },
-      {
-        path: "edit-customer",
-        element: <EditCustomer />,
       },
       {
         path: "create-user",

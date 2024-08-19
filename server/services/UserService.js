@@ -7,6 +7,7 @@ const jwtSecret = process.env.JWT_TOKEN;
 
 // Importing Models
 const Model = require("../models/UserModel");
+const { default: mongoose } = require("mongoose");
 
 // Creating Admin
 const createAdmin = async (data) => {
@@ -40,16 +41,23 @@ const createUser = async (data) => {
 };
 
 const putUser = async (data) => {
+  const ObjId = new mongoose.Types.ObjectId(data._id);
+  delete data._id;
+  console.log(data);
   try {
-    //code for update user
+    const result = await Model.updateOne({ _id: ObjId }, data, {
+      runValidators: true,
+    });
   } catch (error) {
     throw error;
   }
 };
 
 const deleteUser = async (id) => {
+  const objId = new mongoose.Types.ObjectId(id);
   try {
-    const result = await Model.deleteOne({ _id: id });
+    const result = await Model.deleteOne({ _id: objId });
+    console.log(result);
     return result;
   } catch (error) {
     throw error;
@@ -69,7 +77,7 @@ const signup = async (data) => {
         name: name,
         email: email,
         password: password,
-        privilege: "user"
+        privilege: "user",
       });
 
       const authToken = jwt.sign(user._id.toString(), jwtSecret);
@@ -144,9 +152,7 @@ const getUser = async (_id) => {
       }
     });
 
-    return (user = await Model.findById(id).select([
-      "-password"
-    ]));
+    return (user = await Model.findById(id).select(["-password"]));
   } catch (error) {
     console.log("Error Occurred while Fetching Error:", error.message);
     throw error;

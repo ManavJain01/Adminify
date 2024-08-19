@@ -57,7 +57,7 @@ export const useUser = () => {
 
   const deleteUser = async (data) => {
     try {
-      const user = await deleteUserService(data._id);
+      const user = await deleteUserService(data);
       return user;
     } catch (error) {
       console.log("Error while deleting use", error);
@@ -126,10 +126,8 @@ export const useUser = () => {
   };
 
   const getAllUsers = async () => {
-    console.log("GetAllUsers");
     try {
       const response = await usersList(3);
-      console.log(response);
       return response.data;
     } catch (error) {
       console.log("Error while getAllUsers", error);

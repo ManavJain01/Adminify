@@ -34,7 +34,7 @@ const upload = multer({ storage: storage });
 // Accessing Express Packages
 const express = require("express");
 // const app = express();
-const { app, server } = require('./socket/socket');
+const { app, server } = require("./socket/socket");
 
 // middleware
 const cookieParser = require("cookie-parser");
@@ -44,7 +44,7 @@ const cors = require("cors");
 app.use(
   cors({
     origin: [process.env.ClientLocation],
-    methods: ["POST", "GET"],
+    methods: ["POST", "GET", "DELETE", "PUT"],
     credentials: true,
   })
 );

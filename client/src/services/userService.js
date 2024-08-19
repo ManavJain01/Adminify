@@ -110,11 +110,14 @@ export const updateUserService = async (data) => {
   }
 };
 
-export const deleteUserService = async (id) => {
+export const deleteUserService = async (data) => {
+  const id = data._id;
   try {
     const response = await axios.delete(
       `${import.meta.env.VITE_REACT_APP_ServerLocation}/user/delete-user`,
-      id
+      {
+        params: { id },
+      }
     );
     return response;
   } catch (error) {

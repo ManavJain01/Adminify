@@ -31,13 +31,14 @@ const putUserController = async (req, res) => {
     res.status(200).send(result);
   } catch (error) {
     console.log("Error: ", error.message);
-    res.status(404).send(result);
+    res.status(404).send(error);
   }
 };
 
 const deleteUserController = async (req, res) => {
+  const id = req.query;
   try {
-    const result = await service.deleteUser(req.body);
+    const result = await service.deleteUser(id);
     res.status(200).send(result);
   } catch (error) {
     console.log("Error: ", error.message);
@@ -128,7 +129,7 @@ const userLoginsController = async (req, res) => {
     console.log("Error: ", error.message);
     res.status(400).send(error.message);
   }
-}
+};
 
 // Exporting controllers
 module.exports = {
@@ -144,5 +145,5 @@ module.exports = {
   allUsersController,
   userListController,
   // Reports
-  userLoginsController
+  userLoginsController,
 };
