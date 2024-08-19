@@ -1,5 +1,5 @@
 // Importing routing
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 
 // Importing React Packages
 import { useEffect } from "react";
@@ -15,9 +15,13 @@ import Footer from "./components/Footer";
 import Sidebar from "./components/Sidebar";
 
 export default function Admin() {
+  // useNavigate
+  const navigate = useNavigate();
+
   // redux
   const companyDetails =
     useSelector((state) => state.company.companyDetails) || {};
+  const user = useSelector((state) => state.user.data);
 
   // Custom Hookes
   const { getCompanyDetails } = useRefresh();
@@ -26,6 +30,8 @@ export default function Admin() {
   useEffect(() => {
     const handleRefresh = async () => {
       await getCompanyDetails();
+
+      if(!localStorage.getItem("authToken")) navigate("/");
       await getUser();
     };
 
@@ -34,7 +40,7 @@ export default function Admin() {
 
   return (
     <div className="text-lg text-white bg-[#222] flex flex-col w-lvw min-h-lvh">
-      <Header companyDetails={companyDetails} />
+      <Header companyDetails={companyDetails} user={user} />
       <div className="relative flex-1 flex">
         <Sidebar />
         <div className="px-10 py-5 flex-1">

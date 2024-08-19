@@ -2,6 +2,7 @@
 const Message = require("../models/message.model");
 const Conversation = require("../models/conversation.model");
 
+const { getReceiverSocketId, io } = require('../socket/socket')
 const messages = async (userToChatId, senderId) => {
   try {
     const conversation = await Conversation.findOne({
@@ -38,10 +39,15 @@ const messageSent = async (message, receiverId, senderId) => {
         conversation.messages.push(newMessage._id);
       }
 
-      // SOCKET IO FUNCTIONALITY
-
+      
       // This will run in parallel
       await Promise.all([conversation.save(), newMessage.save()]);
+      
+      // SOCKET IO FUNCTIONALITY
+      const receiverSocketId = getReceiverSocketId(receiverId);
+      if(receiverSocketId){
+        io.to(receiverSocketId).emit("newMessage", newMessage);
+      }
 
       return newMessage;
     }

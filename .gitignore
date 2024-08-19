@@ -68,3 +68,6 @@ dist-ssr
 
 # Env Files
 .env
+
+# local files
+my notes

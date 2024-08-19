@@ -33,7 +33,8 @@ const upload = multer({ storage: storage });
 
 // Accessing Express Packages
 const express = require("express");
-const app = express();
+// const app = express();
+const { app, server } = require('./socket/socket');
 
 // middleware
 const cookieParser = require("cookie-parser");
@@ -66,6 +67,6 @@ app.use("/messages", MessageRoutes);
 mongoDB();
 
 // Starting the server
-app.listen(5000, () => {
+server.listen(5000, () => {
   console.log("Server is running on port 5000.");
 });

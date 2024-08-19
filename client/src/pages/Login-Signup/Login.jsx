@@ -174,14 +174,12 @@ export default function Login() {
               </div>
 
               {/* Login */}
-              <div className="flex gap-5 justify-end flex-wrap">
-                <button
-                  type="submit"
-                  className="text-white bg-green-600 w-fit px-5 py-2 rounded-lg"
-                >
-                  Login
-                </button>
-              </div>
+              <button
+                type="submit"
+                className="text-white bg-green-600 px-5 py-2 rounded-lg"
+              >
+                Login
+              </button>
             </form>
 
             {/* Signup */}

@@ -78,7 +78,9 @@ export default function Signup() {
 
     const user = await signup(data);
 
-    if (typeof user === "string") {
+    if (user === "success") {
+      navigate("/admin");
+    } else if (typeof user === "string") {
       setError(user);
       return;
     }
@@ -192,11 +194,9 @@ export default function Signup() {
             )}
 
             {/* Signup */}
-            <div className="flex gap-5 justify-end flex-wrap">
-              <button className="text-white bg-green-600 w-fit px-5 py-2 rounded-lg">
-                Signup
-              </button>
-            </div>
+            <button className="text-white bg-green-600 px-5 py-2 rounded-lg">
+              Signup
+            </button>
           </form>
 
           {/* Login */}

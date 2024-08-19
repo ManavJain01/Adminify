@@ -38,8 +38,7 @@ const signup = async (data) => {
         name: name,
         email: email,
         password: password,
-        company: company,
-        owner: owner,
+        privilege: "user"
       });
 
       const authToken = jwt.sign(user._id.toString(), jwtSecret);
@@ -115,11 +114,7 @@ const getUser = async (_id) => {
     });
 
     return (user = await Model.findById(id).select([
-      "name",
-      "email",
-      "company",
-      "owner",
-      "-_id",
+      "-password"
     ]));
   } catch (error) {
     console.log("Error Occurred while Fetching Error:", error.message);

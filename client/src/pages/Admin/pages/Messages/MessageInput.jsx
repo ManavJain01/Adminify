@@ -1,14 +1,31 @@
 // Importing React Icons
 import { BsSend } from "react-icons/bs";
+import { RiLoader4Fill } from "react-icons/ri";
 
 // Importing React Packages
 import { useState } from "react";
 
+// Importing Custom Hooks
+import { useChat } from "../../../../hooks/useChat"
+
 export default function MessageInput() {
+  // Custom Hooks
+  const { loading, sendMessage } = useChat();
+
   // useState
   const [showTyping, setShowTyping] = useState(false);
+  const [message, setMessage] = useState("");
+
+  // functions
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if(!message) return;
+    await sendMessage(message);
+    setMessage("");
+  }
+
   return (
-    <form className="relative flex flex-col px-4 my-3">
+    <form onSubmit={handleSubmit} className="relative flex flex-col px-4 my-3">
       <span
         className={`absolute right-0 ${
           showTyping ? "-top-7" : "top-0"
@@ -21,17 +38,23 @@ export default function MessageInput() {
         <input
           type="text"
           placeholder="Send a message"
-          onChange={() => setShowTyping(true)}
+          value={message}
+          onChange={(e) => {
+            setShowTyping(true)
+            setMessage(e.target.value)}}
           onBlur={() => setShowTyping(false)}
           className="border text-sm rounded-lg block w-full p-2.5 bg-gray-700 border-gray-600 text-white outline-none"
         />
 
-        <button
-          type="submit"
-          className="absolute inset-y-0 end-0 flex items-center pe-3"
-        >
-          <BsSend />
-        </button>
+        {loading
+          ?<RiLoader4Fill className="absolute inset-y-1 end-2 size-8 animate-spin" />
+          :<button
+            type="submit"
+            className="absolute inset-y-0 end-0 flex items-center pe-3"
+          >
+            <BsSend />
+          </button>
+        }
       </div>
     </form>
   );

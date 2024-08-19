@@ -13,8 +13,10 @@ import {
 import { Provider } from "react-redux";
 import { store } from "../Redux/Store/store";
 
+// Importing Socket io
+import { SocketContextProvider } from "../context/SocketContext";
+
 // Importing Local Components
-import HomePage from "../pages/Home Page/Main";
 import Login from "../pages/Login-Signup/Login";
 import Signup from "../pages/Login-Signup/Signup";
 import Admin from "../pages/Admin/Admin";
@@ -99,7 +101,9 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Provider store={store}>
-      <RouterProvider router={router} />
+      <SocketContextProvider>
+        <RouterProvider router={router} />
+      </SocketContextProvider>
     </Provider>
   </React.StrictMode>
 );
