@@ -8,10 +8,10 @@ const loginReports = async (userId, key, socketId, message) => {
         {},
         {
           $push: {
-            [`user_logins.${socketId}`]: {
+            [`user_logins.${userId === "undefined" ? "Unknown" : userId}`]: {
               key: key || 0,
               message: message,
-              userId: userId,
+              socketId: socketId,
               timestamp: new Date()
             }
           }
