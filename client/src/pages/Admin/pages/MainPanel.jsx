@@ -1,8 +1,10 @@
 // Importing React Icons
+import { FaUsers } from "react-icons/fa";
 import { AiOutlineProduct } from "react-icons/ai";
 import { MdSubscriptions } from "react-icons/md";
 import { FaTowerBroadcast } from "react-icons/fa6";
 import { TbReportSearch } from "react-icons/tb";
+import { LuMessagesSquare } from "react-icons/lu";
 import { CiSettings } from "react-icons/ci";
 
 // Importing React Packages
@@ -11,6 +13,7 @@ import { Link } from "react-router-dom";
 // Importing local files
 import Conversations from "./Messages/Conversations";
 import ShowCustomers from "./Customers/ShowCustomers";
+import ReportSidebar from "./Reports/Sidebar";
 
 export default function MainPanel() {
   return (
@@ -23,7 +26,7 @@ export default function MainPanel() {
             to="/admin/customers"
             className="text-center bg-blue-950 w-[35rem] h-[30rem] px-8 py-5 rounded-xl"
           >
-            <span>Customers</span>
+            <FaUsers className="mx-auto size-8" />
             <ShowCustomers flag={false} />
           </Link>
           <Link
@@ -47,9 +50,10 @@ export default function MainPanel() {
       <div className="flex flex-col gap-5">
         <Link
           to="/admin/reports"
-          className="text-center bg-blue-950 flex justify-center items-center w-[20rem] h-[20rem] px-8 py-5 rounded-xl"
+          className="text-center bg-blue-950 flex flex-col items-center gap-5 w-[20rem] h-[20rem] px-8 py-5 rounded-xl"
         >
-          <TbReportSearch className="size-20" />
+          <TbReportSearch className="size-8" />
+          <ReportSidebar />
         </Link>
         <Link
           to="/admin/broadcast"
@@ -61,7 +65,7 @@ export default function MainPanel() {
           to="/admin/messages"
           className="text-center bg-blue-950 flex flex-col gap-3 w-[20rem] h-[20rem] px-8 py-5 rounded-xl"
         >
-          <span>Messages</span>
+          <span><LuMessagesSquare className="mx-auto size-8" /></span>
           <Conversations />
         </Link>
         {/* Settings */}

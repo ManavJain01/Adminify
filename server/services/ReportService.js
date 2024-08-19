@@ -8,10 +8,11 @@ const loginReports = async (userId, key, socketId, message) => {
         {},
         {
           $push: {
-            [`user_logins.connections.${userId}`]: {
+            [`user_logins.${socketId}`]: {
               key: key || 0,
               message: message,
-              socketId: socketId
+              userId: userId,
+              timestamp: new Date()
             }
           }
         },
@@ -23,5 +24,15 @@ const loginReports = async (userId, key, socketId, message) => {
   }
 };
 
+const fetchLogins = async () => {
+  try{
+    const logins = await Model.find({}).select(['user_logins']);
 
-module.exports = { loginReports };
+    return logins;
+  } catch (error) {
+    console.error("Error Occurred while adding login reports:", error.message);
+  }
+};
+
+
+module.exports = { loginReports, fetchLogins };

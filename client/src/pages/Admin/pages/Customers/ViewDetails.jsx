@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import RemainingDays from "./RemainingDays";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const ViewDetails = () => {
   // const initialCustomer = {
@@ -141,12 +141,15 @@ const ViewDetails = () => {
               </button>
             </div>
           ) : (
-            <button
-              onClick={handleEditClick}
-              className="bg-blue-500 text-white px-4 py-2 rounded-lg"
-            >
-              Edit
-            </button>
+            <div className="flex gap-5 items-center justify-center">
+              <Link to="/admin/customers" className="bg-gray-500 hover:bg-gray-600 px-5 py-2 rounded-lg shadow-lg">Back</Link>
+              <button
+                onClick={handleEditClick}
+                className="bg-blue-500 text-white px-4 py-2 rounded-lg"
+              >
+                Edit
+              </button>
+            </div>
           )}
         </div>
       </div>

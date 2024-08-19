@@ -6,12 +6,18 @@ import NoChatSelected from "./NoChatSelected";
 // Importing Zustand
 import useConversation from '../../../../zustand/useConversation'
 
+// Importing Socket io
+import { useSocketContext } from "../../../../context/SocketContext";
+
 export default function MessageContainer() {
   // Variables
   let noChatSelected = true;
 
   // zustand
   const { selectedConversation, setSelectedConversation } = useConversation();
+  
+  // socket io
+  const { onlineUsers } = useSocketContext();
   
   if(selectedConversation) noChatSelected = false;
 
@@ -26,7 +32,7 @@ export default function MessageContainer() {
               <span className="label-text">To: </span>
               <span className="font-bold text-gray-900">{selectedConversation?.name}</span>
             </div>
-            <span className="text-sm opacity-50">Typing...</span>
+            <span className="text-sm opacity-50">{onlineUsers && "Typing..."}</span>
           </div>
 
           <Messages />

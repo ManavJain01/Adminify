@@ -17,7 +17,7 @@ const showCustomers = ({ flag = true }) => {
     getUsersData();
   }, []);
 
-  if (customers)
+  if (customers && flag)
     return (
       <table className="mt-10">
         <thead>
@@ -51,6 +51,28 @@ const showCustomers = ({ flag = true }) => {
         </tbody>
       </table>
     );
+  else if(customers && !flag)
+    return (
+    <table className="mt-10">
+      <thead>
+        <tr>
+          <th className="px-4 py-2 w-1/4 text-left text-white">User</th>
+          <th className="px-4 py-2 w-1/4 text-left text-white">Email Id</th>
+          <th className="px-4 py-2 w-1/4 text-left text-white">Privilege</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        {customers.map((customer) => (
+          <tr key={customer.email} className="hover:bg-sky-500">
+            <td className="px-4 py-2 text-left text-white">{customer.name}</td>
+            <td className="px-4 py-2 text-left text-white">{customer.email}</td>
+            <td className="px-4 py-2 text-left text-white">{customer.privilege}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  )
   else return <LoadingSpinner />;
 };
 

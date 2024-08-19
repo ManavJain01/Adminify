@@ -1,5 +1,6 @@
 // Importing Services
 const service = require("../services/UserService");
+const reportService = require("../services/ReportService");
 
 // Creating Admin
 const createAdminController = async (req, res) => {
@@ -118,6 +119,17 @@ const userListController = async (req, res) => {
   }
 };
 
+// Reports
+const userLoginsController = async (req, res) => {
+  try {
+    const result = await reportService.fetchLogins();
+    res.status(200).send(result);
+  } catch (error) {
+    console.log("Error: ", error.message);
+    res.status(400).send(error.message);
+  }
+}
+
 // Exporting controllers
 module.exports = {
   createAdminController,
@@ -131,4 +143,6 @@ module.exports = {
   userController,
   allUsersController,
   userListController,
+  // Reports
+  userLoginsController
 };
