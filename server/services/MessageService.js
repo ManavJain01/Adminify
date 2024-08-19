@@ -28,29 +28,29 @@ const messageSent = async (message, receiverId, senderId) => {
       conversation = await Conversation.create({
         participants: [senderId, receiverId],
       });
-
-      const newMessage = new Message({
-        senderId,
-        receiverId,
-        message,
-      });
-
-      if (newMessage) {
-        conversation.messages.push(newMessage._id);
-      }
-
-      
-      // This will run in parallel
-      await Promise.all([conversation.save(), newMessage.save()]);
-      
-      // SOCKET IO FUNCTIONALITY
-      const receiverSocketId = getReceiverSocketId(receiverId);
-      if(receiverSocketId){
-        io.to(receiverSocketId).emit("newMessage", newMessage);
-      }
-
-      return newMessage;
     }
+    
+    const newMessage = new Message({
+      senderId,
+      receiverId,
+      message,
+    });
+
+    if (newMessage) {
+      conversation.messages.push(newMessage._id);
+    }
+
+    
+    // This will run in parallel
+    await Promise.all([conversation.save(), newMessage.save()]);
+    
+    // SOCKET IO FUNCTIONALITY
+    const receiverSocketId = getReceiverSocketId(receiverId);
+    if(receiverSocketId){
+      io.to(receiverSocketId).emit("newMessage", newMessage);
+    }
+
+    return newMessage;
   } catch (error) {
     console.log("Error in messageSent: ", error.message);
     throw error;

@@ -3,20 +3,75 @@ import { BsSend } from "react-icons/bs";
 import { RiLoader4Fill } from "react-icons/ri";
 
 // Importing React Packages
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 // Importing Custom Hooks
 import { useChat } from "../../../../hooks/useChat"
+
+// Importing Socket Io
+import { useSocketContext } from "../../../../context/SocketContext";
+
+// Importing ZUstand
+import useConversation from "../../../../zustand/useConversation";
 
 export default function MessageInput() {
   // Custom Hooks
   const { loading, sendMessage } = useChat();
 
+  // socket io
+  const { socket } = useSocketContext();
+
+  // Zustand
+  const { selectedConversation } = useConversation();
+
   // useState
   const [showTyping, setShowTyping] = useState(false);
   const [message, setMessage] = useState("");
 
+  // useEffect
+  useEffect(() => {
+    if (!socket || !selectedConversation) return;
+
+    const handleTyping = () => {      
+      socket.emit("typing", {
+        conversationId: selectedConversation._id,
+        userId: socket.auth?.userId // sender's user ID
+      });
+    };
+
+    const handleStopTyping = () => {
+      socket.emit("stopTyping", {
+        conversationId: selectedConversation._id,
+        userId: socket.auth?.userId // sender's user ID
+      });
+    };
+
+    window.addEventListener("input", handleTyping);
+
+    return () => {
+      // window.removeEventListener("input", debouncedHandleTyping);
+      window.removeEventListener("input", handleTyping);
+      handleStopTyping();
+    };
+  }, [socket, selectedConversation]);
+
   // functions
+  const handleChange = async (e) => {
+    setShowTyping(true);
+    setMessage(e.target.value);
+  }
+
+  const handleBlur = () => {
+    setShowTyping(false);
+    if (socket && selectedConversation) {
+      socket.emit("stopTyping", {
+        conversationId: selectedConversation._id,
+        userId: socket.auth?.userId, // sender's user ID
+      });
+    }
+  };
+
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if(!message) return;
@@ -39,10 +94,8 @@ export default function MessageInput() {
           type="text"
           placeholder="Send a message"
           value={message}
-          onChange={(e) => {
-            setShowTyping(true)
-            setMessage(e.target.value)}}
-          onBlur={() => setShowTyping(false)}
+          onChange={(e) => handleChange(e)}
+          onBlur={() => handleBlur()}
           className="border text-sm rounded-lg block w-full p-2.5 bg-gray-700 border-gray-600 text-white outline-none"
         />
 

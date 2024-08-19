@@ -67,6 +67,6 @@ app.use("/messages", MessageRoutes);
 mongoDB();
 
 // Starting the server
-server.listen(5000, () => {
+server.listen(5000, '0.0.0.0', () => {
   console.log("Server is running on port 5000.");
 });

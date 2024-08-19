@@ -1,3 +1,6 @@
+// Importing React Packages
+import { useState, useEffect } from "react";
+
 // Importing local files
 import MessageInput from "./MessageInput";
 import Messages from "./Messages";
@@ -17,10 +20,31 @@ export default function MessageContainer() {
   const { selectedConversation, setSelectedConversation } = useConversation();
   
   // socket io
-  const { onlineUsers } = useSocketContext();
+  const { socket, typingStatus} = useSocketContext();
   
-  if(selectedConversation) noChatSelected = false;
+  // useState
+  const [typingIndicator, setTypingIndicator] = useState("");
 
+  // useEffect
+  useEffect(() => {
+		// cleanup function (unmounts)
+		return () => setSelectedConversation(null);
+	}, [setSelectedConversation]);
+
+  useEffect(() => {
+    if (!socket || !selectedConversation) return;
+    
+    const typingUserId = typingStatus[selectedConversation._id];
+    
+    if (typingUserId) {
+      // Show typing indicator only if the typing user is not the current user
+      setTypingIndicator(typingUserId !== socket?.query?.userId ? "typing..." : "");
+    } else {
+      setTypingIndicator("");
+    }
+  }, [socket, selectedConversation, typingStatus]);
+
+  if(selectedConversation) noChatSelected = false;
   return (
     <div className="w-full flex flex-col">
       {noChatSelected
@@ -32,7 +56,9 @@ export default function MessageContainer() {
               <span className="label-text">To: </span>
               <span className="font-bold text-gray-900">{selectedConversation?.name}</span>
             </div>
-            <span className="text-sm opacity-50">{onlineUsers && "Typing..."}</span>
+            {typingIndicator
+              &&<span className="text-sm opacity-50">{typingIndicator}</span>
+            }
           </div>
 
           <Messages />

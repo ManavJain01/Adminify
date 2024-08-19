@@ -20,12 +20,14 @@ export const SocketContextProvider = ({ children }) => {
   // useState
   const [socket, setSocket] = useState(null);
   const [onlineUsers, setOnlineUsers] = useState(null);
+  const [typingStatus, setTypingStatus] = useState({});
 
   // useEffect
   useEffect(() => {
     if(user){
       const socket = io(import.meta.env.VITE_REACT_APP_ServerLocation, {
-        query:{
+        auth:{
+          query: user?._id,
           userId: user?._id
         }
       });
@@ -36,6 +38,21 @@ export const SocketContextProvider = ({ children }) => {
         setOnlineUsers(users);
       })
 
+      socket.on("typing", (data) => {     
+        setTypingStatus(prev => ({
+          ...prev,
+          [data.userId]: data.conversationId 
+        }));
+      });
+
+      socket.on("stopTyping", (data) => {
+        setTypingStatus(prev => {
+          const newStatus = { ...prev };          
+          delete newStatus[data.userId];
+          return newStatus;
+        });
+      });
+
       return () => socket.close();
     }else{
       if(socket){
@@ -44,5 +61,5 @@ export const SocketContextProvider = ({ children }) => {
       }
     }
   }, [user])
-  return <SocketContext.Provider value={{socket, onlineUsers}}>{children}</SocketContext.Provider>
+  return <SocketContext.Provider value={{socket, onlineUsers, typingStatus}}>{children}</SocketContext.Provider>
 }

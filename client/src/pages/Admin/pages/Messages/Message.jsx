@@ -22,10 +22,13 @@ export default function Message({ message }) {
   const [more, setMore] = useState(false);
   const [sender, setSender] = useState(false);
 
-  if(user?._id === message.senderId) setSender(true);
   const formattedTime = extractTime(message.createdAt);
-
+  
   // useEffect
+  useEffect(() => {
+    if(user?._id === message.senderId) setSender(true);
+  }, [])
+
   useEffect(() => {
     if (messageRef.current) {
       const contentHeight = messageRef.current.scrollHeight;
@@ -63,7 +66,7 @@ export default function Message({ message }) {
                 </button>
               )}
             
-              <span className="opacity-60 text-xs">{formattedTime}</span>
+              <span className="opacity-60 text-xs">{formattedTime[0]}</span>
             </div>
           </section>
 
@@ -102,7 +105,7 @@ export default function Message({ message }) {
                   {more ? <span>less</span> : <span>more</span>}
                 </button>
               )}
-              <span className="opacity-60 text-xs">{formattedTime}</span>
+              <span className="opacity-60 text-xs">{formattedTime[0]}</span>
             </div>
 
           </section>

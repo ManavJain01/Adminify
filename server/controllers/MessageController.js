@@ -16,10 +16,10 @@ const getMessages = async (req, res) => {
 
 const sendMessage = async (req, res) => {
   try {
-    // const { message } = req.body;
     const { id } = req.params;
     const senderId = req.user._id;
-    const message = "hi" 
+    const { message } = req.body 
+    
 
     const result = await service.messageSent(message, id, senderId);
     res.status(200).send(result);

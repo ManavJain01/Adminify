@@ -26,12 +26,12 @@ export const useChat = () => {
   // useEffect
   useEffect(() => {
     const getMessages = async () => {
-      try {
+      try { 
         const id = localStorage.getItem('authToken');
         if(id){
           setLoading(true);
           const res = await allMessageService(id, selectedConversation._id);
-          // setMessages(res);
+          setMessages(res);
         }else{
           throw new Error('User Not Logged in.');
         }
@@ -48,16 +48,19 @@ export const useChat = () => {
 
   useEffect(() => {
     // listenMessages
-    socket?.on("newMessage", (newMessage) => {
-      newMessage.shouldShake = true;const sound = new Audio(notificationSound);
+    const listenMessages = (newMessage) => {
+      newMessage.shouldShake = true;
+      const sound = new Audio(notificationSound);
       sound.play();
       setMessages([...messages, newMessage]);
-    })
+    }
 
-    return () => socket?.off("newMessage");
+    socket?.on("newMessage", listenMessages)
+
+    return () => socket?.off("newMessage", listenMessages);
   }, [socket, setMessages, messages])
 
-  const getConversations = async (data) => {
+  const getConversations = async () => {
     try {
       const id = localStorage.getItem('authToken');
       if(id){
@@ -81,7 +84,7 @@ export const useChat = () => {
       if(id){
         setLoading(true);
         const res = await messageSendService(id, selectedConversation._id, message);
-        return res;
+        setMessages([...messages, res]);
       }else{
         throw new Error('User Not Logged in.');
       }

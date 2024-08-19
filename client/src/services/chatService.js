@@ -24,7 +24,7 @@ export const messageSendService = async (userId, id, message) => {
   try {
     const response = await axios.post(
       `${import.meta.env.VITE_REACT_APP_ServerLocation}/messages/send/${id}`,
-      message,
+      {message},
       { params: { id: userId } }
     );
 
