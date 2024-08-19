@@ -12,6 +12,11 @@ import {
   UserSearch,
   UserResetPassword,
   fetchUser,
+  newAdmin,
+  newUser,
+  usersList,
+  updateUserService,
+  deleteUserService,
 } from "../services/userService";
 
 export const useUser = () => {
@@ -28,6 +33,34 @@ export const useUser = () => {
       return user;
     } catch (error) {
       console.error("Error creating Admin in UseUser Hook: ", error.message);
+    }
+  };
+
+  const createUser = async (data) => {
+    try {
+      const user = await newUser(data);
+
+      return user;
+    } catch (error) {
+      console.error("Error creating Admin in UseUser Hook: ", error.message);
+    }
+  };
+
+  const updateUser = async (data) => {
+    try {
+      const user = await updateUserService(data);
+      return user;
+    } catch (error) {
+      console.log("Error during Updating Details!!", error);
+    }
+  };
+
+  const deleteUser = async (data) => {
+    try {
+      const user = await deleteUserService(data._id);
+      return user;
+    } catch (error) {
+      console.log("Error while deleting use", error);
     }
   };
 
@@ -92,6 +125,17 @@ export const useUser = () => {
     }
   };
 
+  const getAllUsers = async () => {
+    console.log("GetAllUsers");
+    try {
+      const response = await usersList(3);
+      console.log(response);
+      return response.data;
+    } catch (error) {
+      console.log("Error while getAllUsers", error);
+    }
+  };
+
   const getUser = async () => {
     try {
       const id = localStorage.getItem("authToken");
@@ -110,8 +154,12 @@ export const useUser = () => {
 
   return {
     createAdmin,
+    createUser,
+    updateUser,
+    deleteUser,
     signup,
     login,
+    getAllUsers,
     searchUser,
     resetPassword,
     logout,

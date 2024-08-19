@@ -1,36 +1,23 @@
+import { useEffect, useState } from "react";
 import { FaUserEdit } from "react-icons/fa";
 import { Link, NavLink } from "react-router-dom";
+import { useUser } from "../../../../hooks/useUser";
+import LoadingSpinner from "../../../../components/common/LoadingSpinner";
+import { FaUserGear } from "react-icons/fa6";
+const showCustomers = ({ flag = true }) => {
+  //
+  const [customers, setCustomers] = useState();
+  const { getAllUsers } = useUser();
 
-export default function showCustomers({ flag = true }) {
-  const customers = [
-    {
-      name: "John Doe",
-      username: "johndoe",
-      email: "John@gmail.com",
-      joid_date: "2023-02-01",
-      birthday: "2001-02-04",
-      privilege: "Admin",
-      payment: "200",
-      phone: "7544997888",
-      gender: "male",
-      password: "1234",
-    },
-    {
-      name: "pankaj kumar",
-      username: "pankajkumar",
-      email: "pankaj@gmail.com",
-      joid_date: "2023-02-01",
-      birthday: "2001-02-04",
-      last_payment_date: "2002-03-09",
-      privilege: "Admin",
-      payment: "200",
-      phone: "7544997888",
-      gender: "male",
-      password: "45678",
-    },
-  ];
+  useEffect(() => {
+    async function getUsersData() {
+      const fullList = await getAllUsers();
+      setCustomers(fullList);
+    }
+    getUsersData();
+  }, []);
 
-  if (flag)
+  if (customers)
     return (
       <table className="mt-10">
         <thead>
@@ -42,7 +29,7 @@ export default function showCustomers({ flag = true }) {
             </th>
             <th className="px-4 py-2 w-1/4 text-left text-white">Privilege</th>
             <th className="px-4 py-2 w-auto text-left text-white">Payment</th>
-            <th className="px-4 py-2 w-1/4 text-left text-white">Edit</th>
+            <th className="px-4 py-2 w-1/4 text-left text-white">View/Edit</th>
           </tr>
         </thead>
 
@@ -51,12 +38,12 @@ export default function showCustomers({ flag = true }) {
             <tr key={customer.email} className="hover:bg-blue-900">
               <td className="px-4 py-2 text-white">{customer.name}</td>
               <td className="px-4 py-2 text-white">{customer.email}</td>
-              <td className="px-4 py-2 text-white">{customer.joid_date}</td>
+              <td className="px-4 py-2 text-white">{customer.join_date}</td>
               <td className="px-4 py-2 text-white">{customer.privilege}</td>
               <td className="px-4 py-2 text-white">₹{customer.payment}</td>
-              <td className="px-4 py-2 text-white">
-                <Link to="../edit-customer" state={customer}>
-                  <FaUserEdit />
+              <td className="flex px-4 py-2 text-white mx-auto">
+                <Link to="../view-details" state={customer}>
+                  <FaUserGear />
                 </Link>
               </td>
             </tr>
@@ -64,34 +51,7 @@ export default function showCustomers({ flag = true }) {
         </tbody>
       </table>
     );
-  else
-    return (
-      <table className="mt-10 w-full">
-        <thead>
-          <tr>
-            <th className="px-4 py-2 w-1/3 text-left text-white">User</th>
-            <th className="px-4 py-2 w-1/3 text-left text-white">
-              Joined Date
-            </th>
-            <th className="px-4 py-2 w-1/3 text-left text-white">Privilege</th>
-          </tr>
-        </thead>
+  else return <LoadingSpinner />;
+};
 
-        <tbody>
-          {customers.map((customer) => (
-            <tr key={customer.email} className="hover:bg-blue-900">
-              <td className="px-4 py-2 text-left text-white">
-                {customer.name}
-              </td>
-              <td className="px-4 py-2 text-left text-white">
-                {customer.joid_date}
-              </td>
-              <td className="px-4 py-2 text-left text-white">
-                {customer.privilege}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    );
-}
+export default showCustomers;

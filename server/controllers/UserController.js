@@ -12,6 +12,38 @@ const createAdminController = async (req, res) => {
   }
 };
 
+// Creating User
+const createUserController = async (req, res) => {
+  try {
+    const result = await service.createUser(req.body);
+    res.status(200).send(result);
+  } catch (error) {
+    console.log("Error: ", error.message);
+    res.status(400).send(error.message);
+  }
+};
+
+//Update User
+const putUserController = async (req, res) => {
+  try {
+    const result = await service.putUser(req.body);
+    res.status(200).send(result);
+  } catch (error) {
+    console.log("Error: ", error.message);
+    res.status(404).send(result);
+  }
+};
+
+const deleteUserController = async (req, res) => {
+  try {
+    const result = await service.deleteUser(req.body);
+    res.status(200).send(result);
+  } catch (error) {
+    console.log("Error: ", error.message);
+    res.status(204).send(error);
+  }
+};
+
 // Signup
 const signupController = async (req, res) => {
   try {
@@ -76,13 +108,27 @@ const allUsersController = async (req, res) => {
   }
 };
 
+const userListController = async (req, res) => {
+  try {
+    const result = await service.userList();
+    res.status(200).send(result);
+  } catch (error) {
+    console.log("Error: ", error.message);
+    res.status(400).send(error.message);
+  }
+};
+
 // Exporting controllers
 module.exports = {
   createAdminController,
+  createUserController,
+  putUserController,
+  deleteUserController,
   signupController,
   loginController,
   searchUserController,
   resetController,
   userController,
   allUsersController,
+  userListController,
 };

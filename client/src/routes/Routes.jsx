@@ -32,6 +32,7 @@ import EditCustomer from "../pages/Admin/pages/Customers/EditCustomer";
 import CreateUser from "../pages/Admin/pages/Customers/CreateUser";
 import AdminCreation from "../pages/Home Page/AdminCreation";
 import CompanyDetails from "../pages/Home Page/Main";
+import ViewDetails from "../pages/Admin/pages/Customers/ViewDetails";
 
 const router = createBrowserRouter([
   {
@@ -61,6 +62,10 @@ const router = createBrowserRouter([
       {
         path: "customers",
         element: <Customers />,
+      },
+      {
+        path: "view-details",
+        element: <ViewDetails />,
       },
       {
         path: "messages",

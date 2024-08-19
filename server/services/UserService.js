@@ -25,6 +25,37 @@ const createAdmin = async (data) => {
   }
 };
 
+// Creating Admin
+const createUser = async (data) => {
+  console.log(data);
+  try {
+    const newUser = await Model.create(data);
+    console.log(newUser);
+
+    const authToken = jwt.sign(newUser._id.toString(), jwtSecret);
+    return { authToken: authToken };
+  } catch (error) {
+    throw error;
+  }
+};
+
+const putUser = async (data) => {
+  try {
+    //code for update user
+  } catch (error) {
+    throw error;
+  }
+};
+
+const deleteUser = async (id) => {
+  try {
+    const result = await Model.deleteOne({ _id: id });
+    return result;
+  } catch (error) {
+    throw error;
+  }
+};
+
 // SignUp
 const signup = async (data) => {
   try {
@@ -135,8 +166,22 @@ const allUsers = async (loggedInUserId) => {
   }
 };
 
+const userList = async () => {
+  try {
+    const userlist = await Model.find();
+    return userlist;
+  } catch (error) {
+    console.error("Error Occurred while Fetching All Users:", error.message);
+    throw error;
+  }
+};
+
 module.exports = {
   createAdmin,
+  createUser,
+  deleteUser,
+  putUser,
+  userList,
   signup,
   login,
   userSearch,
