@@ -1,11 +1,12 @@
 import React, { useState } from "react";
 import RemainingDays from "./RemainingDays";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useUser } from "../../../../hooks/useUser";
 
 const ViewDetails = () => {
   const location = useLocation();
   const initialCustomer = location.state || {};
+  const navigate = useNavigate();
   // console.log(initialCustomer);
 
   const [customer, setCustomer] = useState(initialCustomer);
@@ -30,8 +31,7 @@ const ViewDetails = () => {
   const handleDeleteClick = () => {
     // Implement delete logic if needed
     deleteUser(customer);
-
-    setIsEditing(false);
+    navigate("../customers");
   };
 
   const handleChange = (e) => {
@@ -43,7 +43,7 @@ const ViewDetails = () => {
   };
 
   return (
-    <div className="bg-blue-950 rounded-xl">
+    <div className="bg-blue rounded-xl">
       <div className="bg-blue-950 max-w-4xl mx-auto text-white rounded-lg shadow-lg p-4">
         <div className="flex flex-col md:flex-row justify-between items-start mb-6">
           <div className="flex-1 mt-10">
@@ -52,10 +52,7 @@ const ViewDetails = () => {
           </div>
           {!isEditing && (
             <div className="flex-shrink-0 mt-4 md:mt-0">
-              <RemainingDays
-                subscriptionType={"Pro"}
-                subscribedOn={"2024-05-01"}
-              />
+              <RemainingDays subscription={customer.subscription} />
             </div>
           )}
         </div>
@@ -77,8 +74,6 @@ const ViewDetails = () => {
             { label: "Join Date", key: "join_date" },
             { label: "Payment", key: "payment" },
             { label: "Aadhaar", key: "aadhaar" },
-            { label: "Subscription Type", key: "subscription_type" },
-            { label: "Subscribed On", key: "subscribed_on" },
             { label: "Password", key: "password" },
           ].map((field, index) => (
             <div key={index} className="p-2">
@@ -88,9 +83,7 @@ const ViewDetails = () => {
               {isEditing ? (
                 <input
                   type={
-                    field.key === "birthday" ||
-                    field.key === "joinDate" ||
-                    field.key === "subscribed_on"
+                    field.key === "birthday" || field.key === "joinDate"
                       ? "date"
                       : "text"
                   }

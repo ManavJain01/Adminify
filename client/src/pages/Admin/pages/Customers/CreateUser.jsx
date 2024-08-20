@@ -1,5 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { useUser } from "../../../../hooks/useUser";
+import moment from "moment";
 
 const CreateUser = () => {
   const navigate = useNavigate();
@@ -11,11 +12,37 @@ const CreateUser = () => {
     customer = { ...customer, [event.target.name]: event.target.value };
   };
 
+  const setSubscriptionValues = () => {
+    //subscription values
+    const subscription = {};
+    const name = customer.subscription;
+    delete customer.subscription;
+    const curDate = moment().format("DD/MM/YYYY");
+
+    switch (name) {
+      case "Starter":
+        subscription.duration = 3;
+        break;
+      case "Power":
+        subscription.duration = 6;
+        break;
+      case "Elite":
+        subscription.duration = 12;
+        break;
+      default:
+        subscription.duration = 0;
+    }
+    subscription.name = name;
+    subscription.date = curDate;
+
+    customer.subscription = subscription;
+    customer.join_date = curDate;
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    //check if entered email is already exist
+    setSubscriptionValues();
 
-    //check if username is available or not
     console.log(customer);
     createUser(customer);
 
@@ -127,13 +154,20 @@ const CreateUser = () => {
           </div>
 
           <div className="flex flex-col">
-            <label className="mb-2 font-semibold text-white">Join Date</label>
-            <input
-              type="date"
-              name="join_date"
+            <label className="mb-2 font-semibold text-white">
+              Subscription
+            </label>
+            <select
               className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+              name="subscription"
               onChange={handleChange}
-            />
+              required
+            >
+              <option value="None">Subscription Type</option>
+              <option value="Starter">Starter (3 months)</option>
+              <option value="Power">Power (6 months)</option>
+              <option value="Elite">Elite (12 months)</option>
+            </select>
           </div>
 
           <div className="flex flex-col">
