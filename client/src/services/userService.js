@@ -40,17 +40,9 @@ export const newUser = async (data) => {
 // Signup
 export const signup = async (data) => {
   try {
-    const { userName, email, password, company, owner } = data;
-
     const response = await axios.post(
       `${import.meta.env.VITE_REACT_APP_ServerLocation}/user/signup`,
-      {
-        name: userName,
-        email: email,
-        password: password,
-        company: company,
-        owner: owner,
-      }
+      data
     );
 
     if (response.status !== 200) {

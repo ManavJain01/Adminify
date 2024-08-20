@@ -87,7 +87,7 @@ export default function Login() {
     <div className="text-lg text-white bg-[#222] flex justify-center items-center w-lvw min-h-lvh p-5">
       <div
         id="card-login"
-        className="relative bg-[#2d2d2d] w-[30rem] h-[30rem] px-8 py-5 rounded-lg shadow-lg
+        className="relative bg-[#2d2d2d] w-[30rem] min-h-[30rem] px-8 py-5 rounded-lg shadow-lg
           before:absolute before:top-[--y] before:left-[--x] before:content-[''] before:opacity-0 hover:before:opacity-100 before:rounded-full
           overflow-hidden"
       >
@@ -99,16 +99,13 @@ export default function Login() {
             <div className="flex flex-col items-center gap-5">
               <div>
                 {companyDetails.logo ? (
-                  ""
+                  <img src={companyDetails.logo} alt="logo" className="w-32 h-32 rounded-full" />
                 ) : (
                   <CiUser className="size-16 text-white" />
                 )}
               </div>
 
-              <div className="text-white flex justify-between gap-5 flex-wrap w-full">
-                <span>{companyDetails.company || "Company Name"}</span>
-                <span>{companyDetails.owner || "Owner Name"}</span>
-              </div>
+              <span className="text-3xl tracking-widest font-semibold text-white">{companyDetails.company || "Company Name"}</span>
             </div>
 
             <form
@@ -196,6 +193,8 @@ export default function Login() {
                 Create A New Account
               </Link>
             </section>
+
+            <span className="text-center text-2xl text-white opacity-50">Company Owner - {companyDetails.owner || "Owner Name"}</span>
           </div>
         )}
       </div>

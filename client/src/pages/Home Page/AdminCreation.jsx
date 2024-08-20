@@ -110,8 +110,7 @@ export default function AdminCreation() {
           <div className="flex flex-col items-center gap-5">
             <div>
               {companyDetails.logo ? (
-                // <img src={URL.createObjectURL(companyDetails.logo)} className="brand-logo" />
-                <div>hi</div>
+                <img src={URL.createObjectURL(companyDetails.logo)} className="brand-logo" />
               ) : (
                 <CiUser className="size-16 text-white" />
               )}

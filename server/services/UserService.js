@@ -67,14 +67,15 @@ const deleteUser = async (id) => {
 // SignUp
 const signup = async (data) => {
   try {
-    const { name, email, password, company, owner } = data;
+    const { userName, fullName, email, password } = data;
     let user = await Model.findOne({
-      $or: [{ name }, { email }],
+      $or: [{ userName }, { email }],
     });
 
     if (user === null) {
       user = await Model.create({
-        name: name,
+        name: fullName,
+        userName: userName,
         email: email,
         password: password,
         privilege: "user",

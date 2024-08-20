@@ -163,8 +163,7 @@ export default function Main() {
             </label>
 
             {companyDetails.logo && (
-              // <img src={URL.createObjectURL(companyDetails.logo)} className="w-[100px] h-[100px] mx-auto mt-[10px] rounded-full" />
-              <div></div>
+              <img src={URL.createObjectURL(companyDetails.logo)} className="w-[100px] h-[100px] mx-auto mt-[10px] rounded-full" />
             )}
           </section>
 
