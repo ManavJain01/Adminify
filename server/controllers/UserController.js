@@ -16,7 +16,7 @@ const createAdminController = async (req, res) => {
 // Creating User
 const createUserController = async (req, res) => {
   try {
-    const result = await service.createUser(req.body);
+    const result = await service.createUser(req.body, req.file);
     res.status(200).send(result);
   } catch (error) {
     console.log("Error: ", error.message);
@@ -27,7 +27,7 @@ const createUserController = async (req, res) => {
 //Update User
 const putUserController = async (req, res) => {
   try {
-    const result = await service.putUser(req.body);
+    const result = await service.putUser(req.body, req.file);
     res.status(200).send(result);
   } catch (error) {
     console.log("Error: ", error.message);

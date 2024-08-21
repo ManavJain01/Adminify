@@ -25,12 +25,12 @@ const getReceiverSocketId = (receiverId) => {
 
 const userSocketMap = {};
 
-io.on('connection', (socket) => {
-  const userId = socket.handshake.query.userId;
-  
+io.on('connection', async (socket) => {
+  const userId = socket.handshake.auth.userId;
+
   if (userId !== "undefined") {
     userSocketMap[userId] = socket.id;
-    loginReports(userId, userSocketMap[userId], socket.id, "connected");
+    await loginReports(userId, userSocketMap[userId], socket.id, "connected");
   }
 
   io.emit("getOnlineUsers", Object.keys(userSocketMap));
@@ -43,8 +43,8 @@ io.on('connection', (socket) => {
     socket.broadcast.emit("stopTyping", data);
   });
 
-  socket.on("disconnect", () => {
-    loginReports(userId, userSocketMap[userId], socket.id, "disconnected");
+  socket.on("disconnect", async () => {
+    await loginReports(userId, userSocketMap[userId], socket.id, "disconnected");
     delete userSocketMap[userId];
     io.emit("getOnlineUsers", Object.keys(userSocketMap));
   });

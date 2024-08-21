@@ -28,10 +28,8 @@ const setCompanyDetails = async (data, logo) => {
 
     const { userName, email, password } = data;
     const { company, owner } = data;
-    console.log("logo:", logo);
 
     const result = await cloudinary.uploader.upload(logo.path);
-    result.secure_url;    
 
     // Creating the company
     await Model.create({
