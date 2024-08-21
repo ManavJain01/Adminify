@@ -58,13 +58,20 @@ export default function AdminCreation() {
     const formData = new FormData(e.target);
 
     // Validation
+    const firstName = formData.get("userName");
+    const lastName = formData.get("userName");
     const userName = formData.get("userName");
     const email = formData.get("email");
     const password = formData.get("password");
     const confirmPass = formData.get("confirmPass");
 
-    if (!userName || !email || !password || !confirmPass) {
+    if (!firstName || !lastName || !userName || !email || !password || !confirmPass) {
       setError("All fields are required.");
+      return;
+    }
+
+    if(userName.includes(" ")){
+      setError("No Spaces Allowed in userName");
       return;
     }
 
@@ -79,12 +86,13 @@ export default function AdminCreation() {
     if (companyDetails.logo) {
       formData.append("logo", companyDetails.logo); // Assuming logo is a File object
     }
+    const fullName = firstName + ' ' + lastName;
+    formData.append("fullName", fullName || "");
 
     // Remove the confirmPass field from FormData
     formData.delete("confirmPass");
 
     const user = await createCompany(formData);
-
     if (user === "already exists") {
       setError("User already exist!!!");
       return;
@@ -128,6 +136,39 @@ export default function AdminCreation() {
             onSubmit={(e) => handleSubmit(e)}
             className="relative flex flex-col gap-8"
           >
+            <div  className="flex gap-5">
+              <section className="relative">
+                <input
+                  type="text"
+                  name="firstName"
+                  id="firstName"
+                  required
+                  className="peer w-full px-5 py-2 rounded-full outline-none"
+                />
+                <label
+                  htmlFor="firstName"
+                  className="absolute top-2 left-5 peer-focus:-top-4 peer-focus:left-4 peer-focus:backdrop-blur-sm peer-focus:rounded-full peer-valid:-top-4 peer-valid:left-4 peer-valid:backdrop-blur-sm peer-valid:rounded-full duration-700 cursor-pointer"
+                >
+                  First Name
+                </label>
+              </section>
+
+              <section className="relative">
+                <input
+                  type="text"
+                  name="lastName"
+                  id="lastName"
+                  required
+                  className="peer w-full px-5 py-2 rounded-full outline-none"
+                />
+                <label
+                  htmlFor="lastName"
+                  className="absolute top-2 left-5 peer-focus:-top-4 peer-focus:left-4 peer-focus:backdrop-blur-sm peer-focus:rounded-full peer-valid:-top-4 peer-valid:left-4 peer-valid:backdrop-blur-sm peer-valid:rounded-full duration-700 cursor-pointer"
+                >
+                  Last Name
+                </label>
+              </section>
+            </div>
             <section className="relative">
               <input
                 type="text"

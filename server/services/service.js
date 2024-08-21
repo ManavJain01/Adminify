@@ -26,7 +26,7 @@ const setCompanyDetails = async (data, logo) => {
       return res.status(400).json({ message: "Logo is required" });
     }
 
-    const { userName, email, password } = data;
+    const { fullName, userName, email, password } = data;
     const { company, owner } = data;
 
     const result = await cloudinary.uploader.upload(logo.path);
@@ -48,7 +48,7 @@ const setCompanyDetails = async (data, logo) => {
     });
 
     // Creating Admin
-    return await UserService.createAdmin({ userName, email, password });
+    return await UserService.createAdmin({ fullName, userName, email, password });
   } catch (error) {
     throw error;
   }

@@ -16,7 +16,8 @@ const { default: mongoose } = require("mongoose");
 const createAdmin = async (data) => {
   try {
     const newAdmin = await Model.create({
-      name: data.userName,
+      name: data.fullName,
+      username: data.userName,
       email: data.email,
       password: data.password,
       privilege: "admin",
