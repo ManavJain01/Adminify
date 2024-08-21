@@ -32,6 +32,9 @@ import CreateUser from "../pages/Admin/pages/Customers/CreateUser";
 import AdminCreation from "../pages/Home Page/AdminCreation";
 import CompanyDetails from "../pages/Home Page/Main";
 import ViewDetails from "../pages/Admin/pages/Customers/ViewDetails";
+// Company
+import ContactUs from "../pages/company/ContactUs";
+import AboutUs from "../pages/company/AboutUs";
 
 const router = createBrowserRouter([
   {
@@ -49,6 +52,14 @@ const router = createBrowserRouter([
   {
     path: "/create-admin",
     element: <AdminCreation />,
+  },
+  {
+    path: "contact-us",
+    element: <ContactUs />,
+  },
+  {
+    path: "about-us",
+    element: <AboutUs />,
   },
   {
     path: "/admin",
@@ -93,7 +104,7 @@ const router = createBrowserRouter([
       {
         path: "create-user",
         element: <CreateUser />,
-      },
+      }
     ],
   },
 ]);

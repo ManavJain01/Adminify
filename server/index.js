@@ -60,7 +60,7 @@ const mongoDB = require("./db/db");
 
 // middleware or to set router
 app.use("/", upload.single("logo"), routes);
-app.use("/user", UserRoutes);
+app.use("/user", upload.single("users"), UserRoutes);
 app.use("/messages", MessageRoutes);
 
 // Connecting MongoDB Server

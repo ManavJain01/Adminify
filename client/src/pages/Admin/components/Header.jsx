@@ -41,13 +41,13 @@ export default function Header({ companyDetails, user = {} }) {
           </Link>
         </li>
         <li className="hover:underline">
-          <Link className="relative group flex flex-col gap-1 items-center">
+          <Link to="/about-us" className="relative group flex flex-col gap-1 items-center">
             <FcAbout className="size-8" />
             <span className="absolute -bottom-8 text-sm whitespace-nowrap hidden group-hover:flex">About Us</span>
           </Link>
         </li>
         <li className="hover:underline">
-          <Link className="relative group flex flex-col gap-1 items-center">
+          <Link to="/contact-us" className="relative group flex flex-col gap-1 items-center">
             <MdOutlinePermPhoneMsg className="size-8" />
             <span className="absolute -bottom-8 text-sm whitespace-nowrap hidden group-hover:flex">Contact Us</span>
           </Link>

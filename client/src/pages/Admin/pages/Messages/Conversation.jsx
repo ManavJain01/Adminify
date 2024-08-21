@@ -23,7 +23,10 @@ export default function Conversation({profile="🙂", conversation, emoji='👋'
         <div className="avatar online">
           <div className="relative w-12 rounded-full">
             {isOnline && <span className="absolute right-0 top-0 w-2 h-2 bg-green-600 rounded-full" />}
-            <FaRegUser className="text-4xl my-1" />
+            {conversation.profile_img
+              ?<img src={conversation.profile_img} alt="profile_pic" className="size-12 rounded-full" />
+              :<FaRegUser className="text-4xl my-1" />
+            }
           </div>
         </div>
 

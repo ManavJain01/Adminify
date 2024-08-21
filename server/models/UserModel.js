@@ -6,7 +6,6 @@ const UserSchema = new Schema(
   {
     name: {
       type: String,
-      required: true,
     },
     email: {
       type: String,
@@ -28,6 +27,9 @@ const UserSchema = new Schema(
     privilege: {
       type: String,
       required: true,
+    },
+    profile_img: {
+      type: String
     },
     birthday: {
       type: String,

@@ -5,6 +5,9 @@ const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const jwtSecret = process.env.JWT_TOKEN;
 
+// Importing Configuration files
+const { cloudinary } = require('../conf/cloudinary')
+
 // Importing Models
 const Model = require("../models/UserModel");
 const { default: mongoose } = require("mongoose");
@@ -13,7 +16,8 @@ const { default: mongoose } = require("mongoose");
 const createAdmin = async (data) => {
   try {
     const newAdmin = await Model.create({
-      name: data.userName,
+      name: data.fullName,
+      username: data.userName,
       email: data.email,
       password: data.password,
       privilege: "admin",
@@ -27,12 +31,22 @@ const createAdmin = async (data) => {
 };
 
 // Creating Admin
-const createUser = async (data) => {
-  console.log(data);
+const createUser = async (data, img) => {
   try {
-    const newUser = await Model.create(data);
-    console.log(newUser);
+    const profile_img = await cloudinary.uploader.upload(img?.path);
+    if(profile_img){
+      data.profile_img = profile_img.secure_url;
+    }
 
+    // Delete the file from local storage
+    fs.unlink(img.path, (err) => {
+      if (err) {
+        console.error("Error deleting the file:", err);
+        return;
+      }
+    });
+
+    const newUser = await Model.create(data);
     const authToken = jwt.sign(newUser._id.toString(), jwtSecret);
     return { authToken: authToken };
   } catch (error) {
@@ -40,12 +54,24 @@ const createUser = async (data) => {
   }
 };
 
-const putUser = async (data) => {
-  const ObjId = new mongoose.Types.ObjectId(data._id);
-  delete data._id;
-  console.log(data);
+const putUser = async (data, img) => {
+  if(img?.path){
+    const profile_img = await cloudinary.uploader.upload(img?.path);
+    data.profile_img = profile_img.secure_url;
+
+    // Delete the file from local storage
+    fs.unlink(img.path, (err) => {
+      if (err) {
+        console.error("Error deleting the file:", err);
+        return;
+      }
+    });
+  }
+
+  // const ObjId = new mongoose.Types.ObjectId(data._id);
+  // delete data._id;
   try {
-    const result = await Model.updateOne({ _id: ObjId }, data, {
+    const result = await Model.updateOne({ _id: data._id }, data, {
       runValidators: true,
     });
   } catch (error) {
@@ -75,7 +101,7 @@ const signup = async (data) => {
     if (user === null) {
       user = await Model.create({
         name: fullName,
-        userName: userName,
+        username: userName,
         email: email,
         password: password,
         privilege: "user",
@@ -97,7 +123,7 @@ const login = async (data) => {
   try {
     const { name, password } = data;
 
-    let user = await Model.findOne({ $or: [{ name: name }, { email: name }] });
+    let user = await Model.findOne({ $or: [{ username: name }, { email: name }] });
 
     if (user === null) {
       throw new Error("No User Found!!!");
@@ -115,7 +141,7 @@ const userSearch = async (data) => {
   try {
     const { name } = data;
     let user = await Model.findOne({
-      $or: [{ name: name }, { email: name }],
+      $or: [{ username: name }, { email: name }],
     }).select("email -_id");
 
     if (!user) throw new Error("User Not Found.");
@@ -132,7 +158,7 @@ const userReset = async (data) => {
     const { name, password } = data;
 
     await Model.updateOne(
-      { $or: [{ name: name }, { email: name }] },
+      { $or: [{ username: name }, { email: name }] },
       { $set: { password: password } }
     );
 

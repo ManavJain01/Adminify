@@ -24,6 +24,9 @@ export default function Messages() {
       lastMessageRef.current?.scrollIntoView({ behavior: "smooth" })
     }, 100)
   }, [messages])
+  console.log(messages);
+  console.log(typeof messages);
+  
   return (
     <div className="custom-scrollbar2 px-4 flex-1 flex flex-col gap-5 py-5 overflow-auto">
       {!loading && messages.length>0 && messages.map((message, index) => {

@@ -52,7 +52,10 @@ export const useChat = () => {
       newMessage.shouldShake = true;
       const sound = new Audio(notificationSound);
       sound.play();
-      setMessages([...messages, newMessage]);
+      // setMessages([...messages, newMessage]);
+      setMessages(prevMessages => {
+        return [...prevMessages, newMessage]
+      });
     }
 
     socket?.on("newMessage", listenMessages)
