@@ -52,8 +52,10 @@ const UserSchema = new Schema(
     aadhaar: {
       type: Number,
     },
-    subscription_type: {
-      type: String,
+    subscription: {
+      name: String,
+      date: String,
+      duration: Number,
     },
     subscribed_on: {
       type: String,
