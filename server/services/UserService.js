@@ -33,18 +33,18 @@ const createAdmin = async (data) => {
 // Creating Admin
 const createUser = async (data, img) => {
   try {
-    const profile_img = await cloudinary.uploader.upload(img?.path);
-    if(profile_img){
+    if(img){
       data.profile_img = profile_img.secure_url;
+      const profile_img = await cloudinary.uploader.upload(img?.path);
+      
+      // Delete the file from local storage
+      fs.unlink(img.path, (err) => {
+        if (err) {
+          console.error("Error deleting the file:", err);
+          return;
+        }
+      });
     }
-
-    // Delete the file from local storage
-    fs.unlink(img.path, (err) => {
-      if (err) {
-        console.error("Error deleting the file:", err);
-        return;
-      }
-    });
 
     const newUser = await Model.create(data);
     const authToken = jwt.sign(newUser._id.toString(), jwtSecret);

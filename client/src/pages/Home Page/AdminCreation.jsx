@@ -1,5 +1,6 @@
 // Importing React Icons
 import { CiUser } from "react-icons/ci";
+import { LuLoader2 } from "react-icons/lu";
 
 // Importing React Packages
 import { Link, useNavigate } from "react-router-dom";
@@ -22,6 +23,7 @@ export default function AdminCreation() {
 
   // useState
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
   const [companyDetails, setCompanyDetails] = useState({});
 
   // useEffect
@@ -55,53 +57,59 @@ export default function AdminCreation() {
   // Functions
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const formData = new FormData(e.target);
-
-    // Validation
-    const firstName = formData.get("userName");
-    const lastName = formData.get("userName");
-    const userName = formData.get("userName");
-    const email = formData.get("email");
-    const password = formData.get("password");
-    const confirmPass = formData.get("confirmPass");
-
-    if (!firstName || !lastName || !userName || !email || !password || !confirmPass) {
-      setError("All fields are required.");
-      return;
-    }
-
-    if(userName.includes(" ")){
-      setError("No Spaces Allowed in userName");
-      return;
-    }
-
-    // Check if passwords match
-    if (password !== confirmPass) {
-      setError("Passwords do not match.");
-      return;
-    }
-
-    formData.append("company", companyDetails.company || "");
-    formData.append("owner", companyDetails.owner || "");
-    if (companyDetails.logo) {
-      formData.append("logo", companyDetails.logo); // Assuming logo is a File object
-    }
-    const fullName = firstName + ' ' + lastName;
-    formData.append("fullName", fullName || "");
-
-    // Remove the confirmPass field from FormData
-    formData.delete("confirmPass");
-
-    const user = await createCompany(formData);
-    if (user === "already exists") {
-      setError("User already exist!!!");
-      return;
-    }
-
-    if (user) {
-      navigate("/admin");
-    } else {
-      setError("Error While SigningUp");
+    try {
+      setLoading(true);
+      const formData = new FormData(e.target);
+      // Validation
+      const firstName = formData.get("firstName");
+      const lastName = formData.get("lastName");
+      const userName = formData.get("userName");
+      const email = formData.get("email");
+      const password = formData.get("password");
+      const confirmPass = formData.get("confirmPass");
+  
+      if (!firstName || !lastName || !userName || !email || !password || !confirmPass) {
+        setError("All fields are required.");
+        return;
+      }
+  
+      if(userName.includes(" ")){
+        setError("No Spaces Allowed in userName");
+        return;
+      }
+      
+      // Check if passwords match
+      if (password !== confirmPass) {
+        setError("Passwords do not match.");
+        return;
+      }
+  
+      formData.append("company", companyDetails.company || "");
+      formData.append("owner", companyDetails.owner || "");
+      if (companyDetails.logo) {
+        formData.append("logo", companyDetails.logo); // Assuming logo is a File object
+      }
+      const fullName = firstName + ' ' + lastName;
+      formData.append("fullName", fullName || "");
+  
+      // Remove the confirmPass field from FormData
+      formData.delete("confirmPass");
+  
+      const user = await createCompany(formData);
+      if (user === "already exists") {
+        setError("User already exist!!!");
+        return;
+      }
+  
+      if (user) {
+        navigate("/admin");
+      } else {
+        setError("Error While SigningUp");
+      }
+    } catch (error) {
+      setError("Error Creating Company!!!");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -240,20 +248,24 @@ export default function AdminCreation() {
               </span>
             )}
 
-            {/* Signup */}
-            <div className="flex gap-5 justify-between flex-wrap">
-              <Link
-                to="/companyDetails"
-                state={companyDetails}
-                className="text-white bg-blue-600 w-fit px-5 py-2 rounded-lg"
-              >
-                Go Back
-              </Link>
+            {loading
+              ?<span className="text-white bg-green-600 px-5 py-2 rounded-lg"><LuLoader2 className="size-8 mx-auto animate-spin" /></span>
+              :<div className="flex gap-5 justify-between flex-wrap">
+                {/* Company Details Page */}
+                <Link
+                  to="/companyDetails"
+                  state={companyDetails}
+                  className="text-white bg-blue-600 w-fit px-5 py-2 rounded-lg"
+                >
+                  Go Back
+                </Link>
 
-              <button className="text-white bg-green-600 w-fit px-5 py-2 rounded-lg">
-                Create Admin
-              </button>
-            </div>
+                {/* Creating Company */}
+                <button className="text-white bg-green-600 w-fit px-5 py-2 rounded-lg">
+                  Create Company
+                </button>
+              </div>
+            }
           </form>
         </div>
       </div>

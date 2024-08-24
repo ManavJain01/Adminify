@@ -8,6 +8,7 @@ const mongoURI = process.env.MONGODB_URI;
 // Connecting MongoDB DataBase
 const mongoDB = async () => {
   try {
+    console.log("Trying to Connect to MongoDB.");
     await mongoose.connect(`${mongoURI}/FitHub`);
     console.log("MongoDB Connected.");
   } catch (error) {
