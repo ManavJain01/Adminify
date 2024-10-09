@@ -1,6 +1,6 @@
 export default function AboutUs() {
   return (
-    <div className="bg-gray-100 flex flex-col items-center gap-20 w-lvw min-h-lvh px-10 md:px-28 lg:px-40 py-5">
+    <div className="flex flex-col items-center gap-20 w-lvw min-h-lvh px-10 md:px-28 lg:px-40 py-5">
       <h1 className="font-bold text-6xl text-orange-500">About Us</h1>
 
       <div className="flex gap-10 justify-between w-full">

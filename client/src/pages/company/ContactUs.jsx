@@ -45,19 +45,19 @@ export default function ContactUs() {
           
           <form className="bg-white flex flex-col gap-10 h-[21rem] w-[28rem] py-2 px-5 rounded-lg">
             <p className="font-semibold text-3xl">Send Message</p>
-            <section className="relative">
-              <label htmlFor="name" className="absolute duration-700">Full Name</label>
-              <input type="text" name="name" id="name" className="w-full border-b-2 border-black" />
+            <section className="group relative">
+              <label htmlFor="name" className="absolute group-hover:-top-5 group-valid:-top-5 duration-700">Full Name</label>
+              <input type="text" name="name" id="name" className="w-full border-b-2 border-black outline-none" />
             </section>
 
-            <section className="relative">
-              <label htmlFor="email" className="absolute duration-700">Email</label>
-              <input type="text" name="email" id="email" className="w-full border-b-2 border-black" />
+            <section className="group relative">
+              <label htmlFor="email" className="absolute group-hover:-top-5 group-valid:-top-5 duration-700">Email</label>
+              <input type="email" name="email" id="email" className="w-full border-b-2 border-black outline-none" />
             </section>
 
-            <section className="relative">
-              <label htmlFor="message" className="absolute duration-700">Type your Message...</label>
-              <input type="text" name="message" id="message" className="w-full border-b-2 border-black" />
+            <section className="group relative">
+              <label htmlFor="message" className="absolute group-hover:-top-5 group-valid:-top-5 duration-700">Type your Message...</label>
+              <input type="text" name="message" id="message" className="w-full border-b-2 border-black outline-none" />
             </section>
 
             <button className="text-xl text-white bg-sky-600 mr-auto px-5 py-1 rounded-lg">Send</button>

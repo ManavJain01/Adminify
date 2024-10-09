@@ -17,8 +17,17 @@ import { store } from "../Redux/Store/store";
 import { SocketContextProvider } from "../context/SocketContext";
 
 // Importing Local Components
+  // Basic Routes
+import Home from "../pages/Home Page/Home";
+import Home_Main from "../pages/Home Page/components/Main";
+import Pricing from "../pages/Pricing/Pricing";
 import Login from "../pages/Login-Signup/Login";
 import Signup from "../pages/Login-Signup/Signup";
+import AdminCreation from "../pages/Home Page/AdminCreation";
+import CompanyDetails from "../pages/Home Page/Main";
+import ContactUs from "../pages/company/ContactUs";
+import AboutUs from "../pages/company/AboutUs";
+  // Customer Related Routes
 import Admin from "../pages/Admin/Admin";
 import MainPanel from "../pages/Admin/pages/MainPanel";
 import Customers from "../pages/Admin/pages/Customers";
@@ -29,16 +38,33 @@ import Broadcast from "../pages/Admin/pages/Broadcast";
 import Reports from "../pages/Admin/pages/Reports";
 import Settings from "../pages/Admin/pages/Settings";
 import CreateUser from "../pages/Admin/pages/Customers/CreateUser";
-import AdminCreation from "../pages/Home Page/AdminCreation";
-import CompanyDetails from "../pages/Home Page/Main";
 import ViewDetails from "../pages/Admin/pages/Customers/ViewDetails";
-// Company
-import ContactUs from "../pages/company/ContactUs";
-import AboutUs from "../pages/company/AboutUs";
 
 const router = createBrowserRouter([
   {
     path: "/",
+    element: <Home />,
+    children: [
+      {
+        path: "",
+        element: <Home_Main />,
+      },
+      {
+        path: "/pricing",
+        element: <Pricing />,
+      },
+      {
+        path: "/contact-us",
+        element: <ContactUs />,
+      },
+      {
+        path: "/about-us",
+        element: <AboutUs />,
+      },
+    ]
+  },
+  {
+    path: "/login",
     element: <Login />,
   },
   {
@@ -52,14 +78,6 @@ const router = createBrowserRouter([
   {
     path: "/create-admin",
     element: <AdminCreation />,
-  },
-  {
-    path: "contact-us",
-    element: <ContactUs />,
-  },
-  {
-    path: "about-us",
-    element: <AboutUs />,
   },
   {
     path: "/admin",

@@ -260,7 +260,7 @@ export default function Signup() {
               Already A User?
             </span>
             <Link
-              to="/"
+              to="/login"
               state={companyDetails}
               className="font-semibold text-xl text-center bg-white w-full px-5 py-2 rounded-lg"
             >
