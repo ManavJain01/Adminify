@@ -2,7 +2,30 @@
 import { FaArrowRightLong } from "react-icons/fa6";
 import { FaCheckCircle } from "react-icons/fa";
 
+// Importing React Package
+import { useNavigate } from "react-router-dom";
+
+// Importing local files
+import { useUser } from "../../../hooks/useUser";
+
 export default function Prices({plans = []}) {
+  // useNavigate
+  const navigate = useNavigate();
+
+  // Custom Hooks
+  const { isLogin } = useUser();
+
+  // Functions
+  const handleClick = async (e) => {
+    if(isLogin){
+      navigate("/pricing_payment", {
+        state: {
+          price: e
+        }
+      });
+    } else navigate("/login");
+  }
+
   return (
     <div className="flex flex-col md:flex-row gap-10 justify-center">
       {plans.map((e, i) => {
@@ -13,7 +36,7 @@ export default function Prices({plans = []}) {
             <section className="flex flex-col gap-5">
               <p className="font-semibold text-3xl">{e?.headline}</p>
               <p className="text-gray-400">{e?.description}</p>
-              <button className="group text-white bg-blue-700 hover:bg-blue-800 flex items-center justify-center gap-5 py-2 rounded-full duration-500">
+              <button onClick={() => handleClick(e)} className="group text-white bg-blue-700 hover:bg-blue-800 flex items-center justify-center gap-5 py-2 rounded-full duration-500">
                 <span className="group-hover:hidden font-semibold">{e?.price}</span>
                 <span className="hidden group-hover:block font-semibold">Purchase</span>
                 <FaArrowRightLong className="size-3 group-hover:size-4" />

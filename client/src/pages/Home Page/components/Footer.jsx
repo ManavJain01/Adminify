@@ -12,7 +12,7 @@ export default function Footer() {
 
         <div className="flex flex-col gap-5">
           <p className="text-lg">
-            Join thousands of customers who already use Fithub to
+            Join thousands of customers who already use {import.meta.env.VITE_REACT_APP_WebsiteName || "Please enter website name"} to
             <br /> scale their products faster and make them more secure.
           </p>
 
@@ -55,10 +55,10 @@ export default function Footer() {
       <>
         <hr className="my-5 border-gray-700" />
         <div className="flex justify-between items-center">
-          <Link to="/" className="font-semibold text-2xl text-white">Fithub</Link>
+          <Link to="/" className="font-semibold text-2xl text-white">{import.meta.env.VITE_REACT_APP_WebsiteName || "Please enter website name"}</Link>
 
           <section className="text-xs flex gap-1">
-            <p>© 2024 Fithub™</p>
+            <p>© 2024 {import.meta.env.VITE_REACT_APP_WebsiteName || "Please enter website name"}™</p>
             <p>|</p>
             <p>All rights reserved</p>
             <p>|</p>

@@ -21,6 +21,8 @@ import { SocketContextProvider } from "../context/SocketContext";
 import Home from "../pages/Home Page/Home";
 import Home_Main from "../pages/Home Page/components/Main";
 import Pricing from "../pages/Pricing/Pricing";
+import Cart from "../pages/Cart/Cart";
+import Checkout from "../pages/Cart/components/Checkout";
 import Login from "../pages/Login-Signup/Login";
 import Signup from "../pages/Login-Signup/Signup";
 import AdminCreation from "../pages/Home Page/AdminCreation";
@@ -52,6 +54,14 @@ const router = createBrowserRouter([
       {
         path: "/pricing",
         element: <Pricing />,
+      },
+      {
+        path: "/cart",
+        element: <Cart />,
+      },
+      {
+        path: "/checkout",
+        element: <Checkout />
       },
       {
         path: "/contact-us",

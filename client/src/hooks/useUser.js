@@ -1,4 +1,5 @@
 // Importing React Packages
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 // Importing Redux files
@@ -26,6 +27,17 @@ export const useUser = () => {
   // useNavigate
   const navigate = useNavigate();
 
+  // useState
+  const [ isLogin, setIsLogin ] = useState(false);
+
+  // useEffect
+  useEffect(() => {
+    if(localStorage.getItem("authToken")) setIsLogin(true);
+    else setIsLogin(false);
+
+  }, []);
+
+  // Functions
   const createAdmin = async (data) => {
     try {
       const user = await newAdmin(data);
@@ -73,6 +85,8 @@ export const useUser = () => {
       // setting localStorage variables
       localStorage.setItem("authToken", user.authToken);
 
+      setIsLogin(true);
+
       return "success";
     } catch (error) {
       console.log("Error Signing Up in UseUser Hook: ", error);
@@ -87,6 +101,9 @@ export const useUser = () => {
 
       // setting localStorage variables
       localStorage.setItem("authToken", user.authToken);
+
+      setIsLogin(true);
+
       return "success";
     } catch (error) {
       console.log("Error Logging In in UseUser Hook: ", error);
@@ -99,6 +116,8 @@ export const useUser = () => {
       localStorage.removeItem("authToken");
 
       await getUser();
+
+      setIsLogin(false);
 
       navigate("/");
     } catch (error) {
@@ -151,6 +170,7 @@ export const useUser = () => {
   };
 
   return {
+    isLogin,
     createAdmin,
     createUser,
     updateUser,

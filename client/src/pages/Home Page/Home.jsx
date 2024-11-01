@@ -5,7 +5,7 @@ import { Outlet } from "react-router-dom"
 
 export default function Home() {
   return (
-    <div className="text-white bg-black flex flex-col justify-between min-h-lvh w-lvw overflow-x-hidden">
+    <div className="custom-scrollbar relative text-white bg-black flex flex-col justify-between h-lvh w-lvw overflow-x-hidden">
       <Header />
       <Outlet />
       <Footer />

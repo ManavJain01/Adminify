@@ -1,4 +1,5 @@
 // Importing React Packages
+// import { useState, useEffect } from "react";
 
 // Importing Redux files
 import { useDispatch, useSelector } from "react-redux";
@@ -43,5 +44,8 @@ export const useRefresh = () => {
     }
   };
 
-  return { getCompanyDetails, setCompanyDetails };
+  return {
+    getCompanyDetails,
+    setCompanyDetails
+  };
 };
