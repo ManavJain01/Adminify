@@ -1,28 +1,8 @@
 // Importing React Icons
 import { SiTicktick } from "react-icons/si";
 
-// Importing React Packages
-import { useState } from 'react';
-
-export default function CheckoutForm({save = false, setSave}) {
-
-  if(save) return (
-    <div className="flex flex-col gap-3 p-5 border border-gray-500 rounded-lg">
-      <p className="font-semibold text-xl flex justify-between gap-10">
-        <span>Billing Information</span>
-        <SiTicktick className="text-green-400" />
-      </p>
-
-      <div className="text-sm">
-        <p className="flex justify-between gap-10">
-          <span>Name</span>
-          <button className="underline" onClick={() => setSave(false)}>Edit</button>
-        </p>
-        <p>Address</p>
-      </div>
-    </div>
-  )
-  else return (
+export default function CheckoutForm({ save = 1, setSave }) {
+  if(save === 1) return (
     <form action="" className="flex flex-col gap-5 p-5 border border-gray-500 rounded-lg">
       <div>
         <p className="font-semibold text-xl">Billing Information</p>
@@ -73,7 +53,23 @@ export default function CheckoutForm({save = false, setSave}) {
         </section>
       </div>
 
-      <button onClick={() => setSave(true)} className="font-bold text-black bg-white py-2">Save</button>
+      <button onClick={() => setSave(2)} className="font-bold text-black bg-white py-2">Save</button>
     </form>
+  )
+  else return (
+    <div className="flex flex-col gap-3 p-5 border border-gray-500 rounded-lg">
+      <p className="font-semibold text-xl flex justify-between gap-10">
+        <span>Billing Information</span>
+        <SiTicktick className="text-green-400" />
+      </p>
+
+      <div className="text-sm">
+        <p className="flex justify-between gap-10">
+          <span>Name</span>
+          <button className="underline" onClick={() => setSave(1)}>Edit</button>
+        </p>
+        <p>Address</p>
+      </div>
+    </div>
   )
 }

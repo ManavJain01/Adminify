@@ -1,5 +1,6 @@
 // Importing React Icons
 import { MdKeyboardArrowLeft } from "react-icons/md";
+import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 
 // Importing React Packages
 import {Link} from 'react-router-dom';
@@ -7,11 +8,12 @@ import { useState } from 'react';
 
 // Importing Local Files
 import CheckoutSummary from './checkout/CheckoutSummary';
-import CheckoutForm from './checkout/CheckoutForm'
+import BillingInfo from './checkout/BillingInfo'
+import CompanyDetails from './checkout/CompanyDetails'
 
 export default function Checkout() {
   // useState
-  const [billingInfoSave, setBillingInfoSave] = useState(false);
+  const [section, setSection] = useState(1);
 
   return (
     <div className="flex flex-wrap gap-20 items-start justify-between px-48 py-20">
@@ -22,9 +24,19 @@ export default function Checkout() {
         </Link>
         <h1 className="tracking-wider font-semibold text-3xl">Checkout</h1>
         
-        <CheckoutForm save={billingInfoSave} setSave={setBillingInfoSave} />
+        <div className="text-xs flex items-center gap-2">
+          <p className={`${section === 1 && "text-blue-500"}`}>Billing Information</p>
+          <MdOutlineKeyboardArrowRight />
+          <p className={`${section === 2 && "text-blue-500"}`}>Company Details</p>
+          <MdOutlineKeyboardArrowRight />
+          <p className={`${!section && "text-blue-500"}`}>Payment</p>
+        </div>
 
-        {billingInfoSave
+        <BillingInfo save={section} setSave={setSection} />
+
+        <CompanyDetails save={section} setSave={setSection} />
+        
+        {!section
           && <button className="font-semibold text-black bg-white py-2">Save Details & Tokenize</button>
         }
       </div>

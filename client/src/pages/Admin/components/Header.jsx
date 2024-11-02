@@ -12,12 +12,18 @@ import { Link } from "react-router-dom";
 
 // Importing Custom Hooks
 import { useUser } from "../../../hooks/useUser";
+import useWindowSize from '../../../hooks/useWindowSize'
+
+// Importing Local Files
+import HamMenu from "./HamMenu";
 
 export default function Header({ companyDetails, user = {} }) {
   // Custom Hookes
   const { logout: logoutService, getUser } = useUser();
+  const { width } = useWindowSize();
 
-  return (
+  if(width <= 700) return ( <HamMenu companyDetails={companyDetails} user={user} /> )
+  else return (
     <nav className="bg-blue-950 flex items-center justify-between gap-5 min-h-32 p-5">
       <div className="flex gap-3 items-center">
         {companyDetails.logo
@@ -35,7 +41,7 @@ export default function Header({ companyDetails, user = {} }) {
           <span className="absolute -bottom-8 -left-5 text-sm whitespace-nowrap hidden group-hover:flex">{`Hi, ${user.name || "User"}`}</span>
         </li>
         <li className="hover:underline">
-          <Link to="/admin" className="relative group flex flex-col gap-1 items-center">
+          <Link to="/" className="relative group flex flex-col gap-1 items-center">
             <RiHome4Line className="size-8" />
             <span className="absolute -bottom-8 text-sm whitespace-nowrap hidden group-hover:flex">Home</span>
           </Link>
