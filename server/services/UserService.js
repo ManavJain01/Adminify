@@ -12,6 +12,24 @@ const { cloudinary } = require('../conf/cloudinary')
 const Model = require("../models/UserModel");
 const { default: mongoose } = require("mongoose");
 
+// Check Whether username exist or not
+const checkUsername = async (userName) => {
+  if(await Model.findOne({ userName })) return true;
+  else return false;
+}
+
+// Create A Unique Username
+const generateUniqueUserName = async (baseUserName) => {
+  let userName = baseUserName;
+  let counter = 1;
+
+  while (await checkUsername(userName)) {
+    userName = `${baseUserName}${counter++}`; // Append a number to the base username
+  }
+
+  return userName;
+}
+
 // Creating Admin
 const createAdmin = async (data) => {
   try {
@@ -137,6 +155,32 @@ const login = async (data) => {
   }
 };
 
+// Clerk Login
+const clerkLoginService = async (data) => {
+  const { email, fullName } = data;
+
+  let user = await Model.findOne({ email: email });
+
+  if (user === null) {
+    const baseUserName = email.split('@')[0]; // Use the part before the '@' in the email
+    const userName = await generateUniqueUserName(baseUserName);
+
+    user = await Model.create({
+      name: fullName,
+      username: userName,
+      email: email,
+      password: "clerk",
+      privilege: "user",
+    });
+
+    const authToken = jwt.sign(user._id.toString(), jwtSecret);
+    return { authToken: authToken };
+  } else {
+    const authToken = jwt.sign(user._id.toString(), jwtSecret);
+    return { authToken: authToken };
+  }
+}
+
 const userSearch = async (data) => {
   try {
     const { name } = data;
@@ -217,6 +261,7 @@ module.exports = {
   userList,
   signup,
   login,
+  clerkLoginService,
   userSearch,
   userReset,
   getUser,

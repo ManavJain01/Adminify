@@ -12,9 +12,10 @@ export const useRefresh = () => {
   // useDispatch
   const dispatch = useDispatch();
 
-  // // useSelector
+  // useSelector
   const companyDetails = useSelector((state) => state.company.companyDetails);
 
+  // Functions
   const getCompanyDetails = async () => {
     try {
       if (

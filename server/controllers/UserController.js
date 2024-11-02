@@ -68,6 +68,18 @@ const loginController = async (req, res) => {
   }
 };
 
+// clerk Login
+const clerkLoginController = async (req, res) => {
+  try {
+    const result = await service.clerkLoginService(req.body);
+    res.status(200).send(result);
+
+  } catch (error) {
+    console.log("Error: ", error.message);
+    res.status(400).send(error.message);
+  }
+}
+
 const searchUserController = async (req, res) => {
   try {
     const result = await service.userSearch(req.query.user);
@@ -139,6 +151,7 @@ module.exports = {
   deleteUserController,
   signupController,
   loginController,
+  clerkLoginController,
   searchUserController,
   resetController,
   userController,

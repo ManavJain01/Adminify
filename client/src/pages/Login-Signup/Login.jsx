@@ -1,7 +1,8 @@
 // Importing React Icons
-import { CiUser } from "react-icons/ci";
+import { IoReturnUpBackSharp } from "react-icons/io5";
 import { FaEyeSlash } from "react-icons/fa";
 import { FaRegEye } from "react-icons/fa";
+import { FcGoogle } from "react-icons/fc";
 
 // Importing React Packages
 import { Link, useNavigate } from "react-router-dom";
@@ -9,7 +10,6 @@ import { useState, useEffect } from "react";
 
 // Importing Hooks
 import { useUser } from "../../hooks/useUser";
-import { useRefresh } from "../../hooks/useRefresh";
 
 // Importing Local Files
 import "./Styles/Styles.css";
@@ -18,13 +18,11 @@ import ForgetPassword from "./components/ForgetPassword";
 export default function Login() {
   // Custom Hooks
   const { login } = useUser();
-  const { getCompanyDetails } = useRefresh();
 
   // useNavigation
   const navigate = useNavigate();
 
   // useState
-  const [companyDetails, setCompanyDetails] = useState({});
   const [error, setError] = useState("");
   const [forgetPassword, setForgetPassword] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -41,18 +39,6 @@ export default function Login() {
     };
 
     const handleRefresh = async () => {
-      const response = await getCompanyDetails();
-
-      if (!response?.company && !response?.owner && !response?.logo) {
-        navigate("/companyDetails");
-      }
-
-      setCompanyDetails({
-        company: response?.company || "",
-        owner: response?.owner || "",
-        logo: response?.logo || "",
-      });
-
       if (localStorage.getItem("authToken")) navigate("/admin");
     };
 
@@ -84,30 +70,34 @@ export default function Login() {
   };
 
   return (
-    <div className="text-lg text-white bg-[#222] flex justify-center items-center w-lvw min-h-lvh p-5">
+    <div className="relative text-lg text-white bg-[#222] flex justify-center items-center w-lvw min-h-lvh p-5">
+      <Link to="/" className="absolute top-5 left-5 hover:text-blue-600 flex items-center gap-3">
+        <IoReturnUpBackSharp className="size-8" />
+        Go Back to the Home Page
+      </Link>
+
       <div
         id="card-login"
-        className="relative bg-[#2d2d2d] w-[30rem] min-h-[30rem] px-8 py-5 rounded-lg shadow-lg
+        className="relative bg-[#2d2d2d] flex flex-col gap-5 w-[30rem] min-h-[30rem] px-8 py-5 rounded-lg shadow-lg
           before:absolute before:top-[--y] before:left-[--x] before:content-[''] before:opacity-0 hover:before:opacity-100 before:rounded-full
           overflow-hidden"
       >
+        <p className="text-center text-4xl text-white">{import.meta.env.VITE_REACT_APP_WebsiteName || "Enter Website Name"}</p>
+        
         {forgetPassword ? (
           <ForgetPassword setForgetPassword={setForgetPassword} />
         ) : (
           <div className="z-20 relative text-black flex flex-col gap-8 rounded-lg">
-            {/* Company Details */}
-            <div className="flex flex-col items-center gap-5">
-              <div>
-                {companyDetails.logo ? (
-                  <img src={companyDetails.logo} alt="logo" className="w-32 h-32 rounded-full" />
-                ) : (
-                  <CiUser className="size-16 text-white" />
-                )}
-              </div>
+            <Link to="https://cute-gorilla-43.accounts.dev/sign-in" className="font-semibold text-sm text-black bg-white flex items-center justify-center gap-5 py-2 rounded-lg">
+              <FcGoogle className="size-5" />
+              <span>Sign in with Google</span>
+            </Link>
 
-              <span className="text-3xl tracking-widest font-semibold text-white">{companyDetails.company || "Company Name"}</span>
-            </div>
-
+            <section className="relative">
+              <hr className="opacity-50" />
+              <span className="absolute -top-4 left-48 text-white backdrop-blur-md px-2">or</span>
+            </section>
+            
             <form
               onSubmit={(e) => handleSubmit(e)}
               className="flex flex-col gap-3"
@@ -187,14 +177,11 @@ export default function Login() {
               </span>
               <Link
                 to="/signup"
-                state={companyDetails}
                 className="font-semibold text-xl text-center bg-white w-full px-5 py-2 rounded-lg"
               >
                 Create A New Account
               </Link>
             </section>
-
-            <span className="text-center text-2xl text-white opacity-50">Company Owner - {companyDetails.owner || "Owner Name"}</span>
           </div>
         )}
       </div>

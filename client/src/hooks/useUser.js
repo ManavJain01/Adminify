@@ -6,10 +6,14 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { creatingInitialState } from "../Redux/features/UserSlice";
 
+// Clerk
+import { useAuth, useUser as useClerkUser } from '@clerk/clerk-react';
+
 // Importing Services
 import {
   signup as signupService,
   login as loginService,
+  clerkLogin,
   UserSearch,
   UserResetPassword,
   fetchUser,
@@ -27,15 +31,42 @@ export const useUser = () => {
   // useNavigate
   const navigate = useNavigate();
 
+  // Clerk
+  const { signOut } = useAuth();
+  const { user : clerkUser } = useClerkUser();
+
   // useState
   const [ isLogin, setIsLogin ] = useState(false);
 
   // useEffect
   useEffect(() => {
-    if(localStorage.getItem("authToken")) setIsLogin(true);
-    else setIsLogin(false);
-
-  }, []);
+    const handleRefresh = async () => {
+      try {
+        if(clerkUser) {
+          // Fetching Clerk Data
+          const email = clerkUser?.primaryEmailAddress?.emailAddress;
+          const fullName = clerkUser?.fullName;
+          
+          // Setting User to our Database
+          const token = await clerkLogin({ email: email, fullName: fullName });
+  
+          if(token && token?.authToken && typeof token?.authToken === 'string') {
+            localStorage.setItem("authToken", token?.authToken);
+          } else {
+            throw new Error("User Token from clerk is Invalid");
+          }
+          
+          // Now User Is Logged In
+          setIsLogin(true);
+        } else if(localStorage.getItem("authToken")) setIsLogin(true);
+          
+      } catch (error) {
+        console.error(error.message);
+      }
+    }
+  
+    handleRefresh();
+  }, [clerkUser]);
 
   // Functions
   const createAdmin = async (data) => {
@@ -116,6 +147,9 @@ export const useUser = () => {
       localStorage.removeItem("authToken");
 
       await getUser();
+
+      // Clerk Function
+      if (clerkUser) await signOut();
 
       setIsLogin(false);
 

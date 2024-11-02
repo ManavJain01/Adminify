@@ -79,6 +79,26 @@ export const login = async (data) => {
   }
 };
 
+// Clerk Login/ Signup
+export const clerkLogin = async (data) => {
+  try {
+    const response = await axios.post(
+      `${import.meta.env.VITE_REACT_APP_ServerLocation}/user/clerkLogin`,
+      data
+    );
+
+    if (response.status !== 200) {
+      throw new Error("Failed to Clerk LogIn");
+    }
+
+    return response.data;
+  } catch (error) {
+    if (error.response.data) return error.response.data;
+    console.error("Error Clerk Logging In:", error);
+    return null;
+  }
+}
+
 export const usersList = async () => {
   try {
     const response = await axios.get(

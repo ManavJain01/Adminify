@@ -1,13 +1,16 @@
+// Importing React Icons
+import { PiImageBrokenDuotone } from "react-icons/pi";
+
 // Importing React Packages
 import React from "react";
 import ReactDOM from "react-dom/client";
 import "../../public/assets/styles/index.css";
-import {
-  RouterProvider,
-  createBrowserRouter,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
+
+// Clerk
+import { ClerkProvider } from '@clerk/clerk-react'
+  // Import your publishable key
+const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
 
 // Importing Redux Configuration
 import { Provider } from "react-redux";
@@ -41,6 +44,7 @@ import Reports from "../pages/Admin/pages/Reports";
 import Settings from "../pages/Admin/pages/Settings";
 import CreateUser from "../pages/Admin/pages/Customers/CreateUser";
 import ViewDetails from "../pages/Admin/pages/Customers/ViewDetails";
+import InitializeApp from "./InitializeApp";
 
 const router = createBrowserRouter([
   {
@@ -137,11 +141,28 @@ const router = createBrowserRouter([
   },
 ]);
 
+const App = () => {
+  if(!PUBLISHABLE_KEY) {
+    return(
+      <div className="text-4xl text-white bg-black flex flex-col items-center justify-center gap-5 w-lvw h-lvh">
+        <PiImageBrokenDuotone className="size-40" />
+        <span>Error: Clerk publishable key is missing.</span>
+      </div>
+    )
+  }
+
+  return (
+    <ClerkProvider publishableKey={PUBLISHABLE_KEY}>
+      <InitializeApp router={router} />
+    </ClerkProvider>
+  ) 
+}
+
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Provider store={store}>
       <SocketContextProvider>
-        <RouterProvider router={router} />
+        <App />
       </SocketContextProvider>
     </Provider>
   </React.StrictMode>

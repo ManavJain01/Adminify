@@ -3,7 +3,6 @@ import {Link} from 'react-router-dom';
 import { useState } from 'react';
 
 // Importing Custom Hooks
-import { useRefresh } from "../../../hooks/useRefresh";
 import { useUser } from "../../../hooks/useUser";
 import useWindowSize from '../../../hooks/useWindowSize';
 
@@ -11,8 +10,7 @@ import useWindowSize from '../../../hooks/useWindowSize';
 import HamMenu from './Header/HamMenu';
 
 export default function Header() {
-  // useUser
-  // const { isLogin } = useRefresh();
+  // Custom Hooks
   const { isLogin, logout } = useUser();
   const { width } = useWindowSize();
 

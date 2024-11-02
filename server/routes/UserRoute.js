@@ -11,6 +11,7 @@ const {
   createUserController,
   signupController,
   loginController,
+  clerkLoginController,
   searchUserController,
   resetController,
   userController,
@@ -25,6 +26,7 @@ const {
 router.route("/createAdmin").post(createAdminController);
 router.route("/signup").post(signupController);
 router.route("/login").post(loginController);
+router.route("/clerkLogin").post(clerkLoginController);
 router.route("/searchUser").get(searchUserController);
 router.route("/reset").post(resetController);
 router.route("/_id").get(userController);
