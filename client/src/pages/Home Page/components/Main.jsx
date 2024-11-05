@@ -16,7 +16,7 @@ export default function Main() {
       <div className="bg-[url('https://frontegg.com/wp-content/uploads/2023/11/BG-scaled.jpg.webp')] bg-cover bg-center flex flex-col gap-40 min-h-screen p-10">
         <div className="flex flex-col gap-5">
           <pre className="text-5xl leading-relaxed">
-            Fithub <br />
+            {import.meta.env.VITE_REACT_APP_WebsiteName || "Enter Website Name"} <br />
             The next generation <br />
             of <span className="font-bold text-black bg-[#F5F5DC] p-2 rounded-xl">Website Builder</span>
           </pre>

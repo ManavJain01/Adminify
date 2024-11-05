@@ -2,6 +2,9 @@
 import {Link} from 'react-router-dom';
 import { useState } from 'react';
 
+// Importing Redux Packages
+import { useSelector } from 'react-redux';
+
 // Importing Custom Hooks
 import { useUser } from "../../../hooks/useUser";
 import useWindowSize from '../../../hooks/useWindowSize';
@@ -10,6 +13,9 @@ import useWindowSize from '../../../hooks/useWindowSize';
 import HamMenu from './Header/HamMenu';
 
 export default function Header() {
+  // useSelector
+  const cart = useSelector(state => state.cart.cart);
+
   // Custom Hooks
   const { isLogin, logout } = useUser();
   const { width } = useWindowSize();
@@ -29,7 +35,15 @@ export default function Header() {
           && <Link to="/admin" className="hover:text-white/50 duration-500">Admin</Link>
         }
         <Link to="/pricing" className="hover:text-white/50 duration-500">Pricing</Link>
-        <Link to="/cart" className="hover:text-white/50 duration-500">Cart</Link>
+        
+        <section className="relative">
+          <Link to="/cart" className="hover:text-white/50 duration-500">Cart</Link>
+
+          {cart?.length > 0
+            && <div className="absolute -top-1 left-8 text-[10px] bg-blue-700 flex items-center justify-center w-[14px] h-[14px] rounded-full">{cart?.length}</div>
+          }
+        </section>
+        
         {!isLogin
           ? <>
             <Link to="/login" className="hover:text-white/50 duration-500">Login</Link>

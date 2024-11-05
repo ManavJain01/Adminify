@@ -3,8 +3,11 @@ import { MdKeyboardArrowLeft } from "react-icons/md";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
 
 // Importing React Packages
-import {Link} from 'react-router-dom';
-import { useState } from 'react';
+import { Link, useNavigate} from 'react-router-dom';
+import { useState, useEffect } from 'react';
+
+// Importing Redux Packages
+import { useSelector } from "react-redux";
 
 // Importing Local Files
 import CheckoutSummary from './checkout/CheckoutSummary';
@@ -12,8 +15,19 @@ import BillingInfo from './checkout/BillingInfo'
 import CompanyDetails from './checkout/CompanyDetails'
 
 export default function Checkout() {
+  // useNavigate
+  const navigate = useNavigate();
+
+  // useSelector
+  const cart = useSelector(state => state.cart.cart);
+
   // useState
   const [section, setSection] = useState(1);
+
+  // useEffect
+  useEffect(() => {
+    if(cart?.length === 0) navigate("/cart");
+  }, []);
 
   return (
     <div className="flex flex-wrap gap-20 items-start justify-between px-48 py-20">

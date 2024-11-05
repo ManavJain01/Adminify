@@ -5,16 +5,17 @@ import { IoIosArrowUp } from "react-icons/io";
 // Importing React Packages
 import { useState } from "react";
 
-export default function CheckoutProductCard() {
+export default function CheckoutProductCard({item = {}}) {
   // useState
   const [showItems, setShowItems] = useState(false);
+
   return (
-    <div className="flex flex-col gap-4 px-5 py-7 border border-gray-600 rounded-lg">
+    <div className="flex flex-col gap-4 px-5 py-3 border border-gray-600 rounded-lg">
       <div className="flex gap-5 justify-between items-center">
-        <span className="font-semibold text-lg">Headline</span>
+        <span className="font-semibold text-lg">{item?.headline}</span>
 
         <div className="flex flex-col gap-2">
-          <p className="text-xs">MRP</p>
+          <p className="text-xs">{item?.price}</p>
         </div>
       </div>
 

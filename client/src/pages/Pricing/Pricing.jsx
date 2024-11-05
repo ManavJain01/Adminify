@@ -1,3 +1,8 @@
+// Importing local Images
+import free from "./imgs/FREE.webp"
+import membership from "./imgs/membership.png"
+import vip from "./imgs/vip.jpg"
+
 // Importing local files
 import Prices from "./components/Prices"
 import PricesComparison from "./components/PricesComparison";
@@ -10,6 +15,7 @@ export default function Pricing() {
       description: "Access basic features suitable for individuals and small businesses.",
       price: "Free",
       value: 0,
+      img: free,
       benefits: [
         "Watermark free",
         "Bot detection"
@@ -21,6 +27,7 @@ export default function Pricing() {
       description: "Unlock specific features designed for growing businesses.",
       price: "₹ 1000",
       value: 1000,
+      img: membership,
       benefits: [
         "Everything in Launch plus:",
         "Session management and security policies",
@@ -34,6 +41,7 @@ export default function Pricing() {
       description: "Tailored solutions for enterprises with Advanced features.",
       price: "₹ 2000",
       value: 2000,
+      img: vip,
       benefits: [
         "Everything in Scale plus:",
         "Unlimited environments",

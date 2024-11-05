@@ -3,20 +3,34 @@ import { SiNicehash } from "react-icons/si";
 import { AiOutlineExport } from "react-icons/ai";
 
 // Importing React Packages
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
+// Importing Redux Packages
+import { useSelector } from "react-redux"
+
+// Importing Local Files
 import CheckoutItems from './CheckoutItems'
-import { useState } from "react";
 
 export default function OrderSummary() {
+  // useSelector
+  const cart = useSelector(state => state.cart.cart);
+
   // useState
-  const [isPayment, setIsPayment] = useState(true);
+  const [isPayment, setIsPayment] = useState(false);
+  const [totalAmount, setTotalAmount] = useState(0);
+  
+  // useEffect
+  useEffect(() => {
+    const calculatedTotal = cart?.reduce((acc, item) => acc + (item?.value || 0), 0);
+    setTotalAmount(calculatedTotal);
+  }, [cart]); 
 
   return (
     <div className="flex flex-col gap-5">
       <span className="text-2xl">Order Summary</span>
       <section className="flex gap-5 justify-between">
-        <span className="">Total Items</span>
+        <span className="">{cart?.length} {cart?.length > 1 ? "Items" : "Item"}</span>
         <Link to="/cart" className="underline">Edit Order</Link>
       </section>
       <hr className="border-gray-500" />
@@ -24,19 +38,19 @@ export default function OrderSummary() {
       <div className="flex flex-col">
         <div className="flex gap-40 justify-between items-center">
           <h1 className="">Subtotal <span className="text-sm">(INR)</span></h1>
-          <p className="">Price</p>
+          <p className="">₹ {totalAmount}</p>
         </div>
 
         <div className="flex gap-40 justify-between items-center">
           <h1 className="">Gst and Fees <span className="text-sm">(INR)</span></h1>
-          <p className="">Price</p>
+          <p className="">₹ 200</p>
         </div>
       </div>
       <hr className="border-gray-500" />
 
       <div className="flex gap-40 justify-between items-center">
         <h1 className="text-2xl">Total <span className="text-sm">(INR)</span></h1>
-        <p className="text-xl">Price</p>
+        <p className="text-xl">₹ {totalAmount}</p>
       </div>
 
       <p className="text-sm flex items-center justify-center gap-2">
