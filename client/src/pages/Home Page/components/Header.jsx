@@ -31,7 +31,7 @@ export default function Header() {
         {isLogin
           && <span className="hover:text-white/50 duration-500">Hi, User</span>
         }
-        {isPaymentSuccessfull
+        {isPaymentSuccessfull && isLogin
           && <Link to="/admin" className="hover:text-white/50 duration-500">Admin</Link>
         }
         <Link to="/pricing" className="hover:text-white/50 duration-500">Pricing</Link>

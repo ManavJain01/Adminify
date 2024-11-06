@@ -3,7 +3,7 @@ import { createSlice, nanoid } from "@reduxjs/toolkit";
 const initialState = {
   cart: [],
 };
-console.log(initialState)
+
 export const CartSlice = createSlice({
   name: "cart",
   initialState,

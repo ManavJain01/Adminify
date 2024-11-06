@@ -4,6 +4,7 @@ import { SiTicktick } from "react-icons/si";
 
 // Importing React Packages
 import { useState, useEffect } from "react";
+import axios from "axios"
 
 // Importing Redux Packages
 import { useDispatch, useSelector } from "react-redux";
@@ -25,14 +26,19 @@ export default function CompanyDetails({save = 1, setSave}) {
   }, [reduxData]);
 
   // Functions
-  const handlePreview = (event) => {
-    const file = event.target.files[0];
-    if (file) {
-      // You can store the file in state or set a preview URL
-      setCompanyDetails((prevState) => ({
-        ...prevState,
-        logo: file,
-      }));
+  const handlePreview = async (event) => {
+    try {
+      const file = event.target.files[0];
+      if (file) {
+        // You can store the file in state or set a preview URL
+        setCompanyDetails((prevState) => ({
+          ...prevState,
+          logo: file,
+        }));
+      }
+      
+    } catch (error) {
+      console.error(error.message);
     }
   };
 
@@ -48,9 +54,12 @@ export default function CompanyDetails({save = 1, setSave}) {
     <form onSubmit={handleSubmit} className="flex flex-col gap-5 p-5 border border-gray-500 rounded-lg">
       <p className="font-semibold text-xl">Company Details</p>
 
-      {companyDetails.logo
-        ? <div className="flex items-end">
-          <img src={URL.createObjectURL(companyDetails.logo)} className="w-[100px] h-[100px] mx-auto mt-[10px] rounded-full" />
+      {/* {companyDetails.logo
+        ? <div className="flex items-end justify-center gap-5 flex-wrap">
+          {typeof companyDetails.logo === "string"
+            ? <img src={companyDetails.logo} className="w-[100px] h-[100px] mx-auto mt-[10px] rounded-full" />
+            : <img src={URL.createObjectURL(companyDetails.logo)} className="w-[100px] h-[100px] mx-auto mt-[10px] rounded-full" />
+          }
           <button onClick={() => setCompanyDetails((prevState) => ({...prevState, logo: null}))} className="bg-red-600 hover:bg-red-700 active:bg-red-800 px-5 py-2 rounded-xl duration-500">Remove</button>
         </div>
         : <section className="relative">
@@ -69,7 +78,7 @@ export default function CompanyDetails({save = 1, setSave}) {
             <CiImport className="size-8" />
           </label>
         </section>
-      }
+      } */}
 
       <section className="relative">
         <input

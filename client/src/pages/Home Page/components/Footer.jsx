@@ -17,11 +17,11 @@ export default function Footer() {
           </p>
 
           <div className="flex gap-5">
-            <button className="bg-blue-600 hover:bg-blue-700 flex items-center gap-3 px-8 py-2 rounded-full duration-500">
+            <Link to="/pricing" className="bg-blue-600 hover:bg-blue-700 flex items-center gap-3 px-8 py-2 rounded-full duration-500">
               <span>Get started for free</span>
               <FaArrowRightLong />
-            </button>
-            <button className="hover:text-blue-600 hover:bg-white px-8 py-2 border rounded-full duration-500">Talk to us</button>
+            </Link>
+            <Link to="/contact-us" className="hover:text-blue-600 hover:bg-white px-8 py-2 border rounded-full duration-500">Talk to us</Link>
           </div>
         </div>
       </div>

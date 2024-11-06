@@ -7,10 +7,11 @@ const jwtSecret = process.env.JWT_TOKEN;
 
 // Importing Models
 const User = require("../models/UserModel");
+const Admin = require("../models/AdminModel");
 
 const protectRoute = async (req, res, next) => {
   try {
-    const token = req.cookies.jwt || req.query.id;    
+    const token = req.cookies.jwt || req.query.id;
     if (!token) {
       return res
         .status(401)
@@ -23,7 +24,8 @@ const protectRoute = async (req, res, next) => {
       return res.status(401).json({ error: "Unauthorized - Invalid Token" });
     }
     
-    const user = await User.findById(decoded).select("-password");
+    const user = await User.findById(decoded).select("-password")
+      || await Admin.findById(decoded).select("-password");
 
     if (!user) {
       return res.status(404).json({ error: "User not found" });

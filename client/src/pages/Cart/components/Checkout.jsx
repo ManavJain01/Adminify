@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 import CheckoutSummary from './checkout/CheckoutSummary';
 import BillingInfo from './checkout/BillingInfo'
 import CompanyDetails from './checkout/CompanyDetails'
+import StripePayment from "../StripePayment";
 
 export default function Checkout() {
   // useNavigate
@@ -51,7 +52,8 @@ export default function Checkout() {
         <CompanyDetails save={section} setSave={setSection} />
         
         {!section
-          && <button className="font-semibold text-black bg-white py-2">Save Details & Tokenize</button>
+          // && <button className="font-semibold text-black bg-white py-2">Save Details & Tokenize</button>
+          && <StripePayment />
         }
       </div>
 

@@ -87,6 +87,7 @@ export default function Signup() {
     delete data.lastName;
     data.fullName = fullName;
 
+    
     const user = await signup(data);
 
     if (user === "success") {
@@ -134,6 +135,14 @@ export default function Signup() {
             onSubmit={(e) => handleSubmit(e)}
             className="relative flex flex-col gap-8"
           >
+            <section className="relative">
+              <label htmlFor="signupAs" className="absolute top-[7px] left-5 backdrop-blur-sm rounded-full">Signup as</label>
+              <select name="signupAs" id="signupAs" className="w-full px-[98px] py-2 rounded-full outline-none cursor-pointer">
+                <option value="user" className="rounded-full">User</option>
+                <option value="admin" className="rounded-full">Admin</option>
+              </select>
+            </section>
+
             <div className="flex gap-5">
               <section className="relative">
                 <input

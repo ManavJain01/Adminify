@@ -1,6 +1,9 @@
 // Importing Axios Packages
 import axios from "axios";
 
+// Importing Stripe Packages
+import { loadStripe } from '@stripe/stripe-js'
+
 // Creating Company
 export const newCompany = async (data) => {
   try {
@@ -35,3 +38,34 @@ export const CompanyDetailsRequest = async () => {
     throw error.message;
   }
 };
+
+// Stripe Payment
+export const makePayment = async (cartData, companyData) => {
+  try {
+    const id = localStorage.getItem("authToken");
+
+    const stripe = await loadStripe(import.meta.env.VITE_Stripe_publishable_key);
+
+    const response = await axios.post(
+      `${import.meta.env.VITE_REACT_APP_ServerLocation}/stripe/cart-create-checkout-session`,
+      { cart: cartData, company: companyData },
+      { params: { id } }
+    );
+
+    if (response.status !== 200) {
+      throw new Error("Failed While Payment");
+    }    
+
+    const result = stripe.redirectToCheckout({
+      sessionId: response.data.sessionId
+    });
+
+    if(result.error){
+      console.log("result.error");
+    }
+
+    return "success";
+  } catch (error) {
+    throw error;
+  }
+}

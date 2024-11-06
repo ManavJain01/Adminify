@@ -26,6 +26,7 @@ import Home_Main from "../pages/Home Page/components/Main";
 import Pricing from "../pages/Pricing/Pricing";
 import Cart from "../pages/Cart/Cart";
 import Checkout from "../pages/Cart/components/Checkout";
+import PaymentSuccessfull from "../pages/Cart/Stripe/SuccessfullPayment"
 import Login from "../pages/Login-Signup/Login";
 import Signup from "../pages/Login-Signup/Signup";
 import AdminCreation from "../pages/Home Page/AdminCreation";
@@ -45,7 +46,6 @@ import Settings from "../pages/Admin/pages/Settings";
 import CreateUser from "../pages/Admin/pages/Customers/CreateUser";
 import ViewDetails from "../pages/Admin/pages/Customers/ViewDetails";
 import InitializeApp from "./InitializeApp";
-
 const router = createBrowserRouter([
   {
     path: "/",
@@ -76,6 +76,10 @@ const router = createBrowserRouter([
         element: <AboutUs />,
       },
     ]
+  },
+  {
+    path: "/paymentSuccessful",
+    element: <PaymentSuccessfull />
   },
   {
     path: "/login",

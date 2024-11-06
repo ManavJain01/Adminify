@@ -1,6 +1,7 @@
 // Importing Routes
 const routes = require("./routes/route");
 const UserRoutes = require("./routes/UserRoute");
+const StripeRoutes = require("./routes/StripeRoute");
 const MessageRoutes = require("./routes/MessageRoutes");
 
 // Importing env file
@@ -61,6 +62,7 @@ const mongoDB = require("./db/db");
 // middleware or to set router
 app.use("/", upload.single("logo"), routes);
 app.use("/user", upload.single("users"), UserRoutes);
+app.use("/stripe", StripeRoutes);
 app.use("/messages", MessageRoutes);
 
 // Connecting MongoDB Server

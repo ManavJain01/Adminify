@@ -10,6 +10,7 @@ const { cloudinary } = require('../conf/cloudinary')
 
 // Importing Models
 const Model = require("../models/UserModel");
+const AdminModel = require("../models/AdminModel");
 const { default: mongoose } = require("mongoose");
 
 // Check Whether username exist or not
@@ -109,9 +110,40 @@ const deleteUser = async (id) => {
 };
 
 // SignUp
-const signup = async (data) => {
+const createAdminOnSignup = async (data) => {
   try {
     const { userName, fullName, email, password } = data;
+  
+    let user = await AdminModel.findOne({
+      $or: [{ userName }, { email }],
+    });
+  
+    if (user === null) {
+      user = await AdminModel.create({
+        name: fullName,
+        username: userName,
+        email: email,
+        password: password,
+        privilege: "admin",
+      });
+  
+      const authToken = jwt.sign(user._id.toString(), jwtSecret);
+      return { authToken: authToken };
+    } else {
+      throw new Error("Admin Already exist!!!");
+    }
+ 
+  } catch (error) {
+    throw error;
+  }
+};
+
+const signup = async (data) => {
+  try {    
+    const { userName, fullName, email, password, signupAs } = data;
+
+    const privilege = signupAs === "admin" ? "admin" : "user"
+    
     let user = await Model.findOne({
       $or: [{ userName }, { email }],
     });
@@ -122,7 +154,7 @@ const signup = async (data) => {
         username: userName,
         email: email,
         password: password,
-        privilege: "user",
+        privilege: privilege,
       });
 
       const authToken = jwt.sign(user._id.toString(), jwtSecret);
@@ -141,7 +173,8 @@ const login = async (data) => {
   try {
     const { name, password } = data;
 
-    let user = await Model.findOne({ $or: [{ username: name }, { email: name }] });
+    let user = await Model.findOne({ $or: [{ username: name }, { email: name }] })
+      || await AdminModel.findOne({ $or: [{ username: name }, { email: name }] });
 
     if (user === null) {
       throw new Error("No User Found!!!");
@@ -159,7 +192,8 @@ const login = async (data) => {
 const clerkLoginService = async (data) => {
   const { email, fullName } = data;
 
-  let user = await Model.findOne({ email: email });
+  let user = await Model.findOne({ email: email })
+    || await AdminModel.findOne({ email: email });
 
   if (user === null) {
     const baseUserName = email.split('@')[0]; // Use the part before the '@' in the email
