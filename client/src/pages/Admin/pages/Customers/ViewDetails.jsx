@@ -1,3 +1,6 @@
+import { FaEye } from "react-icons/fa";
+import { FaEyeSlash } from "react-icons/fa";
+
 import React, { useState } from "react";
 import RemainingDays from "./RemainingDays";
 import { Link, useLocation, useNavigate } from "react-router-dom";
@@ -7,10 +10,10 @@ const ViewDetails = () => {
   const location = useLocation();
   const initialCustomer = location.state || {};
   const navigate = useNavigate();
-  // console.log(initialCustomer);
 
   const [customer, setCustomer] = useState(initialCustomer);
   const [isEditing, setIsEditing] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const { updateUser, deleteUser } = useUser();
 
   const handleEditClick = () => {
@@ -52,7 +55,7 @@ const ViewDetails = () => {
           </div>
           {!isEditing && (
             <div className="flex-shrink-0 mt-4 md:mt-0">
-              <RemainingDays subscription={customer.subscription} />
+              <RemainingDays subscription={customer?.subscription} />
             </div>
           )}
         </div>
@@ -62,41 +65,65 @@ const ViewDetails = () => {
           }`}
         >
           {[
-            { label: "Name", key: "name" },
-            { label: "Email", key: "email" },
-            { label: "Username", key: "username" },
-            { label: "Phone", key: "phone" },
-            { label: "Privilege", key: "privilege" },
-            { label: "Birthday", key: "birthday" },
-            { label: "Age", key: "age" },
-            { label: "Gender", key: "gender" },
-            { label: "Address", key: "address" },
-            { label: "Join Date", key: "join_date" },
-            { label: "Payment", key: "payment" },
-            { label: "Aadhaar", key: "aadhaar" },
-            { label: "Password", key: "password" },
+            { label: "Name", key: "name", type: "text" },
+            { label: "Email", key: "email",  type: "email" },
+            { label: "Username", key: "username", type: "text" },
+            { label: "Phone", key: "phone", type: "number" },
+            { label: "Privilege", key: "privilege", type: "text" },
+            { label: "Birthday", key: "birthday", type: "date" },
+            { label: "Age", key: "age", type: "number" },
+            { label: "Gender", key: "gender", type: "text" },
+            { label: "Address", key: "address", type: "text" },
+            { label: "Join Date", key: "join_date", type: "date" },
+            { label: "Payment", key: "payment", type: "number" },
+            { label: "Aadhaar", key: "aadhaar", type: "number" },
+            { label: "Password", key: "password", type: showPassword ? "text" : "password" },
           ].map((field, index) => (
             <div key={index} className="p-2">
               <label className="block text-sm font-medium text-white mb-1">
                 {field.label}
               </label>
-              {isEditing ? (
-                <input
-                  type={
-                    field.key === "birthday" || field.key === "joinDate"
-                      ? "date"
-                      : "text"
-                  }
-                  name={field.key}
-                  value={customer[field.key]}
-                  onChange={handleChange}
-                  className="w-full p-2 border border-gray-300 rounded bg-white text-black"
-                />
+              {isEditing ? field.key === "privilege"
+                ?(
+                  <select name="privilege" id="privilege" value={customer?.privilege || "user"} onChange={handleChange} className="text-black w-full h-[45px] rounded-[5px] outline-none">
+                    <option value="user">User</option>
+                    <option value="admin">Admin</option>
+                  </select>
+                )
+                :(
+                  <div className="relative">
+                    <input
+                      type={ field.type }
+                      name={field.key}
+                      value={customer[field.key]}
+                      onChange={handleChange}
+                      className={`w-full p-2 ${field.key === "password" && "pr-8"} border border-gray-300 rounded bg-white text-black outline-none`}
+                    />
+
+                    {field.key === "password"
+                      && <button onClick={() => setShowPassword(!showPassword)} className="absolute top-3 right-2 text-black bg-white">
+                        {showPassword
+                          ?<FaEyeSlash />
+                          : <FaEye />
+                        }
+                      </button>
+                    }
+                  </div>
               ) : (
                 <p>{customer[field.key]}</p>
               )}
             </div>
           ))}
+
+          {isEditing
+            &&<div className="flex flex-col gap-1 mx-2 mt-2 mb-0">
+            <label htmlFor="add-him" className="font-semibold text-sm">Add him to your company?</label>
+            <select name="add-him" id="add-him" value={customer["add-him"] ? customer["add-him"] : customer?.companyId ? "yes": "no"} onChange={handleChange} className="text-black w-full h-[45px] px-1 rounded-[5px] outline-none">
+              <option value="no">No</option>
+              <option value="yes">Yes</option>
+            </select>
+            </div>
+          }
         </div>
 
         <div className="mt-8 text-center">

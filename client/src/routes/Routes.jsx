@@ -44,6 +44,7 @@ import Broadcast from "../pages/Admin/pages/Broadcast";
 import Reports from "../pages/Admin/pages/Reports";
 import Settings from "../pages/Admin/pages/Settings";
 import CreateUser from "../pages/Admin/pages/Customers/CreateUser";
+import AllUsersFromDatabase from "../pages/Admin/pages/Customers/AllUsersFromDatabase";
 import ViewDetails from "../pages/Admin/pages/Customers/ViewDetails";
 import InitializeApp from "./InitializeApp";
 const router = createBrowserRouter([
@@ -140,6 +141,10 @@ const router = createBrowserRouter([
       {
         path: "create-user",
         element: <CreateUser />,
+      },
+      {
+        path: "database-users",
+        element: <AllUsersFromDatabase />,
       }
     ],
   },

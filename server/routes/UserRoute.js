@@ -33,9 +33,9 @@ router.route("/_id").get(userController);
 router.route("/users").get(protectRoute, allUsersController);
 // Customers
 router.route("/createUser").post(createUserController);
-router.route("/update-user").put(putUserController);
+router.route("/update-user").put(protectRoute, putUserController);
 router.route("/delete-user").delete(deleteUserController);
-router.route("/user-list").get(userListController);
+router.route("/user-list").get(protectRoute, userListController);
 // Reports
 router.route("/fetchLogins").get(userLoginsController);
 

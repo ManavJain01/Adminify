@@ -28,6 +28,10 @@ const UserSchema = new Schema(
       type: String,
       required: true,
     },
+    companyId: {
+      type: Schema.Types.ObjectId,
+      ref: "Companies"
+    },
     profile_img: {
       type: String
     },

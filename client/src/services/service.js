@@ -23,10 +23,10 @@ export const newCompany = async (data) => {
 };
 
 // Company Details
-export const CompanyDetailsRequest = async () => {
+export const CompanyDetailsRequest = async (id) => {
   try {
     const response = await axios.get(
-      `${import.meta.env.VITE_REACT_APP_ServerLocation}/companyDetails`
+      `${import.meta.env.VITE_REACT_APP_ServerLocation}/companyDetails?id=${id}`
     );
 
     if (response.status !== 200) {
@@ -38,6 +38,41 @@ export const CompanyDetailsRequest = async () => {
     throw error.message;
   }
 };
+
+// All Database Users
+export const AllDatabaseUsers = async () => {
+  try {
+    const response = await axios.get(
+      `${import.meta.env.VITE_REACT_APP_ServerLocation}/allDatabaseUsers`
+    );
+
+    if (response.status !== 200) {
+      throw new Error("Failed to get All Database Users");
+    }
+
+    return response.data;
+  } catch (error) {
+    throw error.message;
+  }
+};
+
+// Operation On User
+export const OperationOnUser = async (operation, userId, adminId) => {
+  try {    
+    const response = await axios.get(
+      `${import.meta.env.VITE_REACT_APP_ServerLocation}/operationOnUser?operation=${operation}&id=${adminId}&userId=${userId}`
+    );
+
+    if (response.status !== 200) {
+      throw new Error("Failed to Operate On User");
+    }
+
+    return response.data;
+  } catch (error) {
+    throw error.message;
+  }
+};
+
 
 // Stripe Payment
 export const makePayment = async (cartData, companyData) => {

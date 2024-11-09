@@ -99,10 +99,10 @@ export const clerkLogin = async (data) => {
   }
 }
 
-export const usersList = async () => {
-  try {
+export const usersList = async (number, id) => {
+  try {    
     const response = await axios.get(
-      `${import.meta.env.VITE_REACT_APP_ServerLocation}/user/user-list`
+      `${import.meta.env.VITE_REACT_APP_ServerLocation}/user/user-list?id=${id}`
     );
     return response;
   } catch (error) {
@@ -110,11 +110,14 @@ export const usersList = async () => {
   }
 };
 
-export const updateUserService = async (data) => {
+export const updateUserService = async (data, id) => {
   try {
     const response = await axios.put(
       `${import.meta.env.VITE_REACT_APP_ServerLocation}/user/update-user`,
-      data
+      data,
+      {
+        params: { id },
+      }
     );
     return response;
   } catch (error) {

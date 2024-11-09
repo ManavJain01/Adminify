@@ -1,7 +1,7 @@
 import React from "react";
 import Moment from "moment";
 
-const RemainingDays = ({ subscription }) => {
+const RemainingDays = ({ subscription = {date: "00/00/0000", duration: 0, name: ""} }) => {
   const { date: subscribedOn, duration } = subscription;
 
   const calculateRemainingTime = (subscribedOn, duration) => {
@@ -27,8 +27,8 @@ const RemainingDays = ({ subscription }) => {
   const circumferenceDays = 2 * Math.PI * radiusDays;
   const circumferenceMonths = 2 * Math.PI * radiusMonths;
 
-  const daysProgress = (remainingDays / 30) * circumferenceDays;
-  const monthsProgress = (remainingMonths / 12) * circumferenceMonths;
+  const daysProgress = (remainingDays / 30) * circumferenceDays || 0;
+  const monthsProgress = (remainingMonths / 12) * circumferenceMonths || 0;
 
   return (
     <div className="relative flex flex-col items-center justify-center w-64 h-64 p-4">
@@ -85,10 +85,10 @@ const RemainingDays = ({ subscription }) => {
       {/* Text for remaining time */}
       <div className="absolute flex flex-col items-center justify-center w-full h-full">
         <span className="text-xl font-semibold text-blue-500">
-          {Math.floor(remainingMonths)}m
+          {Math.floor(remainingMonths) || 0}m
         </span>
         <span className="text-lg font-medium text-orange-500">
-          {Math.max(remainingDays, 0)}d
+          {Math.max(remainingDays, 0) || 0}d
         </span>
       </div>
     </div>

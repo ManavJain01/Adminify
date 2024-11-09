@@ -1,9 +1,12 @@
-import { useEffect, useState } from "react";
 import { FaUserEdit } from "react-icons/fa";
+import { FaUserGear } from "react-icons/fa6";
+
+import { useEffect, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
+
 import { useUser } from "../../../../hooks/useUser";
 import LoadingSpinner from "../../../../components/common/LoadingSpinner";
-import { FaUserGear } from "react-icons/fa6";
+
 const showCustomers = ({ flag = true }) => {
   //
   const [customers, setCustomers] = useState();

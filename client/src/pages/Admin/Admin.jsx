@@ -13,14 +13,14 @@ import { useUser } from "../../hooks/useUser";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Sidebar from "./components/Sidebar";
+import NoCompany from "./components/NoCompany";
 
 export default function Admin() {
   // useNavigate
   const navigate = useNavigate();
 
   // redux
-  const companyDetails =
-    useSelector((state) => state.company.companyDetails) || {};
+  const companyDetails = useSelector((state) => state.company.companyDetails) || {};
   const user = useSelector((state) => state.user.data);
 
   // Custom Hookes
@@ -29,16 +29,23 @@ export default function Admin() {
 
   useEffect(() => {
     const handleRefresh = async () => {
-      await getCompanyDetails();
-
       if(!localStorage.getItem("authToken")) navigate("/");
+      
       await getUser();
     };
 
     handleRefresh();
   }, []);
 
-  return (
+  useEffect(() => {
+    const handleRefresh = async () => {      
+      if(user && user.companyId) await getCompanyDetails();
+    };
+
+    handleRefresh();
+  }, [user]);
+
+  if(user && user.companyId) return (
     <div className="text-lg text-white bg-[#222] flex flex-col w-lvw min-h-lvh">
       <Header companyDetails={companyDetails} user={user} />
       <div className="relative flex-1 flex">
@@ -52,4 +59,7 @@ export default function Admin() {
       />
     </div>
   );
+  else return (
+    <NoCompany user={user} />
+  )
 }

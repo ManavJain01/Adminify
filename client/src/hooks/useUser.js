@@ -91,7 +91,8 @@ export const useUser = () => {
 
   const updateUser = async (data) => {
     try {
-      const user = await updateUserService(data);
+      const id = localStorage.getItem("authToken");
+      const user = await updateUserService(data, id);
       return user;
     } catch (error) {
       console.log("Error during Updating Details!!", error);
@@ -180,8 +181,11 @@ export const useUser = () => {
 
   const getAllUsers = async () => {
     try {
-      const response = await usersList(3);
-      return response.data;
+      const id = localStorage.getItem("authToken");
+      if(id) {
+        const response = await usersList(3, id);
+        return response.data;
+      } else return "No Token Found"
     } catch (error) {
       console.log("Error while getAllUsers", error);
     }

@@ -6,19 +6,16 @@ import { RxCross2 } from "react-icons/rx";
 import {Link} from 'react-router-dom';
 import { useState } from 'react';
 
-// Importing Redux Packages
-import { useSelector } from "react-redux";
-
 // Importing Custom Hooks
 import { useRefresh } from "../../../../hooks/useRefresh";
 import { useUser } from "../../../../hooks/useUser";
 
-export default function HamMenu() {
-  // useSelector
-  const cart = useSelector(state => state.cart.cart);
-
+export default function HamMenu({cart = {}, user = {}}) {
   // Custom Hooks
   const { isLogin, logout } = useUser();
+
+  // Variables
+  const firstName = user?.name?.substring(0, user.name.indexOf(' ')) || user?.name;
 
   // useState
   const [openMenu, setOpenMenu] = useState(false);
@@ -37,7 +34,7 @@ export default function HamMenu() {
       {openMenu
         && <div className="absolute top-[50px] right-0 text-lg bg-black bg-opacity-50 backdrop-blur-md flex flex-col gap-5 w-[250px] p-5 rounded-lg shadow-md shadow-gray-900">
           {isLogin
-            && <span className="text-center hover:text-white/50 duration-500">Hi, User</span>
+            && <span className="text-center hover:text-white/50 duration-500">Hi, {firstName ? firstName : "User"}</span>
           }
           {isPaymentSuccessfull
             && <Link to="/admin" className="text-center hover:text-white/50 duration-500">Admin</Link>

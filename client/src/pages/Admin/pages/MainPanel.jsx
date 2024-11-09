@@ -14,6 +14,7 @@ import { Link } from "react-router-dom";
 import Conversations from "./Messages/Conversations";
 import ShowCustomers from "./Customers/ShowCustomers";
 import ReportSidebar from "./Reports/Sidebar";
+import LockForNoAuthentication from "../components/LockForNoAuthentication";
 
 export default function MainPanel() {
   return (
@@ -24,8 +25,9 @@ export default function MainPanel() {
           {/* Customers and Subscriptions */}
           <Link
             to="/admin/customers"
-            className="text-center bg-blue-950 w-[35rem] h-[30rem] px-8 py-5 rounded-xl"
+            className="relative text-center bg-blue-950 w-[35rem] h-[30rem] px-8 py-5 rounded-xl"
           >
+            <LockForNoAuthentication />
             <FaUsers className="mx-auto size-8" />
             <ShowCustomers flag={false} />
           </Link>
@@ -50,8 +52,9 @@ export default function MainPanel() {
       <div className="flex flex-col gap-5">
         <Link
           to="/admin/reports"
-          className="text-center bg-blue-950 flex flex-col items-center gap-5 w-[20rem] h-[20rem] px-8 py-5 rounded-xl"
+          className="relative text-center bg-blue-950 flex flex-col items-center gap-5 w-[20rem] h-[20rem] px-8 py-5 rounded-xl"
         >
+            <LockForNoAuthentication />
           <TbReportSearch className="size-8" />
           <ReportSidebar />
         </Link>

@@ -1,5 +1,6 @@
 // Customers Models
 const companyModel = require("../models/model.js");
+const userModel = require("../models/UserModel.js");
 const subscriptionModel = require("../models/subscription.js");
 
 // Json Web Token
@@ -35,6 +36,16 @@ const makePayment = async (req, res) => {
         setDefaultsOnInsert: true, // Apply default values when creating
       }
     );
+
+    const user = await userModel.findByIdAndUpdate(
+      {_id: id},
+      {
+        $set: {
+          companyId: newCompany._id
+        }
+      }
+    );
+    
 
     // Stripe Integration
     const lineItems = cart.map((product) => ({

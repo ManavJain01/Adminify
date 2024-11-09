@@ -54,9 +54,9 @@ const setCompanyDetails = async (data, logo) => {
   }
 };
 
-const companyDetails = async () => {
+const companyDetails = async (companyId) => {
   try {
-    const data = await Model.find({});
+    const data = await Model.find({ _id: companyId });
 
     return data;
   } catch (error) {
@@ -64,4 +64,32 @@ const companyDetails = async () => {
   }
 };
 
-module.exports = { setCompanyDetails, companyDetails };
+const DatabaseUsers = async () => {
+  try {
+    const data = await UserModel.find({});
+
+    return data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+const OperationOnUser = async (operation, userId, companyId) => {
+  try {
+    if(operation === "add") {
+      await UserModel.updateOne({ _id: userId }, { $set: { companyId: companyId } },
+        { runValidators: true }
+      );
+    } else if(operation === "remove") {
+      await UserModel.updateOne({ _id: userId }, { $unset: { companyId: "" } },
+        { runValidators: true }
+      );
+    } else throw Error("Wrong Operation");
+    
+    return "success";
+  } catch (error) {
+    throw error;
+  }
+};
+
+module.exports = { setCompanyDetails, companyDetails, DatabaseUsers, OperationOnUser };

@@ -15,6 +15,8 @@ import HamMenu from './Header/HamMenu';
 export default function Header() {
   // useSelector
   const cart = useSelector(state => state.cart.cart);
+  const user = useSelector((state) => state.user.data);
+  const firstName = user?.name?.substring(0, user.name.indexOf(' ')) || user?.name;
 
   // Custom Hooks
   const { isLogin, logout } = useUser();
@@ -29,7 +31,7 @@ export default function Header() {
 
       <div className="text-lg flex gap-5">
         {isLogin
-          && <span className="hover:text-white/50 duration-500">Hi, User</span>
+          && <span className="hover:text-white/50 duration-500">Hi, {firstName ? firstName : "User"}</span>
         }
         {isPaymentSuccessfull && isLogin
           && <Link to="/admin" className="hover:text-white/50 duration-500">Admin</Link>
@@ -55,6 +57,6 @@ export default function Header() {
     </div>
   )
   else return (
-    <HamMenu />
+    <HamMenu user={user} cart={cart} />
   )
 }

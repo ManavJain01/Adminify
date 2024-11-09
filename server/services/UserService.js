@@ -73,11 +73,11 @@ const createUser = async (data, img) => {
   }
 };
 
-const putUser = async (data, img) => {
+const putUser = async (data, img, companyId) => {  
   if(img?.path){
     const profile_img = await cloudinary.uploader.upload(img?.path);
     data.profile_img = profile_img.secure_url;
-
+    
     // Delete the file from local storage
     fs.unlink(img.path, (err) => {
       if (err) {
@@ -89,6 +89,17 @@ const putUser = async (data, img) => {
 
   // const ObjId = new mongoose.Types.ObjectId(data._id);
   // delete data._id;
+  if(data["add-him"] === "yes") data.companyId = companyId;
+  else if(data["add-him"] === "no"){
+    delete data.companyId;
+    
+    await Model.updateOne({ _id: data._id }, { $unset: { companyId: "" } },
+      { runValidators: true }
+    );
+  }
+
+  if(data["add-him"]) delete data["add-him"];
+  
   try {
     const result = await Model.updateOne({ _id: data._id }, data, {
       runValidators: true,
@@ -110,34 +121,6 @@ const deleteUser = async (id) => {
 };
 
 // SignUp
-const createAdminOnSignup = async (data) => {
-  try {
-    const { userName, fullName, email, password } = data;
-  
-    let user = await AdminModel.findOne({
-      $or: [{ userName }, { email }],
-    });
-  
-    if (user === null) {
-      user = await AdminModel.create({
-        name: fullName,
-        username: userName,
-        email: email,
-        password: password,
-        privilege: "admin",
-      });
-  
-      const authToken = jwt.sign(user._id.toString(), jwtSecret);
-      return { authToken: authToken };
-    } else {
-      throw new Error("Admin Already exist!!!");
-    }
- 
-  } catch (error) {
-    throw error;
-  }
-};
-
 const signup = async (data) => {
   try {    
     const { userName, fullName, email, password, signupAs } = data;
@@ -264,10 +247,11 @@ const getUser = async (_id) => {
   }
 };
 
-const allUsers = async (loggedInUserId) => {
-  try {
+const allUsers = async (loggedInUserId, companyId) => {
+  try {    
     const filteredUsers = await Model.find({
       _id: { $ne: loggedInUserId },
+      companyId: companyId
     }).select("-password");
 
     return filteredUsers;
@@ -277,9 +261,11 @@ const allUsers = async (loggedInUserId) => {
   }
 };
 
-const userList = async () => {
-  try {
-    const userlist = await Model.find();
+const userList = async (companyId) => {
+  try {    
+    const userlist = await Model.find({
+      companyId: companyId
+    });
     return userlist;
   } catch (error) {
     console.error("Error Occurred while Fetching All Users:", error.message);

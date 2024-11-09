@@ -26,8 +26,8 @@ const createUserController = async (req, res) => {
 
 //Update User
 const putUserController = async (req, res) => {
-  try {
-    const result = await service.putUser(req.body, req.file);
+  try {    
+    const result = await service.putUser(req.body, req.file, req.user.companyId);
     res.status(200).send(result);
   } catch (error) {
     console.log("Error: ", error.message);
@@ -113,8 +113,9 @@ const userController = async (req, res) => {
 
 const allUsersController = async (req, res) => {
   try {
+    const companyId = req.user.companyId;    
     const loggedInUserId = req.user._id;
-    const result = await service.allUsers(loggedInUserId);
+    const result = await service.allUsers(loggedInUserId, companyId);
     res.status(200).send(result);
   } catch (error) {
     console.error("Error: ", error.message);
@@ -124,7 +125,8 @@ const allUsersController = async (req, res) => {
 
 const userListController = async (req, res) => {
   try {
-    const result = await service.userList();
+    const companyId = req.user.companyId;    
+    const result = await service.userList(companyId);
     res.status(200).send(result);
   } catch (error) {
     console.log("Error: ", error.message);

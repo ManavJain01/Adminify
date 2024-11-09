@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setCompanyDetails as storeCompanyDetails } from "../Redux/features/CompanySlice";
 
 // Importing Services
-import { CompanyDetailsRequest } from "../services/service";
+import { CompanyDetailsRequest, AllDatabaseUsers, OperationOnUser } from "../services/service";
 
 export const useRefresh = () => {
   // useDispatch
@@ -18,12 +18,14 @@ export const useRefresh = () => {
   // Functions
   const getCompanyDetails = async () => {
     try {
+      const id = localStorage.getItem("authToken");
       if (
+        id &&
         !companyDetails?.company &&
         !companyDetails?.owner &&
         !companyDetails?.logo
       ) {
-        const response = await CompanyDetailsRequest();
+        const response = await CompanyDetailsRequest(id);
         return await setCompanyDetails({
           company: response[0]?.company || "",
           owner: response[0]?.owner || "",
@@ -45,8 +47,32 @@ export const useRefresh = () => {
     }
   };
 
+  const getAllDatabaseUsers = async () => {
+    try {
+      const response = await AllDatabaseUsers();
+      return response;
+    } catch (error) {
+      console.error("Error Getting Database Users:", error.message);
+    }
+  }
+
+  const addOrRemoveUserFromCompany = async (operation, userId) => {
+    try {
+      const id = localStorage.getItem("authToken");
+      if (id){
+        const response = await OperationOnUser(operation, userId, id);
+        return response;
+
+      } else throw Error("No Token Found!")
+    } catch (error) {
+      console.error("Error Getting Database Users:", error.message);
+    }
+  }
+
   return {
     getCompanyDetails,
-    setCompanyDetails
+    setCompanyDetails,
+    getAllDatabaseUsers,
+    addOrRemoveUserFromCompany
   };
 };
