@@ -8,6 +8,9 @@ import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
+// Importing Clerk Packages
+import { useClerk } from "@clerk/clerk-react";
+
 // Importing Hooks
 import { useUser } from "../../hooks/useUser";
 
@@ -16,6 +19,9 @@ import "./Styles/Styles.css";
 import ForgetPassword from "./components/ForgetPassword";
 
 export default function Login() {
+  // Clerk
+  const { openSignIn } = useClerk();
+  
   // Custom Hooks
   const { login } = useUser();
 
@@ -69,6 +75,16 @@ export default function Login() {
     }
   };
 
+  const handleSignIn = async () => {
+    try {
+      // Open Google Sign-In popup
+      await openSignIn({ strategy: 'oauth_google' });
+
+    } catch (error) {
+      console.error('Sign-in failed:', error);
+    }
+  }
+
   return (
     <div className="relative text-lg text-white bg-[#222] flex justify-center items-center w-lvw min-h-lvh p-5">
       <Link to="/" className="absolute top-5 left-5 hover:text-blue-600 flex items-center gap-3">
@@ -88,10 +104,10 @@ export default function Login() {
           <ForgetPassword setForgetPassword={setForgetPassword} />
         ) : (
           <div className="z-20 relative text-black flex flex-col gap-8 rounded-lg">
-            <Link to="https://cute-gorilla-43.accounts.dev/sign-in" className="font-semibold text-sm text-black bg-white flex items-center justify-center gap-5 py-2 rounded-lg">
+            <button onClick={handleSignIn} className="font-semibold text-sm text-black bg-white flex items-center justify-center gap-5 py-2 rounded-lg">
               <FcGoogle className="size-5" />
-              <span>Sign in with Google</span>
-            </Link>
+              <span>Sign up with Google</span>
+            </button>
 
             <section className="relative">
               <hr className="opacity-50" />

@@ -5,7 +5,7 @@ import { MdDeleteOutline } from "react-icons/md";
 
 // Importing React Package
 import { useMemo, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // Importing Redux Package
 import { useDispatch, useSelector } from "react-redux";
@@ -20,6 +20,7 @@ export default function PricesProductCard({index = 0, item, length = 0}) {
 
   // useSelector
   const cart = useSelector(state => state.cart.cart);
+  const user = useSelector(state => state.user.data);
     
   // useDispatch
   const dispatch = useDispatch();
@@ -59,16 +60,18 @@ export default function PricesProductCard({index = 0, item, length = 0}) {
       <section className="flex flex-col gap-5">
         <p className="font-semibold text-3xl">{item?.headline}</p>
         <p className="text-gray-400">{item?.description}</p>
-        {doesContain
-          ? <div className="flex items-center gap-3">
-            <p className="flex-1 text-center text-white bg-blue-700 hover:bg-blue-800 py-2 rounded-full duration-500">Added</p>
-            <button onClick={() => handleClickToRemove(item)} className={`p-2 border ${index+1 === length ? "border-black hover:bg-gray-300" : "hover:bg-gray-800"} rounded-full hover:opacity-55 duration-500`}><MdDeleteOutline className="size-5" /></button>
-          </div>
-          : <button onClick={() => handleClickToAdd(item)} className="group text-white bg-blue-700 hover:bg-blue-800 flex items-center justify-center gap-5 py-2 rounded-full duration-500">
-            <span className="group-hover:hidden font-semibold">{item?.price}</span>
-            <span className="hidden group-hover:block font-semibold">Purchase</span>
-            <FaArrowRightLong className="size-3 group-hover:size-4" />
-          </button>
+        {user?.companyId
+          ? <Link to="/contact-us" className="flex-1 text-center text-white bg-blue-700 hover:bg-blue-800 py-2 rounded-full duration-500">Contact Us</Link>
+          :doesContain
+            ? <div className="flex items-center gap-3">
+              <p className="flex-1 text-center text-white bg-blue-700 hover:bg-blue-800 py-2 rounded-full duration-500">Added</p>
+              <button onClick={() => handleClickToRemove(item)} className={`p-2 border ${index+1 === length ? "border-black hover:bg-gray-300" : "hover:bg-gray-800"} rounded-full hover:opacity-55 duration-500`}><MdDeleteOutline className="size-5" /></button>
+            </div>
+            : <button onClick={() => handleClickToAdd(item)} className="group text-white bg-blue-700 hover:bg-blue-800 flex items-center justify-center gap-5 py-2 rounded-full duration-500">
+              <span className="group-hover:hidden font-semibold">{item?.price}</span>
+              <span className="hidden group-hover:block font-semibold">Purchase</span>
+              <FaArrowRightLong className="size-3 group-hover:size-4" />
+            </button>
         }
       </section>
 

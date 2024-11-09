@@ -25,8 +25,8 @@ export default function Pricing() {
       tag: "Custom Pricing",
       headline: "Scale",
       description: "Unlock specific features designed for growing businesses.",
-      price: "₹ 1000",
-      value: 1000,
+      price: "₹ 5000",
+      value: 5000,
       img: membership,
       benefits: [
         "Everything in Launch plus:",
@@ -39,8 +39,8 @@ export default function Pricing() {
       tag: "Pro Plan",
       headline: "Enterprise",
       description: "Tailored solutions for enterprises with Advanced features.",
-      price: "₹ 2000",
-      value: 2000,
+      price: "₹ 10000",
+      value: 10000,
       img: vip,
       benefits: [
         "Everything in Scale plus:",

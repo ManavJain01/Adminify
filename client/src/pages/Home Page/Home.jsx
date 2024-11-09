@@ -10,17 +10,17 @@ import { Outlet } from "react-router-dom"
 import { useUser } from "../../hooks/useUser";
 
 export default function Home() {
-    // Custom Hookes
-    const { getUser } = useUser();
+  // Custom Hookes
+  const { getUser } = useUser();
 
-    // useEffect
-    useEffect(() => {
-      const handleRefresh = async () => {
-        if(localStorage.getItem("authToken")) await getUser();
-      };
-  
-      handleRefresh();
-    }, []);
+  // useEffect
+  useEffect(() => {
+    const handleRefresh = async () => {
+      if(localStorage.getItem("authToken")) await getUser();
+    };
+
+    handleRefresh();
+  }, []);
 
   return (
     <div className="custom-scrollbar relative text-white bg-black flex flex-col justify-between h-lvh w-lvw overflow-x-hidden">

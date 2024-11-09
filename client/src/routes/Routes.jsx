@@ -33,6 +33,7 @@ import AdminCreation from "../pages/Home Page/AdminCreation";
 import CompanyDetails from "../pages/Home Page/Main";
 import ContactUs from "../pages/company/ContactUs";
 import AboutUs from "../pages/company/AboutUs";
+import FAQs from "../pages/company/FAQs";
   // Customer Related Routes
 import Admin from "../pages/Admin/Admin";
 import MainPanel from "../pages/Admin/pages/MainPanel";
@@ -47,6 +48,7 @@ import CreateUser from "../pages/Admin/pages/Customers/CreateUser";
 import AllUsersFromDatabase from "../pages/Admin/pages/Customers/AllUsersFromDatabase";
 import ViewDetails from "../pages/Admin/pages/Customers/ViewDetails";
 import InitializeApp from "./InitializeApp";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -75,6 +77,10 @@ const router = createBrowserRouter([
       {
         path: "/about-us",
         element: <AboutUs />,
+      },
+      {
+        path: "/faqs",
+        element: <FAQs />,
       },
     ]
   },

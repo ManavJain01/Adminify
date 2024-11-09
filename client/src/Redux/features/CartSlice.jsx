@@ -9,9 +9,11 @@ export const CartSlice = createSlice({
   initialState,
   reducers: {
     addToCart: (state, action) => {
-      state.cart.push({
-        ...action.payload,  // Spread the item details from the action payload
-      });
+      // state.cart.push({
+      //   ...action.payload,  // Spread the item details from the action payload
+      // });
+
+      state.cart = [action.payload];
     },
     removeFromCart: (state, action) => {
       const tag = action.payload;

@@ -2,6 +2,7 @@ import { FaCheckCircle } from "react-icons/fa";
 
 // Importing React Packages
 import { useEffect, useState, Fragment } from "react"
+import { Link } from "react-router-dom"
 
 export default function PricesComparison({plans = []}) {
   // useState
@@ -28,10 +29,10 @@ export default function PricesComparison({plans = []}) {
           return (
             <div key={i} className={`${i+1 === plans.length && "text-black bg-white rounded-xl"} flex flex-col items-center gap-5 px-16 py-5`}>
               <p className="font-semibold text-xl">{e?.headline}</p>
-              <button className="group text-white bg-blue-700 w-40 px-10 py-2 rounded-full">
+              <Link to="/contact-us" className="group text-center text-white bg-blue-700 w-40 px-10 py-2 rounded-full">
                 <span className="group-hover:hidden">{e?.price}</span>
-                <span className="hidden group-hover:block">Purchase</span>
-              </button>
+                <span className="hidden group-hover:block">Contact Us</span>
+              </Link>
             </div>
           )
         })}

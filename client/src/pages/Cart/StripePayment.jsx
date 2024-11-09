@@ -1,20 +1,18 @@
 // Importing React Icons
 import { AiOutlineExport } from "react-icons/ai";
 
-// Importing Redux Packages
+// Importing React Packages
+import { Link } from "react-router-dom";
 import { useSelector } from "react-redux"
 
 // Importing Services
 import { makePayment } from "../../services/service";
 
-
-// Importing Stripe Packages
-import { loadStripe } from '@stripe/stripe-js'
-
 export default function StripePayment() {
   // useSelector
   const cartData = useSelector(state => state.cart.cart);
   const companyData = useSelector(state => state.company);
+  const user = useSelector(state => state.user.data);
 
   // Functions
   const handlePayment = async () => {
@@ -26,6 +24,9 @@ export default function StripePayment() {
     }
   };
 
+  if(user?.companyId) return (
+    <Link to="/contact-us" className="font-bold text-lg text-black bg-white flex items-center justify-center gap-3 py-2">Contact Us</Link>
+  )
   return (
     <button onClick={handlePayment} className="font-bold text-lg text-black bg-white flex items-center justify-center gap-3 py-2">
       <span>Continue Purchase</span>

@@ -3,8 +3,12 @@ import { FaArrowRightLong } from "react-icons/fa6";
 
 // Importing React Packages
 import {Link} from 'react-router-dom';
+import { useSelector } from "react-redux";
 
 export default function Footer() {
+  // useSelector
+  const user = useSelector(state => state.user.data);
+  
   const Card = () => {
     return (
       <div className="text-white bg-[url('https://frontegg.com/wp-content/uploads/2024/07/BG.png-1-scaled.webp')] bg-cover bg-center flex justify-around min-h-[20rem] my-10 p-10 border border-gray-600 rounded-xl">
@@ -73,7 +77,7 @@ export default function Footer() {
 
   return (
     <div className="text-gray-500 flex flex-col px-10 py-5">
-      <Card />
+      {!user?.companyId && <Card /> }
       <NavigationBar/>
       <LastSection />
     </div>

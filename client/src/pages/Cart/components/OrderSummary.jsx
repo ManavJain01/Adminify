@@ -14,6 +14,7 @@ import { useUser } from "../../../hooks/useUser";
 export default function OrderSummary() {
   // useSelector
   const cart = useSelector(state => state.cart.cart);
+  const user = useSelector(state => state.user.data);
 
   // useNavigate
   const navigate = useNavigate();
@@ -53,7 +54,10 @@ export default function OrderSummary() {
         <span>Nice! You saved  ₹4,560.00 on your order.</span>
       </p>
 
-      <button onClick={handleClick} className="font-bold text-center text-black bg-white hover:bg-white/80 py-2">I'm Ready to Pay</button>
+      {user?.companyId
+        ? <Link to="/contact-us" className="font-bold text-center text-black bg-white hover:bg-white/80 py-2">Contact Us</Link>
+        : <button onClick={handleClick} className="font-bold text-center text-black bg-white hover:bg-white/80 py-2">I'm Ready to Pay</button>
+      }
     </div>
   )
 }
