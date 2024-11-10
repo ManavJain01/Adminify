@@ -19,6 +19,7 @@ export default function AllUsersFromDatabase() {
 
   // useSelector
   const admin = useSelector(state => state.user.data);
+  const companyOwnerId = useSelector(state => state.company.companyDetails.adminId);
 
   // useState
   const [allUsers, setAllUsers] = useState([]);
@@ -76,9 +77,10 @@ export default function AllUsersFromDatabase() {
                 <td className="px-8 py-2 text-left text-white">{user?.email}</td>
                 <td className="flex items-center gap-5 px-8 py-2 text-left text-white">{user?.companyId && admin?.companyId !== user?.companyId
                   ? <p className="whitespace-nowrap text-xs text-gray-400 pt-2">Already in another company</p>
-                  :admin?.companyId === user?.companyId
-                    ?<button onClick={() => handleRemove(user?._id)} className="text-red-600 rounded-lg">Remove User</button>
-                    :<button onClick={() => handleAdd(user?._id)} className="text-green-600 rounded-lg">Add User</button>
+                  : user?._id === companyOwnerId ? <p className="whitespace-nowrap text-xs text-gray-400 pt-2">Company Owner</p>
+                    : admin?.companyId === user?.companyId
+                      ?<button onClick={() => handleRemove(user?._id)} className="text-red-600 rounded-lg">Remove User</button>
+                      :<button onClick={() => handleAdd(user?._id)} className="text-green-600 rounded-lg">Add User</button>
                 }</td>
               </tr>
             )

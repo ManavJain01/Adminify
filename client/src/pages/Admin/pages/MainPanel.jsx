@@ -54,14 +54,17 @@ export default function MainPanel() {
           to="/admin/reports"
           className="relative text-center bg-blue-950 flex flex-col items-center gap-5 w-[20rem] h-[20rem] px-8 py-5 rounded-xl"
         >
-            <LockForNoAuthentication />
+          <LockForNoAuthentication />
+
           <TbReportSearch className="size-8" />
           <ReportSidebar />
         </Link>
         <Link
           to="/admin/broadcast"
-          className="text-center bg-blue-950 flex justify-center items-center w-[20rem] h-[8rem] px-8 py-5 rounded-xl"
+          className="relative text-center bg-blue-950 flex justify-center items-center w-[20rem] h-[8rem] px-8 py-5 rounded-xl"
         >
+          <LockForNoAuthentication />
+
           <FaTowerBroadcast className="size-20" />
         </Link>
         <Link

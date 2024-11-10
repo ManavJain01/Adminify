@@ -41,7 +41,8 @@ const makePayment = async (req, res) => {
       {_id: id},
       {
         $set: {
-          companyId: newCompany._id
+          companyId: newCompany._id,
+          privilege: "admin"
         }
       }
     );

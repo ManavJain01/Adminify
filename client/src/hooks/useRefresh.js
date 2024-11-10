@@ -30,6 +30,7 @@ export const useRefresh = () => {
           company: response[0]?.company || "",
           owner: response[0]?.owner || "",
           logo: response[0]?.logo || "",
+          adminId: response[0]?.adminId || "",
         });
       }
 

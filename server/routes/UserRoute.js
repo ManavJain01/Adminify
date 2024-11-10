@@ -19,7 +19,11 @@ const {
   userListController,
   putUserController,
   deleteUserController,
-  userLoginsController
+  userLoginsController,
+  productListController,
+  createProductController,
+  putProductController,
+  deleteProductController
 } = require("../controllers/UserController");
 
 // Routes
@@ -36,6 +40,12 @@ router.route("/createUser").post(createUserController);
 router.route("/update-user").put(protectRoute, putUserController);
 router.route("/delete-user").delete(deleteUserController);
 router.route("/user-list").get(protectRoute, userListController);
+
+// Products
+router.route("/product-list").get(protectRoute, productListController);
+router.route("/create-product").post(protectRoute, createProductController);
+router.route("/update-product").put(protectRoute, putProductController);
+router.route("/delete-product").delete(protectRoute, deleteProductController);
 // Reports
 router.route("/fetchLogins").get(userLoginsController);
 

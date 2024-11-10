@@ -40,6 +40,8 @@ import MainPanel from "../pages/Admin/pages/MainPanel";
 import Customers from "../pages/Admin/pages/Customers";
 import Messages from "../pages/Admin/pages/Messages";
 import Products from "../pages/Admin/pages/Products";
+import CreateProduct from "../pages/Admin/pages/Products/CreateProduct";
+import UpdateProduct from "../pages/Admin/pages/Products/UpdateProduct";
 import Subscriptions from "../pages/Admin/pages/Subscriptions";
 import Broadcast from "../pages/Admin/pages/Broadcast";
 import Reports from "../pages/Admin/pages/Reports";
@@ -127,6 +129,14 @@ const router = createBrowserRouter([
       {
         path: "products",
         element: <Products />,
+      },
+      {
+        path: "create-product",
+        element: <CreateProduct />,
+      },
+      {
+        path: "update-product",
+        element: <UpdateProduct />,
       },
       {
         path: "subscription",

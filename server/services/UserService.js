@@ -11,6 +11,7 @@ const { cloudinary } = require('../conf/cloudinary')
 // Importing Models
 const Model = require("../models/UserModel");
 const AdminModel = require("../models/AdminModel");
+const ProductModel = require("../models/productModel");
 const { default: mongoose } = require("mongoose");
 
 // Check Whether username exist or not
@@ -273,6 +274,95 @@ const userList = async (companyId) => {
   }
 };
 
+const productList = async (companyId) => {
+  try {
+    return await ProductModel.findOne({ companyId: companyId });
+
+  } catch (error) {
+    throw error;
+  }
+};
+
+const createProduct = async (product, companyId) => {
+  try {
+    product._id = new mongoose.Types.ObjectId();
+
+    let companyProducts = await ProductModel.findOne({ companyId: companyId });
+    
+    // If no product list is found, create a new one
+    if (!companyProducts) {
+      const newProduct = new ProductModel({
+        products: [product],
+        companyId: companyId,
+      });
+  
+      // Save the document to the database
+      await newProduct.save();
+    } else {
+      // If found, push the new product to the existing products array
+      companyProducts.products.push(product);
+      await companyProducts.save();
+    }
+
+    return "success";
+  } catch (error) {
+    throw error;
+  }
+};
+
+const updateProduct = async (ProductData) => {
+  try {    
+    const { companyId, product } = ProductData;
+    
+    if (!product?._id) {
+      throw new Error("Product ID is required");
+    }
+
+    const productId = new mongoose.Types.ObjectId(product._id);
+    const companyIdObject = new mongoose.Types.ObjectId(companyId);
+    
+    const updatedProduct = await ProductModel.findOneAndUpdate(
+      { companyId: companyIdObject, "products._id": productId }, // Match by companyId and product _id
+      {
+        $set: {
+          "products.$": { ...product, _id: productId }, // Update the matching product in the array
+        }
+      },
+      { new: true } // Return the modified document
+    );
+    
+    if (!updatedProduct) {
+      throw new Error("Product not found");
+    }
+
+    return "success";
+  } catch (error) {
+    throw error;
+  }
+};
+
+const deleteProduct = async (productId, companyId) => {
+  try {
+    const productIdObject = new mongoose.Types.ObjectId(productId);
+    const companyIdObject = new mongoose.Types.ObjectId(companyId);
+    
+    const updatedCompany = await ProductModel.findOneAndUpdate(
+      { companyId: companyIdObject, "products._id": productIdObject }, // Find company by companyId and product's _id
+      { $pull: { products: { _id: productIdObject } } }, // Remove the product from the array
+      { new: true } // Return the updated company document
+    );
+
+    if (!updatedCompany) {
+      throw new Error("Product or Company not found");
+    }
+
+    return "success";
+  } catch (error) {
+    throw error;
+  }
+};
+
+
 module.exports = {
   createAdmin,
   createUser,
@@ -286,4 +376,9 @@ module.exports = {
   userReset,
   getUser,
   allUsers,
+  // Products
+  productList,
+  createProduct,
+  updateProduct,
+  deleteProduct
 };

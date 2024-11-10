@@ -5,17 +5,24 @@ import React, { useState } from "react";
 import RemainingDays from "./RemainingDays";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useUser } from "../../../../hooks/useUser";
+import { useSelector } from "react-redux";
 
 const ViewDetails = () => {
+  // React Routor Dom
   const location = useLocation();
   const initialCustomer = location.state || {};
   const navigate = useNavigate();
 
+  // useSelector
+  const companyOwnerId = useSelector(state => state.company.companyDetails.adminId);
+
+  // UseState
   const [customer, setCustomer] = useState(initialCustomer);
   const [isEditing, setIsEditing] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const { updateUser, deleteUser } = useUser();
 
+  // Functions
   const handleEditClick = () => {
     setIsEditing(true);
   };
@@ -52,6 +59,7 @@ const ViewDetails = () => {
           <div className="flex-1 mt-10">
             <h1 className="text-3xl font-bold mb-1">{customer.name}</h1>
             <p className="text-lg">{customer.email}</p>
+            {customer._id === companyOwnerId && <p className="text-green-700">Company Owner</p>}
           </div>
           {!isEditing && (
             <div className="flex-shrink-0 mt-4 md:mt-0">
@@ -115,7 +123,7 @@ const ViewDetails = () => {
             </div>
           ))}
 
-          {isEditing
+          {isEditing && customer._id !== companyOwnerId
             &&<div className="flex flex-col gap-1 mx-2 mt-2 mb-0">
             <label htmlFor="add-him" className="font-semibold text-sm">Add him to your company?</label>
             <select name="add-him" id="add-him" value={customer["add-him"] ? customer["add-him"] : customer?.companyId ? "yes": "no"} onChange={handleChange} className="text-black w-full h-[45px] px-1 rounded-[5px] outline-none">

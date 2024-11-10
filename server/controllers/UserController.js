@@ -145,9 +145,58 @@ const userLoginsController = async (req, res) => {
   }
 };
 
+const productListController = async (req, res) => {
+  try {
+    const companyId = req.user.companyId;
+    const result = await service.productList(companyId);
+    res.status(200).send(result);
+  } catch (error) {
+    console.log("Error: ", error.message);
+    res.status(400).send(error.message);
+  }
+};
+
+const createProductController = async (req, res) => {
+  try {
+    const companyId = req.user.companyId;
+    const data = req.body;
+    
+    const result = await service.createProduct(data, companyId);
+    res.status(200).send(result);
+  } catch (error) {
+    console.log("Error: ", error.message);
+    res.status(400).send(error.message);
+  }
+};
+
+const putProductController = async (req, res) => {
+  try {
+    const data = req.body;
+
+    const result = await service.updateProduct(data);
+    res.status(200).send(result);
+  } catch (error) {
+    console.log("Error: ", error.message);
+    res.status(400).send(error.message);
+  }
+};
+
+const deleteProductController = async (req, res) => {
+  try {
+    const {companyId, productId} = req.query;
+
+    const result = await service.deleteProduct(productId, companyId);
+    res.status(200).send(result);
+  } catch (error) {
+    console.log("Error: ", error.message);
+    res.status(400).send(error.message);
+  }
+};
+
 // Exporting controllers
 module.exports = {
   createAdminController,
+  // Customers
   createUserController,
   putUserController,
   deleteUserController,
@@ -159,6 +208,11 @@ module.exports = {
   userController,
   allUsersController,
   userListController,
+  // Products
+  productListController,
+  createProductController,
+  putProductController,
+  deleteProductController,
   // Reports
   userLoginsController,
 };
