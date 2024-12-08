@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 // Importing Redux files
 import { useDispatch } from "react-redux";
 import { creatingInitialState } from "../Redux/features/UserSlice";
+import { emptyCart } from "../Redux/features/CartSlice";
+import { emptyCompanyRelatedDetails } from "../Redux/features/CompanySlice";
 
 // Clerk
 import { useAuth, useUser as useClerkUser } from '@clerk/clerk-react';
@@ -147,7 +149,12 @@ export const useUser = () => {
       // removing localStorage variables
       localStorage.removeItem("authToken");
 
+      // Empty User Data
       await getUser();
+      // Empty Cart Data
+      dispatch(emptyCart());
+      // Empty Company Related Details
+      dispatch(emptyCompanyRelatedDetails());
 
       // Clerk Function
       if (clerkUser) await signOut();

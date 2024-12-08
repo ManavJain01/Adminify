@@ -15,15 +15,22 @@ const {
   searchUserController,
   resetController,
   userController,
+  // Customers
   allUsersController,
   userListController,
   putUserController,
   deleteUserController,
   userLoginsController,
+  // Products
   productListController,
   createProductController,
   putProductController,
-  deleteProductController
+  deleteProductController,
+  // subscription
+  subscriptionListController,
+  createSubscriptionController,
+  putSubscriptionController,
+  deleteSubscriptionController,
 } = require("../controllers/UserController");
 
 // Routes
@@ -46,6 +53,11 @@ router.route("/product-list").get(protectRoute, productListController);
 router.route("/create-product").post(protectRoute, createProductController);
 router.route("/update-product").put(protectRoute, putProductController);
 router.route("/delete-product").delete(protectRoute, deleteProductController);
+// subscription
+router.route("/subscription-list").get(protectRoute, subscriptionListController);
+router.route("/create-subscription").post(protectRoute, createSubscriptionController);
+router.route("/update-subscription").put(protectRoute, putSubscriptionController);
+router.route("/delete-subscription").delete(protectRoute, deleteSubscriptionController);
 // Reports
 router.route("/fetchLogins").get(userLoginsController);
 

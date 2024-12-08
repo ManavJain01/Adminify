@@ -1,9 +1,15 @@
-import { FaPlus } from "react-icons/fa";
+// Importing React Packages
+import { useEffect } from "react";
+
+// Importing Custom Hooks
+import { useSubscription } from "../../../hooks/useSubscription";
 
 // Importing Local Files
-import TiltCard from "../components/TiltCard";
+import TiltCard from "./Subscriptions/TiltCard";
+import CreateSubscription from "./Subscriptions/CreateSubscription";
 
 export default function Subscriptions() {
+  // Variables
   const subs = [
     {
       name: "Basic",
@@ -31,6 +37,20 @@ export default function Subscriptions() {
     },
   ];
 
+  // Custom Hooks
+  const { AllSubscriptions } = useSubscription();
+
+  // useEffect
+  useEffect(() => {
+    const handleRefresh = async () => {
+      const res = await AllSubscriptions();
+      console.log("res: ", res);
+      
+    }
+
+    handleRefresh();
+  }, []);
+
   return (
     <div className="flex flex-col items-center gap-10">
       <div className="flex flex-col items-center">
@@ -43,9 +63,7 @@ export default function Subscriptions() {
           return <TiltCard key={i} data={e} />;
         })}
 
-        <button className="bg-gradient-to-br from-blue-500 to-pink-500 flex justify-center items-center h-[35rem] w-[20rem] rounded-xl shadow-lg">
-          <FaPlus className="text-4xl" />
-        </button>
+        <CreateSubscription />
       </div>
 
       <div>

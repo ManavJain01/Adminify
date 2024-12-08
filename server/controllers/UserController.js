@@ -193,6 +193,54 @@ const deleteProductController = async (req, res) => {
   }
 };
 
+const subscriptionListController = async (req, res) => {
+  try {
+    const companyId = req.user.companyId;
+    const result = await service.subscriptionList(companyId);
+    res.status(200).send(result);
+  } catch (error) {
+    console.log("Error: ", error.message);
+    res.status(400).send(error.message);
+  }
+};
+
+const createSubscriptionController = async (req, res) => {
+  try {
+    const companyId = req.user.companyId;
+    const data = req.body;
+    
+    const result = await service.createSubscription(data, companyId);
+    res.status(200).send(result);
+  } catch (error) {
+    console.log("Error: ", error.message);
+    res.status(400).send(error.message);
+  }
+};
+
+const putSubscriptionController = async (req, res) => {
+  try {
+    const data = req.body;
+
+    const result = await service.updateSubscription(data);
+    res.status(200).send(result);
+  } catch (error) {
+    console.log("Error: ", error.message);
+    res.status(400).send(error.message);
+  }
+};
+
+const deleteSubscriptionController = async (req, res) => {
+  try {
+    const {companyId, subscriptionId} = req.query;
+
+    const result = await service.deleteSubscription(subscriptionId, companyId);
+    res.status(200).send(result);
+  } catch (error) {
+    console.log("Error: ", error.message);
+    res.status(400).send(error.message);
+  }
+};
+
 // Exporting controllers
 module.exports = {
   createAdminController,
@@ -213,6 +261,11 @@ module.exports = {
   createProductController,
   putProductController,
   deleteProductController,
+  // subscription
+  subscriptionListController,
+  createSubscriptionController,
+  putSubscriptionController,
+  deleteSubscriptionController,
   // Reports
   userLoginsController,
 };

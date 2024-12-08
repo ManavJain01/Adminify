@@ -12,6 +12,7 @@ const { cloudinary } = require('../conf/cloudinary')
 const Model = require("../models/UserModel");
 const AdminModel = require("../models/AdminModel");
 const ProductModel = require("../models/productModel");
+const SubscriptionModel = require("../models/subscription");
 const { default: mongoose } = require("mongoose");
 
 // Check Whether username exist or not
@@ -362,6 +363,94 @@ const deleteProduct = async (productId, companyId) => {
   }
 };
 
+const subscriptionList = async (companyId) => {
+  try {
+    return await SubscriptionModel.findOne({ companyId: companyId });
+
+  } catch (error) {
+    throw error;
+  }
+};
+
+const createSubscription = async (subscription, companyId) => {
+  try {
+    product._id = new mongoose.Types.ObjectId();
+
+    let companySubscriptions = await SubscriptionModel.findOne({ companyId: companyId });
+    
+    // If no product list is found, create a new one
+    if (!companySubscriptions) {
+      const newSubscription = new SubscriptionModel({
+        subscriptions: [subscription],
+        companyId: companyId,
+      });
+  
+      // Save the document to the database
+      await newSubscription.save();
+    } else {
+      // If found, push the new product to the existing products array
+      companySubscriptions.subscriptions.push(subscription);
+      await companySubscriptions.save();
+    }
+
+    return "success";
+  } catch (error) {
+    throw error;
+  }
+};
+
+const updateSubscription = async (subscriptionData) => {
+  try {    
+    const { companyId, subscription } = subscriptionData;
+    
+    if (!subscription?._id) {
+      throw new Error("Subscription ID is required");
+    }
+
+    const subscriptionId = new mongoose.Types.ObjectId(subscription._id);
+    const companyIdObject = new mongoose.Types.ObjectId(companyId);
+    
+    const updatedSubscription = await SubscriptionModel.findOneAndUpdate(
+      { companyId: companyIdObject, "subscriptions._id": subscriptionId }, // Match by companyId and subscription _id
+      {
+        $set: {
+          "subscriptions.$": { ...subscription, _id: subscriptionId }, // Update the matching subscription in the array
+        }
+      },
+      { new: true } // Return the modified document
+    );
+    
+    if (!updatedSubscription) {
+      throw new Error("Subscription not found");
+    }
+
+    return "success";
+  } catch (error) {
+    throw error;
+  }
+};
+
+const deleteSubscription = async (subscriptionId, companyId) => {
+  try {
+    const subscriptionIdObject = new mongoose.Types.ObjectId(productId);
+    const companyIdObject = new mongoose.Types.ObjectId(companyId);
+    
+    const updatedCompany = await SubscriptionModel.findOneAndUpdate(
+      { companyId: companyIdObject, "products._id": subscriptionIdObject }, // Find company by companyId and subscription's _id
+      { $pull: { subscriptions: { _id: subscriptionIdObject } } }, // Remove the subscription from the array
+      { new: true } // Return the updated company document
+    );
+
+    if (!updatedCompany) {
+      throw new Error("Subscription or Company not found");
+    }
+
+    return "success";
+  } catch (error) {
+    throw error;
+  }
+};
+
 
 module.exports = {
   createAdmin,
@@ -380,5 +469,10 @@ module.exports = {
   productList,
   createProduct,
   updateProduct,
-  deleteProduct
+  deleteProduct,
+  // subscription
+  subscriptionList,
+  createSubscription,
+  updateSubscription,
+  deleteSubscription
 };
